@@ -27,3 +27,8 @@ button:focus {
 input:focus {
   outline: none !important;
 }
+
+:root {
+  --gradientLeft1: linear-gradient(to left, #3064a9, #164786);
+  --gradientTop1: linear-gradient(to top, #3064a9, #164786);
+}

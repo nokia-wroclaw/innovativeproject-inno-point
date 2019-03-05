@@ -10,7 +10,7 @@ const logos = ["samsung", "comarch", "nokia", "comarch", "tieto", "dolby"];
 class Welcome extends Component {
   onSubmit = event => {
     event.preventDefault();
-    this.props.history.push("/dashboard");
+    this.props.history.push("/topic");
   };
 
   render() {
