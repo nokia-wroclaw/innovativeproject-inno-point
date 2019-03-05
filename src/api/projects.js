@@ -3,42 +3,14 @@ import createApiRequest from "../utils/createApiRequest";
 
 export const readProjects = () => createApiRequest(GET, "/projects");
 
-export const createProject = (
-  name,
-  description,
-  goals,
-  scopes,
-  requirements,
-  mentor,
-  company
-) =>
+export const createProject = project =>
   createApiRequest(POST, "/projects", {
-    name,
-    description,
-    goals,
-    scopes,
-    requirements,
-    mentor,
-    company
+    project
   });
 
-export const updateProject = (
-  name,
-  description,
-  goals,
-  scopes,
-  requirements,
-  mentor,
-  company
-) =>
+export const updateProject = project =>
   createApiRequest(PUT, "/projects", {
-    name,
-    description,
-    goals,
-    scopes,
-    requirements,
-    mentor,
-    company
+    project
   });
 
 export const deleteProject = id =>
