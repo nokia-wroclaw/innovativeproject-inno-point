@@ -1,4 +1,4 @@
-export default app => {
+const projectRoutes = app => {
   app.get("/projects", (req, res) => {
     res.send("all projects");
   });
@@ -37,3 +37,5 @@ export default app => {
     res.send(`delete project with id = ${req.body.id}`);
   });
 };
+
+module.exports = projectRoutes;

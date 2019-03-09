@@ -1,5 +1,5 @@
-import mysql from "mysql";
-import config from "../config";
+const mysql = require("mysql");
+const config = require("../config");
 
 class dbConnection {
   constructor() {
