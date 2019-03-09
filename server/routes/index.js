@@ -1,5 +1,9 @@
-import projects from "./projects";
+const projectRoutes = require("./projects");
+const userRoutes = require("./users");
 
-export default app => {
-  projects(app);
+const initializeRoutes = app => {
+  projectRoutes(app);
+  userRoutes(app);
 };
+
+module.exports = initializeRoutes;
