@@ -12,6 +12,7 @@ import * as serviceWorker from "./serviceWorker";
 
 import Welcome from "./views/Welcome";
 import Dashboard from "./views/Dashboard";
+import CollectTopic from "./views/Topics/CollectTopic";
 
 const fakeAuth = {
   isAuthenticated: false
@@ -36,7 +37,8 @@ class App extends Component {
             path="/"
             component={() => <Welcome fakeAuth={fakeAuth} />}
           />
-          <PrivateRoute path="/dashboard" component={Dashboard} />
+          <Route path="/topic" component={CollectTopic} />
+          <Route path="/dashboard" component={Dashboard} />
         </Fragment>
       </Router>
     );

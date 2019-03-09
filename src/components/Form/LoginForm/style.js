@@ -20,7 +20,7 @@ export const Container = styled.div`
     height: 400px;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
-    background: linear-gradient(to top, #4a30a9, #39267d);
+    background: var(--gradientTop1);
 
     div.Title {
       padding: 10px;

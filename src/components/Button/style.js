@@ -15,7 +15,7 @@ export const StyledButton = styled.button`
     }
   }};
   height: 30px;
-  background: linear-gradient(to left, #4a30a9, #39267d);
+  background: var(--gradientLeft1);
   align-self: ${props => props.alignSelf};
   border-radius: 8px;
   color: white;

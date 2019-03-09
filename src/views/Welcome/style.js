@@ -26,7 +26,7 @@ export const Container = styled.div`
   justify-items: center;
   align-items: center;
 
-  background: url("photos/bcg5.png");
+  background: url("photos/bcg-new.png");
   background-size: 100% 100%;
   background-color: hsl(0, 0%, 90%);
 `;
