@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import TopicForm from "../../../components/Form/TopicForm";
+import { TopicForm } from "../../../components";
 
 import { Container } from "./style";
 

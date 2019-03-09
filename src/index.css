@@ -31,4 +31,5 @@ input:focus {
 :root {
   --gradientLeft1: linear-gradient(to left, #3064a9, #164786);
   --gradientTop1: linear-gradient(to top, #3064a9, #164786);
+  --gradientHeader: linear-gradient(to top, #195097, #0c2950);
 }

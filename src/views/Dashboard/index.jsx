@@ -1,27 +1,20 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 
-import { Container, Header } from "./style";
+import { News, Projects, Profile, Header } from "../../components";
+
+import { Container, StyledSwitch } from "./style";
 
 class Dashboard extends Component {
   render() {
     return (
       <Container>
-        <Router>
-          <Fragment>
-            <Header>
-              <div className="Title">Inno Point</div>
-              <Link to="/news">
-                <div>News</div>
-              </Link>
-              <Link to="/projects">
-                <div>Projects</div>
-              </Link>
-            </Header>
-            <Route path="/news" component={News} />
-            <Route path="/projects" component={Projects} />
-          </Fragment>
-        </Router>
+        <Header />
+        <StyledSwitch>
+          <Route path="/dashboard/news" component={News} />
+          <Route path="/dashboard/projects" component={Projects} />
+          <Route path="/dashboard/profile" component={Profile} />
+        </StyledSwitch>
       </Container>
     );
   }
