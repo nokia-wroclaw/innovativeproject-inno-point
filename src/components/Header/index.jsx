@@ -7,7 +7,6 @@ export default withRouter(props => {
   return (
     <Container>
       <img className="Title" src="icons/logo2.svg" />
-      <div className="Border" />
       <StyledLink to="/dashboard/news" pathname={pathname}>
         <img src="icons/megaphone.svg" />
         <span>News</span>
