@@ -7,6 +7,13 @@ const show = keyframes`
   }
 `;
 
+export const MainContainer = styled.div`
+  display: grid;
+  grid-gap: 100px;
+`;
+
+export const CompanyProjects = styled.div``;
+
 export const Container = styled.div`
   display: grid;
   width: calc(100px + 3 * 450px);
@@ -32,6 +39,10 @@ export const Company = styled.div`
   margin-left: 50px;
   margin-right: 50px;
   border-bottom: 2px solid hsl(0, 0%, 90%);
+
+  > img {
+    width: 150px;
+  }
 `;
 
 export const Element = styled.div`
@@ -45,7 +56,7 @@ export const Element = styled.div`
   transition: all 0.1s ease-in-out;
 
   :hover {
-    box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.3);
   }
 
   :active {
@@ -62,21 +73,50 @@ export const Element = styled.div`
 
   div.Info {
     display: grid;
-    padding: 5px;
+    grid-template: "name name" 30px "desc desc" auto "tags members" 30px / 7fr 1fr;
+    grid-gap: 5px;
+    padding: 7px;
 
     div.Name {
+      grid-area: name;
       letter-spacing: 2px;
       font-size: 24px;
     }
 
     div.Desc {
-      padding: 5px;
+      grid-area: desc;
+      font-family: Arial, Helvetica, sans-serif;
       color: hsl(0, 0%, 60%);
     }
 
-    div.Number {
+    div.Tags {
+      grid-area: tags;
+    }
+
+    div.Members {
+      grid-area: members;
+      fill: gray;
       justify-self: end;
-      margin-right: 10px;
+      padding-right: 5px;
+
+      > span {
+        color: gray;
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+
+      > img {
+      }
     }
   }
+`;
+
+export const Tag = styled.span`
+  padding: 5px 7px;
+  margin: 0 5px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  color: #004691;
+  background-color: hsl(0, 0%, 90%);
 `;

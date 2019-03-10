@@ -8,7 +8,3 @@ export const Container = styled.div`
   grid-gap: 10px;
   background-color: hsl(0, 0%, 100%);
 `;
-
-export const StyledSwitch = styled.main`
-  grid-area: main;
-`;

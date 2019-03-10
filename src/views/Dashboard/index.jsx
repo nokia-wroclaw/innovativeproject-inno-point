@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 
 import {
   News,
@@ -10,23 +10,24 @@ import {
   Project
 } from "../../components";
 
-import { Container, StyledSwitch } from "./style";
+import { Container } from "./style";
 
 class Dashboard extends Component {
   render() {
     return (
       <Container>
         <Header />
-        <StyledSwitch>
+        <div />
+        <Switch>
           <Route path="/dashboard/news" component={News} />
-          <Route exact path="/dashboard/projects" component={Projects} />
           <Route path="/dashboard/projects/:id" component={Project} />
+          <Route exact path="/dashboard/projects" component={Projects} />
           <Route path="/dashboard/profile" component={Profile} />
           <Route path="/dashboard/settings" component={Settings} />
-        </StyledSwitch>
+        </Switch>
       </Container>
     );
   }
 }
 
-export default Dashboard;
+export default withRouter(Dashboard);

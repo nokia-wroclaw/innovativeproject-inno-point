@@ -26,7 +26,7 @@ export const StyledLink = styled(Link)`
 
   img {
     margin: 5px;
-    width: 20px;
+    width: 18px;
     transition: all 0.2s ease-in-out;
   }
 
