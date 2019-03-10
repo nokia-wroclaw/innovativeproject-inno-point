@@ -103,7 +103,7 @@ class TopicForm extends Component {
               return <TextField {...props} key={index} />;
             })}
             <Button
-              size="large"
+              size="small"
               label="Submit"
               gridArea="button"
               style={{ justifySelf: "end", alignSelf: "end" }}

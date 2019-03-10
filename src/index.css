@@ -4,6 +4,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 button,
@@ -29,9 +34,9 @@ input:focus {
 }
 
 :root {
-  --gradientLeft1: linear-gradient(to left, #112075, #1128aa);
-  --gradientTop1: linear-gradient(to bottom, #112075, #1128aa);
-  --gradientHeader: linear-gradient(to bottom, #112075, #1128aa);
+  --gradientLeft1: linear-gradient(to left, #004691, #00336e);
+  --gradientTop1: linear-gradient(to bottom, #004691, #00336e);
+  --gradientHeader: linear-gradient(to top, #004691, #00336e);
   --gradientTest: linear-gradient(
     180deg,
     #352083 0%,
