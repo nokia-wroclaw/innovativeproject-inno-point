@@ -5,7 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import { Form, Container } from "./style";
 import Button from "../../Button";
 
-import { textFieldValidator } from "../../utils/validators";
+import { textFieldValidator } from "../../../utils/validators";
 
 class TopicForm extends Component {
   state = {
@@ -103,7 +103,7 @@ class TopicForm extends Component {
               return <TextField {...props} key={index} />;
             })}
             <Button
-              size="large"
+              size="small"
               label="Submit"
               gridArea="button"
               style={{ justifySelf: "end", alignSelf: "end" }}
@@ -114,4 +114,4 @@ class TopicForm extends Component {
     );
   }
 }
-export default TopicForm;
+export { TopicForm };
