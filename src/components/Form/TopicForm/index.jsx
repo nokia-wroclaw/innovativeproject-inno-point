@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import TextField from "@material-ui/core/TextField";
+import ChipInput from "material-ui-chip-input";
 
 import { Form, Container } from "./style";
 import Button from "../../Button";
@@ -28,6 +29,10 @@ class TopicForm extends Component {
     desc: {
       value: "",
       error: false
+    },
+    tags: {
+      value: [],
+      error: false
     }
   };
 
@@ -36,6 +41,8 @@ class TopicForm extends Component {
       [name]: { value: value, error: textFieldValidator(value) }
     });
   };
+
+  handleAddChip = chip => this.setState({ tags: { value: chip } });
 
   handleSubmit = async event => {
     event.preventDefault();
@@ -48,7 +55,7 @@ class TopicForm extends Component {
   };
 
   render() {
-    const { name, company, contact, number, desc } = this.state;
+    const { name, company, contact, number, desc, tags } = this.state;
     return (
       <Container>
         <div className="Panel" />
@@ -102,6 +109,13 @@ class TopicForm extends Component {
             ].map((props, index) => {
               return <TextField {...props} key={index} />;
             })}
+            <ChipInput
+              value={tags.value}
+              onAdd={chip => handleAddChip(chip)}
+              onDelete={(chip, index) => handleDeleteChip(chip, index)}
+              style={{ gridArea: "chips" }}
+              placeholder={!tags.value && "Tags"}
+            />
             <Button
               size="small"
               label="Submit"

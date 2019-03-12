@@ -7,8 +7,11 @@ import {
   Profile,
   Header,
   Settings,
-  Project
+  Project,
+  Manager
 } from "../../components";
+
+import { CollectTopic } from "..";
 
 import { Container } from "./style";
 
@@ -19,9 +22,11 @@ class Dashboard extends Component {
         <Header />
         <div />
         <Switch>
+          <Route path="/dashboard/manager" component={Manager} />
           <Route path="/dashboard/news" component={News} />
-          <Route path="/dashboard/projects/:id" component={Project} />
           <Route exact path="/dashboard/projects" component={Projects} />
+          <Route exact path="/dashboard/projects/:id" component={Project} />
+          <Route path="/dashboard/project/add" component={CollectTopic} />
           <Route path="/dashboard/profile" component={Profile} />
           <Route path="/dashboard/settings" component={Settings} />
         </Switch>

@@ -1,49 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import {
-  Container,
-  Element,
-  Company,
-  CompanyProjects,
-  Tag,
-  MainContainer
-} from "./style";
-import projects from "./projects";
-import { TopicForm } from "..";
+import { Container, MainContainer } from "./style";
+import { tooltipStyle, fabStyle, typeOfListStyle } from "./style";
 
-const Projects = () => (
-  <MainContainer>
-    {projects.map((element, index) => (
-      <CompanyProjects key={index}>
-        <Company>
-          <img src={`/photos/${element.company}.png`} />
-        </Company>
-        <Container>
-          {element.projects.map((project, inde) => (
-            <Link to={`/dashboard/projects/${project.id}`}>
-              <Element key={index}>
-                <div className="Panel" />
-                <div className="Info">
-                  <div className="Name">{project.name}</div>
-                  <div className="Desc">{project.description}</div>
-                  <div className="Tags">
-                    {project.tags.map((tag, index) => (
-                      <Tag key={index}>{tag}</Tag>
-                    ))}
-                  </div>
-                  <div className="Members">
-                    <img src="/icons/member.svg" />
-                    <span>{project.numberOfMembers}</span>
-                  </div>
-                </div>
-              </Element>
-            </Link>
+import ProjectCard from "./ProjectCard";
+
+import AddIcon from "@material-ui/icons/Add";
+import Fab from "@material-ui/core/Fab";
+import Tooltip from "@material-ui/core/Tooltip";
+
+import BottomNavigation from "@material-ui/core/BottomNavigation";
+import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+import { List, GridOn } from "@material-ui/icons";
+
+import projects from "./projects";
+
+const Projects = () => {
+  const [typeOfList, setTypeOfList] = useState("block");
+
+  function handleChange(event, newValue) {
+    setTypeOfList(newValue);
+  }
+  return (
+    <div>
+      <MainContainer>
+        <Container typeOfList={typeOfList}>
+          {projects.map((project, index) => (
+            <ProjectCard project={project} index={index} />
           ))}
         </Container>
-      </CompanyProjects>
-    ))}
-  </MainContainer>
-);
+        <Tooltip title="Add" aria-label="Add" style={tooltipStyle}>
+          <Link to="/dashboard/project/add">
+            <Fab color="primary" style={fabStyle}>
+              <AddIcon />
+            </Fab>
+          </Link>
+        </Tooltip>
+      </MainContainer>
+      <BottomNavigation
+        value={typeOfList}
+        onChange={handleChange}
+        style={typeOfListStyle}
+      >
+        <BottomNavigationAction label="Block" value="block" icon={<GridOn />} />
+        <BottomNavigationAction label="List" value="list" icon={<List />} />
+      </BottomNavigation>
+    </div>
+  );
+};
 
 export default Projects;

@@ -11,7 +11,7 @@ export const Container = styled.div`
   width: 950px;
   height: 550px;
   display: grid;
-  grid-template: "panel form" / 200px auto;
+  grid-template: "panel form" / 170px auto;
   box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   background-color: white;
@@ -36,9 +36,11 @@ export const Form = styled.form`
     "title title" 35px
     "name company" 50px
     "contact number" 50px
-    "desc desc" 200px
+    "desc desc" 100px
+    "chips chips" 70px
     ". button" auto
-    ". ." 1px;
+    ". ." 1px
+    / 1fr 1fr;
   grid-gap: 20px;
   background-color: transparent;
 

@@ -17,11 +17,17 @@ export const CompanyProjects = styled.div``;
 export const Container = styled.div`
   display: grid;
   width: calc(100px + 3 * 450px);
-  grid-template-columns: repeat(3, 450px);
-  grid-template-rows: repeat(2, 250px);
-  grid-gap: 50px;
-  margin-left: auto;
-  margin-right: auto;
+  ${props => {
+    switch (props.typeOfList) {
+      case "block":
+        return `grid-template-columns: repeat(3, 450px); 
+                grid-gap: 50px;`;
+      case "list":
+        return `grid-gap: 30px;`;
+    }
+  }}
+  margin: 50px auto;
+  animation: ${show} 0.3s;
 
   > a {
     text-decoration: none;
@@ -29,94 +35,26 @@ export const Container = styled.div`
   }
 `;
 
-export const Company = styled.div`
-  width: calc(100% - 100px);
-  font-size: 24px;
-  text-align: start;
-  padding: 10px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 50px;
-  margin-right: 50px;
-  border-bottom: 2px solid hsl(0, 0%, 90%);
+export const Company = styled.div``;
 
-  > img {
-    width: 150px;
-  }
-`;
+export const tooltipStyle = {
+  position: "absolute",
+  right: "3%",
+  bottom: "5%",
+  position: "fixed"
+};
 
-export const Element = styled.div`
-  height: 100%;
-  display: grid;
-  grid-template: "panel info";
-  cursor: pointer;
-  border-radius: 8px;
-  box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
-  animation: ${show} 0.3s;
-  transition: all 0.1s ease-in-out;
+export const fabStyle = {
+  background: "var(--gradientLeft1)"
+};
 
-  :hover {
-    box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.3);
-  }
-
-  :active {
-    transform: scale(1.02);
-  }
-
-  div.Panel {
-    height: 100%;
-    width: 100px;
-    background: var(--gradientTop1);
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-  }
-
-  div.Info {
-    display: grid;
-    grid-template: "name name" 30px "desc desc" auto "tags members" 30px / 7fr 1fr;
-    grid-gap: 5px;
-    padding: 7px;
-
-    div.Name {
-      grid-area: name;
-      letter-spacing: 2px;
-      font-size: 24px;
-    }
-
-    div.Desc {
-      grid-area: desc;
-      font-family: Arial, Helvetica, sans-serif;
-      color: hsl(0, 0%, 60%);
-    }
-
-    div.Tags {
-      grid-area: tags;
-    }
-
-    div.Members {
-      grid-area: members;
-      fill: gray;
-      justify-self: end;
-      padding-right: 5px;
-
-      > span {
-        color: gray;
-        margin-top: auto;
-        margin-bottom: auto;
-      }
-
-      > img {
-      }
-    }
-  }
-`;
-
-export const Tag = styled.span`
-  padding: 5px 7px;
-  margin: 0 5px;
-  font-size: 15px;
-  font-weight: 500;
-  border-radius: 8px;
-  color: #004691;
-  background-color: hsl(0, 0%, 90%);
-`;
+export const typeOfListStyle = {
+  width: "170px",
+  position: "absolute",
+  right: "7%",
+  bottom: "5%",
+  position: "fixed",
+  boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.25)",
+  borderRadius: "8px",
+  fontSize: "5px"
+};

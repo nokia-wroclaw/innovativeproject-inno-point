@@ -6,15 +6,17 @@ import Profile from "./Profile";
 import Header from "./Header";
 import Settings from "./Settings";
 import Project from "./Project";
+import Manager from "./Manager";
 
 export {
   News,
   Projects,
   LoginForm,
-  TopicForm,
   Profile,
+  TopicForm,
   Header,
   Settings,
   Project,
-  Button
+  Button,
+  Manager
 };
