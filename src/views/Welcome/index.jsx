@@ -5,14 +5,12 @@ import { Container, Img } from "./style";
 
 import { LoginForm } from "../../components/Form";
 
-import { readProjects } from "../../api/projects";
-
 const logos = ["samsung", "comarch", "nokia", "comarch", "tieto", "dolby"];
 
 class Welcome extends Component {
   onSubmit = event => {
     event.preventDefault();
-    this.props.history.push("/topic");
+    this.props.history.push("/dashboard");
   };
 
   render() {
