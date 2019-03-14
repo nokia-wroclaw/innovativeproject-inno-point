@@ -1,13 +1,13 @@
-const mysql = require("mysql");
 const config = require("../config");
+const Pool = require("pg").Pool;
 
 class dbConnection {
   constructor() {
-    this.connection = mysql.createConnection(config);
+    this.connection = new Pool(config);
   }
-  query(sql, args) {
+  query(sql) {
     return new Promise((resolve, reject) => {
-      this.connection.query(sql, args, (err, rows) => {
+      this.connection.query(sql, (err, rows) => {
         if (err) return reject(err);
         resolve(rows);
       });
@@ -23,4 +23,4 @@ class dbConnection {
   }
 }
 
-export default dbConnection;
+module.exports = dbConnection;
