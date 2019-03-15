@@ -14,6 +14,7 @@ export const Element = styled.div`
   cursor: pointer;
   border-radius: 8px;
   box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
+  border: 1px solid hsl(0, 0%, 85%);
   animation: ${show} 0.3s;
   transition: all 0.1s ease-in-out;
 

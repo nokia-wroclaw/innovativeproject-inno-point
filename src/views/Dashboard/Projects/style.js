@@ -27,7 +27,6 @@ export const Container = styled.div`
     }
   }}
   margin: 50px auto;
-  animation: ${show} 0.3s;
 
   > a {
     text-decoration: none;
@@ -35,17 +34,38 @@ export const Container = styled.div`
   }
 `;
 
-export const Company = styled.div``;
+export const FormContainer = styled.div`
+  position: fixed;
+  top: 150px;
+  left: calc(50vw - 475px);
+`;
 
 export const tooltipStyle = {
-  position: "absolute",
+  position: "fixed",
   right: "3%",
   bottom: "5%",
-  position: "fixed"
+  transition: "all 0.2s ease-in-out"
 };
 
-export const fabStyle = {
-  background: "var(--gradientLeft1)"
+export const fabAddStyle = {
+  background: "var(--gradientLeft1)",
+  transition: "all 0.2s ease-in-out"
+};
+
+export const iconAddStyle = {
+  fill: "white",
+  transition: "all 0.2s ease-in-out"
+};
+
+export const fabBackStyle = {
+  background: "var(--gradientLeft2)",
+  transition: "all 0.2s ease-in-out"
+};
+
+export const iconBackStyle = {
+  fill: "white",
+  transform: "rotate(45deg)",
+  transition: "all 0.2s ease-in-out"
 };
 
 export const typeOfListStyle = {

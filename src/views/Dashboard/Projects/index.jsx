@@ -1,23 +1,30 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { Container, MainContainer } from "./style";
-import { tooltipStyle, fabStyle, typeOfListStyle } from "./style";
+import { Container, MainContainer, FormContainer } from "./style";
+import {
+  tooltipStyle,
+  fabAddStyle,
+  fabBackStyle,
+  typeOfListStyle,
+  iconAddStyle,
+  iconBackStyle
+} from "./style";
 
-import ProjectCard from "./ProjectCard";
+import { ProjectCard, TopicForm } from "../../../components";
 
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
-
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import { List, GridOn } from "@material-ui/icons";
 
-import projects from "./projects";
+import projects from "../../../projects";
 
 const Projects = () => {
   const [typeOfList, setTypeOfList] = useState("block");
+  const [formDisplaying, setFormDisplaying] = useState(false);
 
   function handleChange(event, newValue) {
     setTypeOfList(newValue);
@@ -30,13 +37,6 @@ const Projects = () => {
             <ProjectCard project={project} index={index} />
           ))}
         </Container>
-        <Tooltip title="Add" aria-label="Add" style={tooltipStyle}>
-          <Link to="/dashboard/project/add">
-            <Fab color="primary" style={fabStyle}>
-              <AddIcon />
-            </Fab>
-          </Link>
-        </Tooltip>
       </MainContainer>
       <BottomNavigation
         value={typeOfList}
@@ -46,6 +46,23 @@ const Projects = () => {
         <BottomNavigationAction label="Block" value="block" icon={<GridOn />} />
         <BottomNavigationAction label="List" value="list" icon={<List />} />
       </BottomNavigation>
+      <Tooltip
+        title="Add"
+        aria-label="Add"
+        style={tooltipStyle}
+        onClick={() => setFormDisplaying(!formDisplaying)}
+      >
+        <Link to="#">
+          <Fab style={formDisplaying ? fabBackStyle : fabAddStyle}>
+            <AddIcon style={formDisplaying ? iconBackStyle : iconAddStyle} />
+          </Fab>
+        </Link>
+      </Tooltip>
+      {formDisplaying && (
+        <FormContainer>
+          <TopicForm />
+        </FormContainer>
+      )}
     </div>
   );
 };

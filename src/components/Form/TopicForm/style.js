@@ -13,9 +13,11 @@ export const Container = styled.div`
   display: grid;
   grid-template: "panel form" / 170px auto;
   box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
+  border: 1px solid hsl(0, 0%, 85%);
   border-radius: 8px;
   background-color: white;
   animation: ${show} 0.5s;
+  transition: all 0.2s ease-in-out;
 
   div.Panel {
     border-top-left-radius: 8px;
@@ -36,8 +38,8 @@ export const Form = styled.form`
     "title title" 35px
     "name company" 50px
     "contact number" 50px
-    "desc desc" 100px
-    "chips chips" 70px
+    "desc desc" 50px
+    "chips chips" 55px
     ". button" auto
     ". ." 1px
     / 1fr 1fr;

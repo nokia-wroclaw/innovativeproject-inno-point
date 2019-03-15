@@ -8,6 +8,8 @@ const show = keyframes`
 `;
 
 export const Container = styled.div`
+  display: grid;
+  grid-template: "panel table" / 150px auto;
   width: ${props => {
     switch (props.size) {
       case 3:
@@ -21,4 +23,15 @@ export const Container = styled.div`
   transition: all 0.1s ease-in-out;
   margin: 50px;
   animation: ${show} 0.3s;
+
+  > div.Panel {
+    width: 150px;
+    height: 100%;
+    background: var(--gradientLeft1);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    text-align: center;
+    font-size: 24px;
+    color: white;
+  }
 `;
