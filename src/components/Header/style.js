@@ -1,5 +1,12 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
+
+const show = keyframes`
+  from {
+    transform: translateX(-100px);
+    opacity: .2;
+  }
+`;
 
 export const StyledLink = styled(Link)`
   color: white;
@@ -10,7 +17,6 @@ export const StyledLink = styled(Link)`
     props.to === props.pathname
       ? "linear-gradient(to right, rgba(255, 255, 255, 5%), rgba(255, 255, 255, 3%))"
       : "none"};
-
   display: flex;
   align-items: center;
 
@@ -19,14 +25,14 @@ export const StyledLink = styled(Link)`
     font-family: "Lato", sans-serif;
     display: inline-block;
     margin: 5px;
-    font-size: 14px;
+    font-size: 13px;
     text-align: center;
     transition: all 0.2s ease-in-out;
   }
 
   img {
-    margin: 5px;
-    width: 20px;
+    margin: 7px;
+    width: 18px;
     transition: all 0.2s ease-in-out;
   }
 
@@ -46,6 +52,7 @@ export const Container = styled.header`
   grid-template-rows: 40px repeat(3, 35px) auto repeat(3, 35px);
   background: var(--gradientHeader);
   box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
+  animation: ${show} 0.5s;
 
   img.Title {
     margin: 10px;

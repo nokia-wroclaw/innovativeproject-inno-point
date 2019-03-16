@@ -28,25 +28,25 @@ const projectRoutes = app => {
   });
 
   app.post("/projects", (req, res) => {
+    const id = Math.floor(Math.random() * 101);
     const {
-      project_id,
-      topic,
+      name,
       description,
       team_id,
       goals,
       scopes,
       requirements,
       mentor,
-      company,
       num_of_members,
       technology,
+      academic_contact,
       tags
     } = req.body;
     const database = new db();
     database
       .query(
-        `INSERT INTO projects(project_id, topic, description, team_id, goals, scopes, requirements, mentor, company, num_of_members, technology, tags)
-        VALUES (${project_id},${topic}, ${description}, ${team_id}, ${goals}, ${scopes}, ${requirements}, ${mentor}, ${company}, ${num_of_members}, ${technology}, ${tags})`
+        `INSERT INTO projects(id, name, description, team_id, goals, scopes, requirements, mentor, company, num_of_members, technology, tags)
+        VALUES (${id},${name}, ${description}, ${team_id}, ${goals}, ${scopes}, ${requirements}, ${mentor}, ${num_of_members}, ${technology}, ${academic_contact} ${tags})`
       )
       .then(result => {
         res.send(result.rows);
@@ -58,24 +58,24 @@ const projectRoutes = app => {
 
   app.put("/projects/:id", (req, res) => {
     const {
-      project_id,
-      topic,
+      id,
+      name,
       description,
       team_id,
       goals,
       scopes,
       requirements,
       mentor,
-      company,
       num_of_members,
       technology,
+      academic_contact,
       tags
     } = req.body;
     const database = new db();
     database
       .query(
-        `UPDATE projects SET(project_id, topic, description, team_id, goals, scopes, requirements, mentor, company, num_of_members, technology, tags)
-        VALUES (${project_id},${topic}, ${description}, ${team_id}, ${goals}, ${scopes}, ${requirements}, ${mentor}, ${company}, ${num_of_members}, ${technology}, ${tags})`
+        `UPDATE projects SET(id, name, description, team_id, goals, scopes, requirements, mentor, num_of_members, technology, academic_contact tags)
+        VALUES (${id},${name}, ${description}, ${team_id}, ${goals}, ${scopes}, ${requirements}, ${mentor}, ${num_of_members}, ${technology}, ${academic_contact} ${tags})`
       )
       .then(result => {
         res.send(result.rows);
