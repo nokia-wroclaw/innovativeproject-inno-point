@@ -5,12 +5,15 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Container } from "./style";
 
-export default ({ name, description }) => (
+export default ({ project }) => (
   <Container>
+    {console.log(project)}
     <div className="Panel" />
     <div className="Main">
-      <div className="Name">{name}</div>
-      <div className="Desc">{description}</div>
+      <div className="Name">{project.name ? project.name : "No name"}</div>
+      <div className="Desc">
+        {project.description ? project.description : "No description"}
+      </div>
       {/* <div style={{ display: "flex" }}>
         <div className="scopes">
           {project.scopes &&
@@ -24,8 +27,8 @@ export default ({ name, description }) => (
                 </ListItem>
               </List>
             ))}
-        </div>
-        <div className="Stack">
+        </div> */}
+      {/* <div className="Stack">
           {project.stackTechnology &&
             project.stackTechnology.map((element, index) => (
               <List key={index}>
@@ -37,8 +40,8 @@ export default ({ name, description }) => (
                 </ListItem>
               </List>
             ))}
-        </div>
-      </div> */}
+        </div> */}
+      {/* </div> */}
     </div>
   </Container>
 );

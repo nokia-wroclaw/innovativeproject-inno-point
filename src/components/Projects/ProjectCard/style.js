@@ -37,12 +37,12 @@ export const Element = styled.div`
   div.Info {
     display: grid;
     grid-template: "name members" 30px "desc ." auto "tags tags" 40px / 5fr 1fr;
-    grid-gap: 20px;
-    padding: 7px;
+    grid-gap: 10px;
+    padding: 15px;
 
     div.Name {
       grid-area: name;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       font-size: 24px;
     }
 
