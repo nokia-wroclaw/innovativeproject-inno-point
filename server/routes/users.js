@@ -31,13 +31,13 @@ const userRoutes = app => {
   });
 
   app.post("/users/", (req, res) => {
-    const user_id = Math.floor(Math.random() * 101);
+    const id = Math.floor(Math.random() * 101);
     const { name, surname, user_role, team_id, git_id } = req.body;
     const database = new db();
     database
       .query(
-        `INSERT INTO users (user_id, name, surname, user_role, team_id, git_id) 
-        VALUES (${user_id}, ${name}, ${surname}, ${user_role}, ${team_id}, ${git_id})`
+        `INSERT INTO users (id, name, surname, user_role, team_id, git_id) 
+        VALUES (${id}, ${name}, ${surname}, ${user_role}, ${team_id}, ${git_id})`
       )
       .then(result => {
         res.send(result.rows);
@@ -48,12 +48,12 @@ const userRoutes = app => {
   });
 
   app.put("/users/:id", (req, res) => {
-    const { user_id, name, surname, user_role, team_id, git_id } = req.body;
+    const { id, name, surname, user_role, team_id, git_id } = req.body;
     const database = new db();
     database
       .query(
-        `INSERT INTO users (user_id, name, surname, user_role, team_id, git_id) 
-        VALUES (${user_id}, ${name}, ${surname}, ${user_role}, ${team_id}, ${git_id})`
+        `INSERT INTO users (id, name, surname, user_role, team_id, git_id) 
+        VALUES (${id}, ${name}, ${surname}, ${user_role}, ${team_id}, ${git_id})`
       )
       .then(result => {
         res.send(result.rows);

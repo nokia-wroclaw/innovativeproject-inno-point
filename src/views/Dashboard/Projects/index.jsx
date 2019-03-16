@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { Container, MainContainer, FormContainer } from "./style";
+
 import {
   tooltipStyle,
   fabAddStyle,
@@ -42,6 +43,7 @@ const Projects = () => {
           {projects.map((project, index) => (
             <ProjectCard project={project} index={index} />
           ))}
+          <ProjectCard />
         </Container>
       </MainContainer>
       <BottomNavigation
