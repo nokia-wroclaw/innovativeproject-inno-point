@@ -23,7 +23,12 @@ export default withRouter(props => {
         <img src="icons/projects.svg" />
         <span>Projects</span>
       </StyledLink>
+
       <div />
+      <StyledLink to="/dashboard/createteam" pathname={pathname}>
+        <img src="icons/plus.svg" />
+        <span>Create Team</span>
+      </StyledLink>
       <StyledLink to="/dashboard/profile" pathname={pathname}>
         <img src="icons/user.svg" />
         <span>Profile</span>

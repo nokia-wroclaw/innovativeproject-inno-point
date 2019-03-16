@@ -5,6 +5,7 @@ import {
   News,
   Projects,
   Profile,
+  CreateTeam,
   Header,
   Settings,
   Project
@@ -23,6 +24,7 @@ class Dashboard extends Component {
           <Route path="/dashboard/projects/:id" component={Project} />
           <Route path="/dashboard/profile" component={Profile} />
           <Route path="/dashboard/settings" component={Settings} />
+          <Route path="/dashboard/createteam" component={CreateTeam} />
         </StyledSwitch>
       </Container>
     );

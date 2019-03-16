@@ -6,6 +6,7 @@ import Profile from "./Profile";
 import Header from "./Header";
 import Settings from "./Settings";
 import Project from "./Project";
+import CreateTeam from "./CreateTeam";
 
 export {
   News,
@@ -16,5 +17,6 @@ export {
   Header,
   Settings,
   Project,
-  Button
+  Button,
+  CreateTeam
 };
