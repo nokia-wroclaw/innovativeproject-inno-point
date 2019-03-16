@@ -1,20 +1,24 @@
 import News from "./News";
-import Projects from "./Projects";
+import { ProjectMainCard } from "./Project/index";
+import { ProjectCard } from "./Projects/index";
 import Button from "./Button";
 import { LoginForm, TopicForm } from "./Form";
 import Profile from "./Profile";
 import Header from "./Header";
 import Settings from "./Settings";
-import Project from "./Project";
+import Manager from "./Manager";
+import { MembersProjectTable } from "./Table";
 
 export {
   News,
-  Projects,
   LoginForm,
-  TopicForm,
   Profile,
+  TopicForm,
   Header,
   Settings,
-  Project,
-  Button
+  Button,
+  Manager,
+  ProjectMainCard,
+  ProjectCard,
+  MembersProjectTable
 };
