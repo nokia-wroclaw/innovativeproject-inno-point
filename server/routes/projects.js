@@ -18,7 +18,7 @@ const projectRoutes = app => {
 
     const database = new db();
     database
-      .query(`SELECT * FROM projects WHERE project_id = ${id}`)
+      .query(`SELECT * FROM projects WHERE id = ${id}`)
       .then(result => {
         res.send(result.rows);
       })
@@ -41,12 +41,12 @@ const projectRoutes = app => {
       technology,
       academic_contact,
       tags
-    } = req.body;
+    } = req.body.project;
     const database = new db();
     database
       .query(
-        `INSERT INTO projects(id, name, description, team_id, goals, scopes, requirements, mentor, company, num_of_members, technology, tags)
-        VALUES (${id},${name}, ${description}, ${team_id}, ${goals}, ${scopes}, ${requirements}, ${mentor}, ${num_of_members}, ${technology}, ${academic_contact} ${tags})`
+        `INSERT INTO projects(id, name, description, team_id, goals, scopes, requirements, mentor, num_of_members, technology, academic_contact, tags)
+        VALUES ( ${id}, '${name}', '${description}', '${team_id}', '${goals}', '${scopes}', '${requirements}', '${mentor}', ${num_of_members}, '${technology}', '${academic_contact}', '${tags}')`
       )
       .then(result => {
         res.send(result.rows);
@@ -74,8 +74,8 @@ const projectRoutes = app => {
     const database = new db();
     database
       .query(
-        `UPDATE projects SET(id, name, description, team_id, goals, scopes, requirements, mentor, num_of_members, technology, academic_contact tags)
-        VALUES (${id},${name}, ${description}, ${team_id}, ${goals}, ${scopes}, ${requirements}, ${mentor}, ${num_of_members}, ${technology}, ${academic_contact} ${tags})`
+        `UPDATE projects SET(id, topic, description, team_id, goals, scopes, requirements, mentor, num_of_members, technology, academic_contact tags)
+        VALUES (${id}, '${name}', '${description}', ${team_id}, '${goals}', '${scopes}', '${requirements}', ${mentor}, ${num_of_members}, '${technology}', '${academic_contact}', '${tags}')`
       )
       .then(result => {
         res.send(result.rows);
