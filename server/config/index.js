@@ -1,9 +1,9 @@
 const config = {
+  user: "postgres",
   host: "localhost",
-  database: "database",
-  user: "root",
-  password: "root",
-  socketPath: "/Applications/MAMP/tmp/mysql/mysql.sock" //your path to socket
+  database: "db_innopoint",
+  password: "admin",
+  port: 5432
 };
 
 module.exports = config;
