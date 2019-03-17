@@ -18,7 +18,7 @@ const projectRoutes = app => {
 
     const database = new db();
     database
-      .query(`SELECT * FROM projects WHERE project_id = ${id}`)
+      .query(`SELECT * FROM projects WHERE id = ${id}`)
       .then(result => {
         res.send(result.rows);
       })
@@ -44,10 +44,13 @@ const projectRoutes = app => {
     } = req.body.project;
     const database = new db();
     database
-      .query(
-        `INSERT INTO projects(id, name, description, team_id, goals, scopes, requirements, mentor, num_of_members, technology, academic_contact, tags)
-        VALUES ( ${id}, '${name}', '${description}', '${team_id}', '${goals}', '${scopes}', '${requirements}', '${mentor}', ${num_of_members}, '${technology}', '${academic_contact}', '${tags}')`
-      )
+      .query("SELECT id FROM projects ORDER BY id DESC LIMIT 1")
+      .then(result => {
+        return database.query(`INSERT INTO projects(id, name, description, team_id, goals, scopes, requirements, mentor, num_of_members, technology, academic_contact, tags)
+      VALUES ( ${
+        result.row ? parseInt(result.row[0].id) + 1 : 0
+      }, '${name}', '${description}', '${team_id}', '${goals}', '${scopes}', '${requirements}', '${mentor}', ${num_of_members}, '${technology}', '${academic_contact}', '${tags}')`);
+      })
       .then(result => {
         res.send(result.rows);
       })
@@ -74,6 +77,8 @@ const projectRoutes = app => {
     const database = new db();
     database
       .query(
+        `UPDATE projects SET (name, description, team_id, goals, scopes, requirements, mentor, num_of_members, technology, academic_contact, tags) = ('${name}', '${description}', '${team_id}', '${goals}', '${scopes}', '${requirements}', '${mentor}', ${num_of_members}, '${technology}', '${academic_contact}', '${tags}')
+        WHERE id = ${id}`
         `UPDATE projects SET(id, topic, description, team_id, goals, scopes, requirements, mentor, num_of_members, technology, academic_contact tags)
         VALUES (${id}, '${name}', '${description}', ${team_id}, '${goals}', '${scopes}', '${requirements}', ${mentor}, ${num_of_members}, '${technology}', '${academic_contact}', '${tags}')`
       )
