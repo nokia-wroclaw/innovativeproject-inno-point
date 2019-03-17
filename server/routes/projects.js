@@ -79,6 +79,8 @@ const projectRoutes = app => {
       .query(
         `UPDATE projects SET (name, description, team_id, goals, scopes, requirements, mentor, num_of_members, technology, academic_contact, tags) = ('${name}', '${description}', '${team_id}', '${goals}', '${scopes}', '${requirements}', '${mentor}', ${num_of_members}, '${technology}', '${academic_contact}', '${tags}')
         WHERE id = ${id}`
+        `UPDATE projects SET(id, topic, description, team_id, goals, scopes, requirements, mentor, num_of_members, technology, academic_contact tags)
+        VALUES (${id}, '${name}', '${description}', ${team_id}, '${goals}', '${scopes}', '${requirements}', ${mentor}, ${num_of_members}, '${technology}', '${academic_contact}', '${tags}')`
       )
       .then(result => {
         res.send(result.rows);
