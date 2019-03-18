@@ -1,19 +1,26 @@
 import React, { Component } from "react";
 
 import TextField from "@material-ui/core/TextField";
+import ChipInput from "material-ui-chip-input";
+import MenuItem from "@material-ui/core/MenuItem";
 
 import { Form, Container } from "./style";
 import Button from "../../Button";
 
 import { textFieldValidator } from "../../../utils/validators";
 
+const contacts = [
+  "College Worker",
+  "College Worker",
+  "College Worker",
+  "College Worker",
+  "College Worker",
+  "College Worker"
+];
+
 class TopicForm extends Component {
   state = {
     name: {
-      value: "",
-      error: false
-    },
-    company: {
       value: "",
       error: false
     },
@@ -28,6 +35,10 @@ class TopicForm extends Component {
     desc: {
       value: "",
       error: false
+    },
+    tags: {
+      value: [],
+      error: false
     }
   };
 
@@ -35,6 +46,22 @@ class TopicForm extends Component {
     this.setState({
       [name]: { value: value, error: textFieldValidator(value) }
     });
+  };
+
+  handleAddChip = chip =>
+    this.setState(prevState => ({
+      tags: {
+        value: [...prevState.tags.value, chip]
+      }
+    }));
+
+  handleDeleteChip = (chip, index) => {
+    console.log(index);
+    this.setState(prevState => ({
+      tags: {
+        value: prevState.tags.value.filter((e, i) => i !== index)
+      }
+    }));
   };
 
   handleSubmit = async event => {
@@ -48,7 +75,7 @@ class TopicForm extends Component {
   };
 
   render() {
-    const { name, company, contact, number, desc } = this.state;
+    const { name, contact, number, desc, tags } = this.state;
     return (
       <Container>
         <div className="Panel" />
@@ -65,20 +92,18 @@ class TopicForm extends Component {
                 style: { gridArea: "name" }
               },
               {
-                label: "Name of Company",
-                value: company.value,
-                onChange: event =>
-                  this.handleChange("company")(event.target.value),
-                error: company.error,
-                style: { gridArea: "company" }
-              },
-              {
                 label: "College contact",
+                select: true,
                 value: contact.value,
                 onChange: event =>
                   this.handleChange("contact")(event.target.value),
+                style: { gridArea: "contact" },
                 error: contact.error,
-                style: { gridArea: "contact" }
+                children: contacts.map((option, index) => (
+                  <MenuItem key={index} value={option}>
+                    {option}
+                  </MenuItem>
+                ))
               },
               {
                 label: "Number of Students",
@@ -96,13 +121,21 @@ class TopicForm extends Component {
                   this.handleChange("desc")(event.target.value),
                 error: desc.error,
                 multiline: true,
-                rows: "3",
                 style: { gridArea: "desc" }
               }
             ].map((props, index) => {
               return <TextField {...props} key={index} />;
             })}
+            <ChipInput
+              key={"chipsinput"}
+              value={tags.value}
+              onAdd={chip => this.handleAddChip(chip)}
+              onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
+              style={{ gridArea: "chips" }}
+              label="Tags"
+            />
             <Button
+              key={"button"}
               size="small"
               label="Submit"
               gridArea="button"
