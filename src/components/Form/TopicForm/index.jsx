@@ -7,6 +7,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { Form, Container } from "./style";
 import Button from "../../Button";
 
+import { createProject } from "../../../api/projects";
+
 import { textFieldValidator } from "../../../utils/validators";
 
 const contacts = [
@@ -56,7 +58,6 @@ class TopicForm extends Component {
     }));
 
   handleDeleteChip = (chip, index) => {
-    console.log(index);
     this.setState(prevState => ({
       tags: {
         value: prevState.tags.value.filter((e, i) => i !== index)
@@ -70,7 +71,15 @@ class TopicForm extends Component {
       this.handleChange(element)(this.state[element].value)
     );
     if (await Object.values(this.state).every(element => !element.error)) {
-      this.props.onSubmit();
+      const { name, contact, number, desc, tags } = this.state;
+      const project = {
+        name: name.value,
+        academic_contact: contact.value,
+        num_of_members: number.value,
+        description: desc.value,
+        tags: tags.value
+      };
+      createProject(project);
     }
   };
 

@@ -8,6 +8,7 @@ import Header from "./Header";
 import Settings from "./Settings";
 import Manager from "./Manager";
 import { MembersProjectTable } from "./Table";
+import Spinner from "./Spinner";
 
 export {
   News,
@@ -20,5 +21,6 @@ export {
   Manager,
   ProjectMainCard,
   ProjectCard,
-  MembersProjectTable
+  MembersProjectTable,
+  Spinner
 };

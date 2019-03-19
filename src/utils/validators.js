@@ -4,6 +4,5 @@ export const textFieldValidator = value => {
   } else if (value.length > 30) {
     return true;
   }
-
   return false;
 };
