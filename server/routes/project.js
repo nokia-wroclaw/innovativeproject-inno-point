@@ -17,9 +17,9 @@ const projectRoutes = app => {
     const id = parseInt(req.params.id);
     const database = new DBConnection();
     database
-      .query(`SELECT * FROM projects WHERE id = ${id}`)
+      .query(`SELECT * FROM project WHERE id = ${id}`)
       .then(result => {
-        res.send(result.rows);
+        res.send(result);
       })
       .then(() => {
         database.close();
@@ -46,7 +46,7 @@ const projectRoutes = app => {
                                VALUES (${id}, '${name}', '${description}', '${goals}', '${scopes}', '${requirements}', ${number_of_members}, '${technology}', '${tags}')`);
       })
       .then(result => {
-        res.send(result.rows);
+        res.send(result);
       })
       .then(() => {
         database.close();
@@ -86,7 +86,7 @@ const projectRoutes = app => {
               WHERE id = ${id}`
       )
       .then(result => {
-        res.send(result.rows);
+        res.send(result);
       })
       .then(() => {
         database.close();
@@ -99,7 +99,7 @@ const projectRoutes = app => {
     database
       .query(`DELETE FROM project WHERE id = ${id}`)
       .then(result => {
-        res.send(result.rows);
+        res.send(result);
       })
       .then(() => {
         database.close();

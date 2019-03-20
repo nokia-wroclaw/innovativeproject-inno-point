@@ -14,7 +14,7 @@ export const StyledButton = styled.button`
         return "300px";
     }
   }};
-  height: 30px;
+  height: 35px;
   background: var(--gradientLeft1);
   align-self: ${props => props.alignSelf};
   border-radius: 8px;

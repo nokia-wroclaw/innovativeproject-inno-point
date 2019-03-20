@@ -102,13 +102,14 @@ class TopicForm extends Component {
                   this.handleChange("desc")(event.target.value),
                 error: desc.error,
                 multiline: true,
+                rows: 6,
                 style: { gridArea: "desc" }
               }
             ].map((props, index) => {
-              return <TextField {...props} key={index} />;
+              return <TextField {...props} key={index} variant="outlined" />;
             })}
             <ChipInput
-              key={"chipsinput"}
+              key="chipsinput"
               value={tags.value}
               onAdd={chip => this.handleAddChip(chip)}
               onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
@@ -116,7 +117,7 @@ class TopicForm extends Component {
               label="Tags"
             />
             <Button
-              key={"button"}
+              key="button"
               size="small"
               label="Submit"
               gridArea="button"
