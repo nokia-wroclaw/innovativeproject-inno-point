@@ -44,7 +44,6 @@ const Projects = () => {
             projects.map((project, index) => (
               <ProjectCard project={project} index={index} />
             ))}
-          {console.log(projects)}
         </Container>
       </MainContainer>
       <BottomNavigation
