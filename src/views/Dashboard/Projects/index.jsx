@@ -40,10 +40,11 @@ const Projects = () => {
     <div>
       <MainContainer>
         <Container typeOfList={typeOfList}>
-          {projects.map((project, index) => (
-            <ProjectCard project={project} index={index} />
-          ))}
-          <ProjectCard />
+          {projects &&
+            projects.map((project, index) => (
+              <ProjectCard project={project} index={index} />
+            ))}
+          {console.log(projects)}
         </Container>
       </MainContainer>
       <BottomNavigation

@@ -18,13 +18,13 @@ const Project = props => {
     readProjectsById(id).then(response => setProject(response.data));
   }, []);
 
-  if (Object.keys(project).length === 0) {
+  if (!project) {
     return null;
   }
 
   return (
     <div>
-      <ProjectMainCard project={project[0]} />
+      <ProjectMainCard project={project} />
       <Container>
         <div className="Panel">Members</div>
         <MembersProjectTable project={project} />

@@ -74,8 +74,8 @@ class TopicForm extends Component {
       const { name, contact, number, desc, tags } = this.state;
       const project = {
         name: name.value,
-        academic_contact: contact.value,
-        num_of_members: number.value,
+        academic_contact_id: 1,
+        number_of_members: number.value,
         description: desc.value,
         tags: tags.value
       };

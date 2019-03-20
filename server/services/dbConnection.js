@@ -1,9 +1,9 @@
 const config = require("../config");
-const Pool = require("pg").Pool;
+const mysql = require("mysql");
 
-class dbConnection {
+class DBConnection {
   constructor() {
-    this.connection = new Pool(config);
+    this.connection = mysql.createConnection(config);
   }
   query(sql) {
     return new Promise((resolve, reject) => {
@@ -23,4 +23,4 @@ class dbConnection {
   }
 }
 
-module.exports = dbConnection;
+module.exports = DBConnection;
