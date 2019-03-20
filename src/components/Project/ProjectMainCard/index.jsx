@@ -7,7 +7,6 @@ import { Container } from "./style";
 
 export default ({ project }) => (
   <Container>
-    {console.log(project)}
     <div className="Panel" />
     <div className="Main">
       <div className="Name">{project.name ? project.name : "No name"}</div>

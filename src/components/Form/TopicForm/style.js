@@ -35,14 +35,13 @@ export const Form = styled.form`
   height: 100%;
   display: grid;
   grid-template:
-    "title title" 35px
-    "name company" 50px
-    "contact number" 50px
-    "desc desc" 50px
-    "chips chips" 55px
+    "title title" 55px
+    "name number" 55px
+    "desc desc" 150px
+    "chips chips" 60px
     ". button" auto
     ". ." 1px
-    / 1fr 1fr;
+    / 3fr 2fr;
   grid-gap: 20px;
   background-color: transparent;
 

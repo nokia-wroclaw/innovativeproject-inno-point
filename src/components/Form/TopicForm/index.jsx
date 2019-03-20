@@ -11,22 +11,9 @@ import { createProject } from "../../../api/projects";
 
 import { textFieldValidator } from "../../../utils/validators";
 
-const contacts = [
-  "College Worker",
-  "College Worker",
-  "College Worker",
-  "College Worker",
-  "College Worker",
-  "College Worker"
-];
-
 class TopicForm extends Component {
   state = {
     name: {
-      value: "",
-      error: false
-    },
-    contact: {
       value: "",
       error: false
     },
@@ -71,11 +58,10 @@ class TopicForm extends Component {
       this.handleChange(element)(this.state[element].value)
     );
     if (await Object.values(this.state).every(element => !element.error)) {
-      const { name, contact, number, desc, tags } = this.state;
+      const { name, number, desc, tags } = this.state;
       const project = {
         name: name.value,
-        academic_contact: contact.value,
-        num_of_members: number.value,
+        number_of_members: number.value,
         description: desc.value,
         tags: tags.value
       };
@@ -84,7 +70,7 @@ class TopicForm extends Component {
   };
 
   render() {
-    const { name, contact, number, desc, tags } = this.state;
+    const { name, number, desc, tags } = this.state;
     return (
       <Container>
         <div className="Panel" />
@@ -99,20 +85,6 @@ class TopicForm extends Component {
                   this.handleChange("name")(event.target.value),
                 error: name.error,
                 style: { gridArea: "name" }
-              },
-              {
-                label: "College contact",
-                select: true,
-                value: contact.value,
-                onChange: event =>
-                  this.handleChange("contact")(event.target.value),
-                style: { gridArea: "contact" },
-                error: contact.error,
-                children: contacts.map((option, index) => (
-                  <MenuItem key={index} value={option}>
-                    {option}
-                  </MenuItem>
-                ))
               },
               {
                 label: "Number of Students",
@@ -130,13 +102,14 @@ class TopicForm extends Component {
                   this.handleChange("desc")(event.target.value),
                 error: desc.error,
                 multiline: true,
+                rows: 6,
                 style: { gridArea: "desc" }
               }
             ].map((props, index) => {
-              return <TextField {...props} key={index} />;
+              return <TextField {...props} key={index} variant="outlined" />;
             })}
             <ChipInput
-              key={"chipsinput"}
+              key="chipsinput"
               value={tags.value}
               onAdd={chip => this.handleAddChip(chip)}
               onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
@@ -144,7 +117,7 @@ class TopicForm extends Component {
               label="Tags"
             />
             <Button
-              key={"button"}
+              key="button"
               size="small"
               label="Submit"
               gridArea="button"
