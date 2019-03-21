@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import Color from "color";
 
 const show = keyframes`
   from {
@@ -13,25 +14,17 @@ export const Element = styled.div`
   grid-template: "panel info" / 100px auto;
   cursor: pointer;
   border-radius: 8px;
-  box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
-  border: 1px solid hsl(0, 0%, 85%);
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
   animation: ${show} 0.3s;
   transition: all 0.1s ease-in-out;
+  background-color: white;
 
   :hover {
-    box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.2);
   }
 
   :active {
     transform: scale(1.02);
-  }
-
-  div.Panel {
-    height: 100%;
-    width: 100px;
-    background: var(--gradientTop1);
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
   }
 
   div.Info {
@@ -61,15 +54,14 @@ export const Element = styled.div`
       grid-area: members;
       display: flex;
       fill: gray;
-      margin-right: 5px;
-      margin-top: 5px;
       padding: 0px 5px;
       align-items: center;
       justify-self: end;
-      border: 1px solid hsl(0, 0%, 80%);
+      border: 1px solid hsl(0, 0%, 90%);
       border-radius: 8px;
 
       > span {
+        width: 20px;
         color: gray;
         margin-top: 1px;
         margin-right: 3px;
@@ -81,6 +73,19 @@ export const Element = styled.div`
       }
     }
   }
+`;
+
+export const Panel = styled.div`
+  height: 100%;
+  width: 100px;
+  background: ${({ theme_color }) =>
+    theme_color
+      ? `linear-gradient(to left, ${theme_color}, ${Color(theme_color).darken(
+          0.2
+        )})`
+      : "var(--gradientLeft1)"};
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 `;
 
 export const Tag = styled.span`

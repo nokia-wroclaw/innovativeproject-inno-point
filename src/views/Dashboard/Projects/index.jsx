@@ -55,7 +55,7 @@ const Projects = () => {
         <BottomNavigationAction label="List" value="list" icon={<List />} />
       </BottomNavigation>
       <Tooltip
-        title="Add"
+        title={formDisplaying ? "" : "Add project"}
         aria-label="Add"
         style={tooltipStyle}
         onClick={() => setFormDisplaying(!formDisplaying)}

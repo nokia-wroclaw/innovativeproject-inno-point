@@ -1,3 +1,3 @@
-import ProjectMainCard from "./ProjectMainCard";
+import ProjectMainBlock from "./ProjectMainBlock";
 
-export { ProjectMainCard };
+export { ProjectMainBlock };

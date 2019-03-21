@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import Color from "color";
 
 const show = keyframes`
   from {
@@ -9,18 +10,20 @@ const show = keyframes`
 
 export const Container = styled.div`
   height: auto;
+  width: calc(100% - var(--projectMargin));
   display: grid;
   grid-template:
     "panel main"
-    / 150px auto;
+    / 120px auto;
   border-radius: 8px;
-  box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
-  border: 1px solid hsl(0, 0%, 85%);
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
+  background-color: white;
   transition: all 0.1s ease-in-out;
-  margin: 50px;
+  /* margin-top: var(--blockMargin); */
   animation: ${show} 0.3s;
 
   div.Main {
+    background-color: white;
     display: grid;
     grid-template: "name" 60px "desc";
     grid-gap: 20px;
@@ -48,12 +51,16 @@ export const Container = styled.div`
     div.Stack {
     }
   }
+`;
 
-  div.Panel {
-    height: 100%;
-    width: 150px;
-    background: var(--gradientTop1);
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-  }
+export const Panel = styled.div`
+  height: 100%;
+  background: ${({ theme_color }) =>
+    theme_color
+      ? `linear-gradient(to left, ${theme_color}, ${Color(theme_color).darken(
+          0.2
+        )})`
+      : "var(--gradientLeft1)"};
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 `;

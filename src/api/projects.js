@@ -15,5 +15,4 @@ export const updateProject = project =>
     project
   });
 
-export const deleteProject = id =>
-  createApiRequest(DELETE, "/projects", { id });
+export const deleteProject = id => createApiRequest(DELETE, `/projects/${id}`);

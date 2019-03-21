@@ -26,7 +26,13 @@ const LoginForm = props => (
         gridArea="pass"
       />
       <Button size="large" label="Log In" alignSelf="end" gridArea="button" />
-      <a className="SingIn">Sing In</a>
+      <Button
+        size="large"
+        label="Log In with GitHub"
+        alignSelf="end"
+        gridArea="github"
+        color="black"
+      />
     </Form>
     <div className="Panel">
       <div className="Title">InnoPoint</div>
