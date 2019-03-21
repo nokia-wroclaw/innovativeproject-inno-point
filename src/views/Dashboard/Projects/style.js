@@ -17,6 +17,7 @@ export const CompanyProjects = styled.div``;
 export const Container = styled.div`
   display: grid;
   width: calc(100px + 3 * 450px);
+
   ${props => {
     switch (props.typeOfList) {
       case "block":

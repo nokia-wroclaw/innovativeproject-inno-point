@@ -16,10 +16,16 @@ const projectRoutes = app => {
   app.get("/projects/:id", (req, res) => {
     const id = parseInt(req.params.id);
     const database = new DBConnection();
+    let project, members;
     database
       .query(`SELECT * FROM project WHERE id = ${id}`)
       .then(result => {
-        res.send(result);
+        project = result;
+        return database.query(`SELECT * FROM user WHERE team_id = ${id}`);
+      })
+      .then(result => {
+        members = result;
+        res.send({ project, members });
       })
       .then(() => {
         database.close();
@@ -29,21 +35,22 @@ const projectRoutes = app => {
   app.post("/projects", (req, res) => {
     const {
       name,
-      description,
+      short_description,
       goals,
       scopes,
       requirements,
       number_of_members,
       technology,
-      tags
+      tags,
+      theme_color
     } = req.body.project;
     const database = new DBConnection();
     database
       .query("SELECT id FROM project ORDER BY id DESC LIMIT 1")
       .then(result => {
         const id = result.row ? parseInt(result.row[0].id) + 1 : 0;
-        return database.query(`INSERT INTO project(id, name, description, goals, scopes, requirements, number_of_members, technology, tags)
-                               VALUES (${id}, '${name}', '${description}', '${goals}', '${scopes}', '${requirements}', ${number_of_members}, '${technology}', '${tags}')`);
+        return database.query(`INSERT INTO project(id, name, short_description, goals, scopes, requirements, number_of_members, technology, tags, theme_color)
+                               VALUES (${id}, '${name}', '${short_description}', '${goals}', '${scopes}', '${requirements}', ${number_of_members}, '${technology}', '${tags}', '${theme_color}')`);
       })
       .then(result => {
         res.send(result);
@@ -57,7 +64,7 @@ const projectRoutes = app => {
     const id = parseInt(req.params.id);
     const {
       name,
-      description,
+      short_description,
       team_id,
       goals,
       scopes,
@@ -73,7 +80,7 @@ const projectRoutes = app => {
       .query(
         `UPDATE project SET 
               name = '${name}',
-              description = '${description}',
+              short_description = '${short_description}',
               team_id = ${team_id},
               goals = '${goals}',
               scopes = '${scopes}',
