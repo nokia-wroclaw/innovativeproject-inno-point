@@ -1,6 +1,15 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { Container, StyledLink } from "./style";
+import { iconStyle } from "./style";
+import {
+  Assessment,
+  ViewList,
+  SupervisedUserCircle,
+  Announcement,
+  AccountCircle,
+  Settings
+} from "@material-ui/icons";
 
 export default withRouter(props => {
   const { pathname } = props.history.location;
@@ -10,24 +19,28 @@ export default withRouter(props => {
         <img src="/icons/dashboard.svg" />
       </div>
       <StyledLink to="/dashboard/manager" pathname={pathname}>
-        <img src="/icons/manager.svg" />
+        <Assessment style={iconStyle} />
         <span>Manager</span>
       </StyledLink>
       <StyledLink to="/dashboard/projects" pathname={pathname}>
-        <img src="/icons/projects.svg" />
+        <ViewList style={iconStyle} />
         <span>Projects</span>
       </StyledLink>
+      <StyledLink to="/dashboard/teams" pathname={pathname}>
+        <SupervisedUserCircle style={iconStyle} />
+        <span>Teams</span>
+      </StyledLink>
       <StyledLink to="/dashboard/news" pathname={pathname}>
-        <img src="/icons/news.svg" />
+        <Announcement style={iconStyle} />
         <span>News</span>
       </StyledLink>
       <div />
       <StyledLink to="/dashboard/profile" pathname={pathname}>
-        <img src="/icons/user.svg" />
+        <AccountCircle style={iconStyle} />
         <span>Profile</span>
       </StyledLink>
       <StyledLink to="/dashboard/settings" pathname={pathname}>
-        <img src="/icons/settings.svg" />
+        <Settings style={iconStyle} />
         <span>Settings</span>
       </StyledLink>
     </Container>

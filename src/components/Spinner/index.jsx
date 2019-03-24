@@ -1,5 +1,5 @@
 import React from "react";
-import Fade from "@material-ui/core/Fade";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { spinnerStyle } from "./style";
 
-export default () => <CircularProgress size={100} />;
+export default () => <CircularProgress size={50} style={spinnerStyle} />;

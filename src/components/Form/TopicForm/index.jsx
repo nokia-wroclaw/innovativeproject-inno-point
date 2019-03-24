@@ -6,10 +6,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import { Form, Container } from "./style";
 import Button from "../../Button";
+import ColorPicker from "../../ColorPicker";
 
 import { createProject } from "../../../api/projects";
 
-import { textFieldValidator } from "../../../utils/validators";
+import {
+  textFieldValidator,
+  textAreaValidator
+} from "../../../utils/validators";
 
 class TopicForm extends Component {
   state = {
@@ -28,12 +32,16 @@ class TopicForm extends Component {
     tags: {
       value: [],
       error: false
+    },
+    theme_color: {
+      value: [],
+      error: false
     }
   };
 
-  handleChange = name => value => {
+  handleChange = (name, value, validator) => {
     this.setState({
-      [name]: { value: value, error: textFieldValidator(value) }
+      [name]: { value: value, error: validator ? validator(value) : false }
     });
   };
 
@@ -54,23 +62,23 @@ class TopicForm extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-    await Object.keys(this.state).map(element =>
-      this.handleChange(element)(this.state[element].value)
-    );
-    if (await Object.values(this.state).every(element => !element.error)) {
-      const { name, number, desc, tags } = this.state;
-      const project = {
-        name: name.value,
-        number_of_members: number.value,
-        description: desc.value,
-        tags: tags.value
-      };
-      createProject(project);
+    if (Object.keys(this.state).every(element => this.state[element].value)) {
+      if (Object.values(this.state).every(element => !element.error)) {
+        const { name, number, desc, tags, theme_color } = this.state;
+        const project = {
+          name: name.value,
+          number_of_members: number.value,
+          short_description: desc.value,
+          tags: tags.value,
+          theme_color: theme_color.value
+        };
+        createProject(project);
+      }
     }
   };
 
   render() {
-    const { name, number, desc, tags } = this.state;
+    const { name, number, desc, tags, theme_color } = this.state;
     return (
       <Container>
         <div className="Panel" />
@@ -82,7 +90,11 @@ class TopicForm extends Component {
                 label: "Name",
                 value: name.value,
                 onChange: event =>
-                  this.handleChange("name")(event.target.value),
+                  this.handleChange(
+                    "name",
+                    event.target.value,
+                    textFieldValidator
+                  ),
                 error: name.error,
                 style: { gridArea: "name" }
               },
@@ -90,7 +102,11 @@ class TopicForm extends Component {
                 label: "Number of Students",
                 value: number.value,
                 onChange: event =>
-                  this.handleChange("number")(event.target.value),
+                  this.handleChange(
+                    "number",
+                    event.target.value,
+                    textFieldValidator
+                  ),
                 error: number.error,
                 type: "number",
                 style: { gridArea: "number" }
@@ -99,15 +115,19 @@ class TopicForm extends Component {
                 label: "Short description",
                 value: desc.value,
                 onChange: event =>
-                  this.handleChange("desc")(event.target.value),
+                  this.handleChange(
+                    "desc",
+                    event.target.value,
+                    textAreaValidator
+                  ),
                 error: desc.error,
                 multiline: true,
                 rows: 6,
                 style: { gridArea: "desc" }
               }
-            ].map((props, index) => {
-              return <TextField {...props} key={index} variant="outlined" />;
-            })}
+            ].map((props, index) => (
+              <TextField {...props} key={index} variant="outlined" />
+            ))}
             <ChipInput
               key="chipsinput"
               value={tags.value}
@@ -115,6 +135,12 @@ class TopicForm extends Component {
               onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
               style={{ gridArea: "chips" }}
               label="Tags"
+              variant="outlined"
+            />
+            <ColorPicker
+              gridArea={"colors"}
+              color={theme_color.value}
+              onChange={color => this.handleChange("theme_color", color.hex)}
             />
             <Button
               key="button"
