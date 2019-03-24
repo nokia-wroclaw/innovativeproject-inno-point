@@ -49,7 +49,7 @@ export const Container = styled.header`
   grid-area: header;
   height: 100vh;
   display: grid;
-  grid-template-rows: 40px repeat(3, 35px) auto repeat(2, 35px);
+  grid-template-rows: 40px repeat(3, 35px) auto repeat(3, 35px);
   background: var(--gradientHeader);
   box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
   animation: ${show} 0.5s;
