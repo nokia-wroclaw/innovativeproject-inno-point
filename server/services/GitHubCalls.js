@@ -84,7 +84,20 @@ class GitHubCalls{
             allow_signup: 'true'
         };
 
-        let reqGet = https.request(optionsget, )
+
+        let reqGet = https.request(optionsget, function(res){
+            res.on('data', function(d) {
+                console.info('GET result:\n');
+                process.stdout.write(d);
+                console.info('\n\nCall completed');
+            });
+            resolve(res.statusCode);
+        })
+
+        reqGet.end();
+        reqGet.on('error',function(e){
+            reject(err);
+        })
 
         return unGuessableState;
     }

@@ -1,9 +1,10 @@
 const config = {
-  user: "postgres",
   host: "localhost",
-  database: "db_innopoint",
-  password: "admin",
-  port: 5432
+  database: "inno-point",
+  user: "root",
+  password: "tosia123sl",
+  socketPath: "/Applications/MAMP/tmp/mysql/mysql.sock",
+  port: 8889
 };
 
 module.exports = config;

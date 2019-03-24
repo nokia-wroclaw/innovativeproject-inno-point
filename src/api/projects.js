@@ -3,6 +3,8 @@ import createApiRequest from "../utils/createApiRequest";
 
 export const readProjects = () => createApiRequest(GET, "/projects");
 
+export const readProjectsById = id => createApiRequest(GET, `/projects/${id}`);
+
 export const createProject = project =>
   createApiRequest(POST, "/projects", {
     project
@@ -13,5 +15,4 @@ export const updateProject = project =>
     project
   });
 
-export const deleteProject = id =>
-  createApiRequest(DELETE, "/projects", { id });
+export const deleteProject = id => createApiRequest(DELETE, `/projects/${id}`);

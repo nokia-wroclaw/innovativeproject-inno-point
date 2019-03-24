@@ -14,8 +14,15 @@ export const StyledButton = styled.button`
         return "300px";
     }
   }};
-  height: 30px;
-  background: var(--gradientLeft1);
+  height: 35px;
+  background: ${({ color }) => {
+    switch (color) {
+      case "red":
+        return "var(--gradientLeft2)";
+      default:
+        return "var(--gradientLeft1)";
+    }
+  }};
   align-self: ${props => props.alignSelf};
   border-radius: 8px;
   color: white;

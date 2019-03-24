@@ -1,23 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-import { MembersProjectTable, ProjectMainCard } from "../../../components";
+import {
+  MembersProjectBlock,
+  ProjectMainBlock,
+  Spinner,
+  DeleteProjectBlock,
+  GoalsBlock,
+  ScopesBlock,
+  TechnologyBlock
+} from "../../../components";
 
-import { Container } from "./style";
+import { MainContainer } from "./style";
 
-import projects from "../../../projects";
+import { readProjectsById } from "../../../api/projects";
 
 const Project = props => {
+  const [data, setData] = useState({});
   const id = props.match.params.id;
-  const project = projects.find(element => element.id === id);
-  const { name, description } = project;
+
+  useEffect(() => {
+    readProjectsById(id).then(response => setData(response.data));
+  }, []);
+
+  const { project, members } = data;
+  if (!project || Object.keys(project).length === 0) {
+    return <Spinner />;
+  }
+  const { theme_color, goals, scopes, technology } = project[0];
   return (
-    <div>
-      <ProjectMainCard name={name} description={description} />
-      <Container>
-        <div className="Panel">Members</div>
-        <MembersProjectTable project={project} />
-      </Container>
-    </div>
+    <MainContainer>
+      <ProjectMainBlock project={project} />
+      {members.length > 0 && (
+        <MembersProjectBlock members={members} theme_color={theme_color} />
+      )}
+      <div style={{ display: "flex" }}>
+        {goals && <GoalsBlock project={project} />}
+        {scopes && <ScopesBlock project={project} />}
+      </div>
+      {technology && <TechnologyBlock project={project} />}
+      <DeleteProjectBlock project={project} />
+    </MainContainer>
   );
 };
 
