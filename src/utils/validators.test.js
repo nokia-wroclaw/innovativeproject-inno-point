@@ -1,69 +1,67 @@
-// ------------------------------------------------------------------------------ //
-// ------------------------------ UNIT TESTS ------------------------------------ //
-// ------------------------------------------------------------------------------ //
-
-// Enter "npm test" to run tests.
-
 import { textFieldValidator } from "./validators";
+import faker from "faker";
 
-test("Empty textField", () => {
-  const value = textFieldValidator("");
-  expect(value).toBeTruthy();
-});
+describe("textFieldValidator tests", () => {
+  test("Empty textField", () => {
+    const value = textFieldValidator("");
+    expect(value).toBeTruthy();
+  });
 
-function getRandomText(length) {
-  var text = "";
-  var possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  test("Too long text", () => {
+    var len = 0;
 
-  for (var i = 0; i < length; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
+    while (len < 30) {
+      var text = faker.random.word();
+      len = text.length;
+    }
+    const value = textFieldValidator(text);
+    expect(len).toBeGreaterThan(30);
+    expect(typeof text).toBe("string");
+    expect(value).toBeTruthy();
+  });
 
-  return text;
-}
+  function getRandomIncorrectText() {
+    var text = "";
 
-test("Too long text", () => {
-  const len = Math.floor(Math.random() * 100 + 30);
-  const text = getRandomText(len);
-  const value = textFieldValidator(text);
-  expect(len).toBeGreaterThan(30);
-  expect(typeof text).toBe("string");
-  expect(value).toBeTruthy();
-});
+    var upperLimit = faker.random.number({
+      min: 0,
+      max: 200
+    });
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+    var len = faker.random.number({
+      min: 1,
+      max: upperLimit
+    });
 
-function getRandomIncorrectText() {
-  var text = "";
-  var upperLimit = getRandomInt(0, 200);
-  var len = getRandomInt(1, upperLimit);
+    for (var i = 0; i < len; i++) {
+      if (Math.random() > 0.5) text += "\n";
 
-  for (var i = 0; i < len; i++) {
-    if (Math.random() > 0.5) text += "\n";
+      if (Math.random() > 0.5) text += " ";
 
-    if (Math.random() > 0.5) text += " ";
+      if (Math.random() > 0.5) text += "\t";
+    }
 
-    if (Math.random() > 0.5) text += "\t";
+    return text;
   }
 
-  return text;
-}
+  test("Only whitespace characters in textField", () => {
+    const text = getRandomIncorrectText();
+    const value = textFieldValidator(text);
+    expect(value).toBeTruthy();
+  });
 
-test("Only whitespace characters in textField", () => {
-  const text = getRandomIncorrectText();
-  const value = textFieldValidator(text);
-  expect(value).toBeTruthy();
-});
+  test("Correct input", () => {
+    var text = faker.random.word();
+    var len = text.length;
 
-test("Correct input", () => {
-  const len = Math.floor(Math.random() * 30 + 1);
-  const text = getRandomText(len);
-  const value = textFieldValidator(text);
-  expect(len).toBeLessThanOrEqual(30);
-  expect(typeof text).toBe("string");
-  expect(value).toBeFalsy();
+    while (len > 30) {
+      text = faker.random.word();
+      len = text.length;
+    }
+
+    const value = textFieldValidator(text);
+    expect(len).toBeLessThanOrEqual(30);
+    expect(typeof text).toBe("string");
+    expect(value).toBeFalsy();
+  });
 });
