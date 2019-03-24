@@ -17,14 +17,10 @@ export default withRouter(props => {
         <img src="/icons/projects.svg" />
         <span>Projects</span>
       </StyledLink>
-<<<<<<< HEAD
-
-=======
       <StyledLink to="/dashboard/news" pathname={pathname}>
         <img src="/icons/news.svg" />
         <span>News</span>
       </StyledLink>
->>>>>>> b0835a2f5baa220caddace198d87fd0d783f5e3d
       <div />
       <StyledLink to="/dashboard/createteam" pathname={pathname}>
         <img src="icons/plus.svg" />

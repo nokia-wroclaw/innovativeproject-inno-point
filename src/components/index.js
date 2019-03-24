@@ -1,7 +1,6 @@
 import News from "./News";
 import { ProjectMainCard } from "./Project/index";
 import { ProjectCard } from "./Projects/index";
-import Button from "./Button";
 import { LoginForm, TopicForm } from "./Form";
 import Profile from "./Profile";
 import Header from "./Header";
@@ -19,9 +18,7 @@ export {
   Header,
   Settings,
   Project,
-  Button,
   CreateTeam,
-  Button,
   Manager,
   ProjectMainCard,
   ProjectCard,
