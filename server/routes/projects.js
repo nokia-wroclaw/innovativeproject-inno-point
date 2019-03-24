@@ -45,13 +45,8 @@ const projectRoutes = app => {
     const database = new db();
     database
       .query(
-<<<<<<< HEAD
         `INSERT INTO projects(id, name, description, team_id, goals, scopes, requirements, mentor, num_of_members, technology, academic_contact, tags)
         VALUES ( ${id}, '${name}', '${description}', '${team_id}', '${goals}', '${scopes}', '${requirements}', '${mentor}', ${num_of_members}, '${technology}', '${academic_contact}', '${tags}')`
-=======
-        `INSERT INTO projects(id, name, description, team_id, goals, scopes, requirements, mentor, company, num_of_members, technology, tags)
-        VALUES (${id},${name}, ${description}, ${team_id}, ${goals}, ${scopes}, ${requirements}, ${mentor}, ${num_of_members}, ${technology}, ${academic_contact} ${tags})`
->>>>>>> a33bc02ae826960d0cb1d9e8553d8ead5f612df6
       )
       .then(result => {
         res.send(result.rows);
@@ -79,13 +74,8 @@ const projectRoutes = app => {
     const database = new db();
     database
       .query(
-<<<<<<< HEAD
         `UPDATE projects SET(id, topic, description, team_id, goals, scopes, requirements, mentor, num_of_members, technology, academic_contact tags)
         VALUES (${id}, '${name}', '${description}', ${team_id}, '${goals}', '${scopes}', '${requirements}', ${mentor}, ${num_of_members}, '${technology}', '${academic_contact}', '${tags}')`
-=======
-        `UPDATE projects SET(id, name, description, team_id, goals, scopes, requirements, mentor, num_of_members, technology, academic_contact tags)
-        VALUES (${id},${name}, ${description}, ${team_id}, ${goals}, ${scopes}, ${requirements}, ${mentor}, ${num_of_members}, ${technology}, ${academic_contact} ${tags})`
->>>>>>> a33bc02ae826960d0cb1d9e8553d8ead5f612df6
       )
       .then(result => {
         res.send(result.rows);
