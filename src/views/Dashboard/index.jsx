@@ -8,6 +8,8 @@ import Projects from "./Projects";
 
 import { Container } from "./style";
 
+import Teams from "../Teams"
+
 class Dashboard extends Component {
   render() {
     return (
@@ -15,7 +17,7 @@ class Dashboard extends Component {
         <Header />
         <div />
         <Switch>
-          <Route path="/dashboard/manager" component={Manager} />
+          <Route path="/dashboard/manager" component={Teams} />
           <Route path="/dashboard/news" component={News} />
           <Route exact path="/dashboard/projects" component={Projects} />
           <Route exact path="/dashboard/projects/:id" component={Project} />
