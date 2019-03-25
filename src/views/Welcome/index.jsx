@@ -10,9 +10,7 @@ class Welcome extends Component {
   onSubmit = event => {
     event.preventDefault();
     // this.props.history.push("/dashboard/manager");
-    window.location.assign(
-      "https://github.com/login/oauth/authorize?client_id=cb8b7f9b4e0a03ead294"
-    );
+    window.location.assign("http://localhost:3030/auth");
   };
 
   render() {

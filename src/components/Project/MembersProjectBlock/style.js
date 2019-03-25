@@ -19,7 +19,6 @@ export const Container = styled.div`
   margin-top: var(--blockMargin);
   animation: ${show} 0.3s;
   background-color: white;
-  }
 
   > div.Panel {
     width: 150px;
