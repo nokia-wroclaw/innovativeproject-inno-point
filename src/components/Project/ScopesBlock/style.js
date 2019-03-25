@@ -9,7 +9,7 @@ const show = keyframes`
 `;
 
 export const Container = styled.div`
-  width: calc((100% - var(--projectMargin) - 10px) / 2);
+  width: calc(50% - 10px);
   height: auto;
   display: grid;
   grid-template: "main";
