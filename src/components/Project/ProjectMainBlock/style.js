@@ -19,10 +19,11 @@ export const Container = styled.div`
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
   background-color: white;
   transition: all 0.1s ease-in-out;
-  margin-top: var(--blockMargin);
+  /* margin-top: var(--blockMargin); */
   animation: ${show} 0.3s;
 
   div.Main {
+    background-color: white;
     display: grid;
     grid-template: "name" 60px "desc";
     grid-gap: 20px;

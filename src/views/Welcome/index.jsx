@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-
 import { Container, Img } from "./style";
 
 import { LoginForm } from "../../components/Form";
@@ -10,7 +9,8 @@ const logos = ["samsung", "comarch", "nokia", "comarch", "tieto", "dolby"];
 class Welcome extends Component {
   onSubmit = event => {
     event.preventDefault();
-    this.props.history.push("/dashboard");
+    // this.props.history.push("/dashboard/manager");
+    window.location.assign("http://localhost:3030/auth");
   };
 
   render() {

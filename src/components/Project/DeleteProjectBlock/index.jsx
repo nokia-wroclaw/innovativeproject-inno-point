@@ -37,7 +37,7 @@ export default withRouter(({ project, history }) => {
   }
   return (
     <Container>
-      <Panel theme_color={theme_color} />
+      {/* <Panel theme_color={theme_color} /> */}
       <div className="Main">
         <div className="Label">Delete this project</div>
         <div className="Info">You can permanently remove this project.</div>

@@ -13,7 +13,7 @@ import { Person } from "@material-ui/icons";
 export default ({ members, theme_color }) => {
   return (
     <Container>
-      <Panel theme_color={theme_color} />
+      {/* <Panel theme_color={theme_color} /> */}
       {/* <Table style={tableStyle} fontSize="18px">
         <TableHead>
           <TableRow>
@@ -39,28 +39,18 @@ export default ({ members, theme_color }) => {
       </Table> */}
       <div className="MembersContainer">
         {members &&
-          members.map(
-            (element, index) => {
-              const { name, surname } = element;
-              return (
-                <div className="Member">
-                  <Person style={iconStyle} strokeWidth="10" />
-                  <div className="Data">
-                    {element.name} {name.length + surname.length > 15 && <br />}
-                    {element.surname}
-                  </div>
+          members.map((element, index) => {
+            const { name, surname } = element;
+            return (
+              <div className="Member">
+                <Person style={iconStyle} strokeWidth="10" />
+                <div className="Data">
+                  {element.name} {name.length + surname.length > 15 && <br />}
+                  {element.surname}
                 </div>
-              );
-            }
-            // <TableRow key={index}>
-            //   <TableCell component="th" scope="row">
-            //     {element.name} {element.surname}
-            //   </TableCell>
-            //   <TableCell>{element.role}</TableCell>
-            //   <TableCell>{element.PR}</TableCell>
-            //   <TableCell>{element.commits}</TableCell>
-            // </TableRow>
-          )}
+              </div>
+            );
+          })}
       </div>
     </Container>
   );

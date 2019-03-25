@@ -13,9 +13,7 @@ export const Container = styled.div`
   width: calc(50% - var(--projectMargin) / 2);
   height: auto;
   display: grid;
-  grid-template:
-    "panel main"
-    / 120px auto;
+  grid-template: "main";
   border-radius: 8px;
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
   background-color: white;

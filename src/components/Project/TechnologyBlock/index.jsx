@@ -6,7 +6,7 @@ export default ({ project }) => {
   console.log(project[0]);
   return (
     <Container>
-      <Panel theme_color={theme_color} />
+      {/* <Panel theme_color={theme_color} /> */}
       <div className="Main">
         <div className="Label">Technology</div>
         <div />

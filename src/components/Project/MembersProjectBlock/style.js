@@ -11,7 +11,7 @@ const show = keyframes`
 export const Container = styled.div`
   height: 120px;
   display: grid;
-  grid-template: "panel table" / 120px auto;
+  grid-template: "table";
   width: calc(100% - var(--projectMargin));
   border-radius: 8px;
   box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
@@ -19,20 +19,6 @@ export const Container = styled.div`
   margin-top: var(--blockMargin);
   animation: ${show} 0.3s;
   background-color: white;
-
-  div.Main {
-    display: grid;
-    background-color: white;
-    grid-template: "title" 40px "table";
-    grid-gap: 20px;
-    padding: 20px;
-
-    div.Title {
-      letter-spacing: 1px;
-      border-bottom: solid 1px hsl(0, 0%, 90%);
-      font-size: 25px;
-    }
-  }
 
   > div.Panel {
     width: 150px;

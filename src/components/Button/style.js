@@ -19,6 +19,8 @@ export const StyledButton = styled.button`
     switch (color) {
       case "red":
         return "var(--gradientLeft2)";
+      case "black":
+        return "black";
       default:
         return "var(--gradientLeft1)";
     }
