@@ -1,4 +1,5 @@
 const request = require("request");
+const githubCalls = require("../services/GitHubCalls");
 const config = require("../config/index").github;
 
 const { getCode, getState, getToken } = require("../utils/selectors");
@@ -28,18 +29,38 @@ const gitHubRoutes = app => {
     if (req_state !== state) {
       res.redirect(`http://localhost:3000/error`);
     } else {
-      request.post(
-        `${github_url_token}?client_id=${client_id}&client_secret=${client_secret}&code=${code}`,
-        (error, response, body) => {
-          const token = getToken(req._parsedOriginalUrl.query);
+      const github = new githubCalls();
+      github.gitPostGetUserToken(code).then(code => {
+        console.log(code);
+        res.redirect(
+          // `http://localhost:3000/dashboard/manager?access_token=${token}`
+          `http://localhost:3000/dashboard/manager`
+        );
+      });
 
-          // Sprawdzamy czy w bazie jest juz uzytkownik
+      // github.gitPostGetUserToken(code).then(token => {
+      //   console.log("generated token " + token);
+      // });
 
-          res.redirect(
-            `http://localhost:3000/dashboard/manager?access_token=${token}`
-          );
-        }
-      );
+      console.log("Faster than git post");
+
+      // request.post(
+      //   `${github_url_token}?client_id=${client_id}&client_secret=${client_secret}&code=${code}`,
+      //   (error, response, body) => {
+      //     console.log(response);
+      //     const token = getToken(req._parsedOriginalUrl.query);
+
+      //     // Sprawdzamy czy w bazie jest juz uzytkownik
+
+      //     //info o użytkonwiku
+
+      //     //const userData = github.gitGetUserIdAndInfo(token);
+
+      //     res.redirect(
+      //       `http://localhost:3000/dashboard/manager?access_token=${token}`
+      //     );
+      //   }
+      // );
     }
   });
 
