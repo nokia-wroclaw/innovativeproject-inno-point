@@ -101,7 +101,6 @@ class GitHubCalls {
   }
   //method returning client id, name, email, avatar url || argument client generated token
   gitGetUserIdAndInfo(token) {
-    token = "7d8941ecc10ad11a7b1fc349fb83660df25ebc7e";
     let optionsGet = {
       host: "api.github.com",
       port: 443,
@@ -112,7 +111,7 @@ class GitHubCalls {
       }
     };
 
-    console.log(token);
+    //    console.log(token);
 
     return new Promise((resolve, reject) => {
       let reqGet = https.request(optionsGet, function(res) {
@@ -130,7 +129,7 @@ class GitHubCalls {
               clientEmail: parsedData.email,
               clientAvatar: parsedData.avatar_url
             };
-            console.log(clientInfo);
+            //            console.log(clientInfo);
             resolve(clientInfo);
           } catch (e) {
             console.error(e.message);
@@ -162,29 +161,6 @@ class GitHubCalls {
           return resolve(jsonWithToken.access_token);
         }
       );
-    });
-
-    return new Promise((resolve, reject) => {
-      let reqGet = https.request(optionsPost, function(res) {
-        let rawData = "";
-        res.on("data", chunk => {
-          rawData += chunk;
-        });
-        res.on("end", () => {
-          try {
-            const parsedData = JSON.parse(rawData);
-            console.log(parsedData);
-            resolve(parsedData);
-          } catch (e) {
-            console.error(e.message);
-          }
-        });
-      });
-
-      reqGet.end();
-      reqGet.on("error", function(e) {
-        reject(err);
-      });
     });
   }
 }

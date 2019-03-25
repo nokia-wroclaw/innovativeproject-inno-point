@@ -30,37 +30,17 @@ const gitHubRoutes = app => {
       res.redirect(`http://localhost:3000/error`);
     } else {
       const github = new githubCalls();
-      github.gitPostGetUserToken(code).then(code => {
-        console.log(code);
-        res.redirect(
-          // `http://localhost:3000/dashboard/manager?access_token=${token}`
-          `http://localhost:3000/dashboard/manager`
-        );
+      //generating user token with code from github
+      github.gitPostGetUserToken(code).then(token => {
+        //here should be all database operations
+
+        //getting user information from github || user id , user name, user email, user avatar
+        github.gitGetUserIdAndInfo(token).then(userData => {
+          res.redirect(
+            `http://localhost:3000/dashboard/manager?access_token=${token}`
+          );
+        });
       });
-
-      // github.gitPostGetUserToken(code).then(token => {
-      //   console.log("generated token " + token);
-      // });
-
-      console.log("Faster than git post");
-
-      // request.post(
-      //   `${github_url_token}?client_id=${client_id}&client_secret=${client_secret}&code=${code}`,
-      //   (error, response, body) => {
-      //     console.log(response);
-      //     const token = getToken(req._parsedOriginalUrl.query);
-
-      //     // Sprawdzamy czy w bazie jest juz uzytkownik
-
-      //     //info o użytkonwiku
-
-      //     //const userData = github.gitGetUserIdAndInfo(token);
-
-      //     res.redirect(
-      //       `http://localhost:3000/dashboard/manager?access_token=${token}`
-      //     );
-      //   }
-      // );
     }
   });
 
