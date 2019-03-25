@@ -1,4 +1,5 @@
 const request = require("request");
+const githubCalls = require("../services/GitHubCalls");
 const config = require("../config/index").github;
 
 const { getCode, getState, getToken } = require("../utils/selectors");
@@ -28,18 +29,18 @@ const gitHubRoutes = app => {
     if (req_state !== state) {
       res.redirect(`http://localhost:3000/error`);
     } else {
-      request.post(
-        `${github_url_token}?client_id=${client_id}&client_secret=${client_secret}&code=${code}`,
-        (error, response, body) => {
-          const token = getToken(req._parsedOriginalUrl.query);
+      const github = new githubCalls();
+      //generating user token with code from github
+      github.gitPostGetUserToken(code).then(token => {
+        //here should be all database operations
 
-          // Sprawdzamy czy w bazie jest juz uzytkownik
-
+        //getting user information from github || user id , user name, user email, user avatar
+        github.gitGetUserIdAndInfo(token).then(userData => {
           res.redirect(
             `http://localhost:3000/dashboard/manager?access_token=${token}`
           );
-        }
-      );
+        });
+      });
     }
   });
 
