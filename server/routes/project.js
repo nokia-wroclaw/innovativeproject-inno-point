@@ -1,22 +1,33 @@
+const sequelize = require("sequelize");
 const DBConnection = require("../services/DBConnection");
 
 const projectRoutes = app => {
   app.get("/projects", (req, res) => {
     const database = new DBConnection();
-    database
-      .query("SELECT * FROM project")
+
+    sequelize.query('SELECT * FROM project')
       .then(result => {
         res.send(result);
       })
       .then(() => {
         database.close();
       });
+
+   /* database
+      .query("SELECT * FROM project")
+      .then(result => {
+        res.send(result);
+      })
+      .then(() => {
+        database.close();
+      });*/
   });
 
   app.get("/projects/:id", (req, res) => {
     const id = parseInt(req.params.id);
     const database = new DBConnection();
     let project, members;
+
     database
       .query(`SELECT * FROM project WHERE id = ${id}`)
       .then(result => {
