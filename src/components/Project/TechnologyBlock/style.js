@@ -10,7 +10,7 @@ const show = keyframes`
 
 export const Container = styled.div`
   min-height: 200px;
-  width: calc(50% - var(--projectMargin) / 2);
+  width: calc(50% - 10px);
   height: auto;
   display: grid;
   grid-template: "main";
@@ -18,6 +18,7 @@ export const Container = styled.div`
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
   background-color: white;
   transition: all 0.1s ease-in-out;
+  margin-right: 10px;
   margin-top: var(--blockMargin);
   animation: ${show} 0.3s;
 

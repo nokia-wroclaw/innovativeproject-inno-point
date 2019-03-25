@@ -73,6 +73,8 @@ class TopicForm extends Component {
           theme_color: theme_color.value
         };
         createProject(project);
+        this.props.close(false);
+        this.props.refresh();
       }
     }
   };

@@ -7,7 +7,8 @@ import {
   DeleteProjectBlock,
   GoalsBlock,
   ScopesBlock,
-  TechnologyBlock
+  TechnologyBlock,
+  TagsBlock
 } from "../../../components";
 
 import { MainContainer } from "./style";
@@ -26,18 +27,31 @@ const Project = props => {
   if (!project || Object.keys(project).length === 0) {
     return <Spinner />;
   }
-  const { theme_color, goals, scopes, technology } = project[0];
+  const { theme_color, goals, scopes, technology, tags } = project[0];
   return (
     <MainContainer>
       <ProjectMainBlock project={project} />
       {members.length > 0 && (
         <MembersProjectBlock members={members} theme_color={theme_color} />
       )}
-      <div style={{ display: "flex" }}>
+      <div
+        style={{
+          display: "flex",
+          width: "calc(100% - var(--projectMargin))"
+        }}
+      >
         {goals && <GoalsBlock project={project} />}
         {scopes && <ScopesBlock project={project} />}
       </div>
-      {technology && <TechnologyBlock project={project} />}
+      <div
+        style={{
+          display: "flex",
+          width: "calc(100% - var(--projectMargin))"
+        }}
+      >
+        {technology && <TechnologyBlock project={project} />}
+        {tags && <TagsBlock project={project} />}
+      </div>
       <DeleteProjectBlock project={project} />
     </MainContainer>
   );
