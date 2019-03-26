@@ -2,17 +2,17 @@ import React from "react";
 import { Container, Panel, Technology } from "./style";
 
 export default ({ project }) => {
-  const { technology, theme_color } = project[0];
+  const { tags, theme_color } = project[0];
   return (
     <Container>
       {/* <Panel theme_color={theme_color} /> */}
       <div className="Main">
-        <div className="Label">Technology</div>
+        <div className="Label">Tags</div>
         <div />
         <div>
-          {technology.split(",").map((technology, index) => (
+          {tags.split(",").map((tag, index) => (
             <Technology theme_color={theme_color} key={index}>
-              {technology}
+              {tag}
             </Technology>
           ))}
         </div>

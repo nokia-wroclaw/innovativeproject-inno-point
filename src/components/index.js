@@ -13,6 +13,7 @@ import DeleteProjectBlock from "./Project/DeleteProjectBlock";
 import GoalsBlock from "./Project/GoalsBlock";
 import ScopesBlock from "./Project/ScopesBlock";
 import TechnologyBlock from "./Project/TechnologyBlock";
+import TagsBlock from "./Project/TagsBlock";
 
 export {
   News,
@@ -30,5 +31,6 @@ export {
   DeleteProjectBlock,
   GoalsBlock,
   ScopesBlock,
-  TechnologyBlock
+  TechnologyBlock,
+  TagsBlock
 };

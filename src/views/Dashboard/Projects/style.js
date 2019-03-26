@@ -9,7 +9,6 @@ const show = keyframes`
 
 export const MainContainer = styled.div`
   display: grid;
-  grid-gap: 100px;
 `;
 
 export const CompanyProjects = styled.div``;
@@ -32,6 +31,35 @@ export const Container = styled.div`
   > a {
     text-decoration: none;
     color: black;
+  }
+`;
+
+export const TopBar = styled.div`
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 5px;
+
+  > div.Searchbar {
+    margin-top: 50px;
+    margin-right: 60px;
+    display: flex;
+    align-items: center;
+    width: 250px;
+    height: 25px;
+    background-color: rgba(255, 255, 255, 70%);
+    border-radius: 50px;
+    padding: 5px 15px;
+    justify-self: end;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.1s ease-in-out;
+
+    > input {
+      width: 250px;
+      transition: all 0.1s ease-in-out;
+    }
   }
 `;
 
@@ -71,7 +99,6 @@ export const iconBackStyle = {
 
 export const typeOfListStyle = {
   width: "170px",
-  position: "absolute",
   right: "7%",
   bottom: "5%",
   position: "fixed",

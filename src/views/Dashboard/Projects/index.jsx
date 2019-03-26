@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { Container, MainContainer, FormContainer } from "./style";
+import { Container, MainContainer, FormContainer, TopBar } from "./style";
 
 import {
   tooltipStyle,
@@ -20,6 +20,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import { List, GridOn } from "@material-ui/icons";
+import InputBase from "@material-ui/core/InputBase";
+import SearchIcon from "@material-ui/icons/Search";
 
 import { readProjects } from "../../../api/projects";
 
@@ -34,10 +36,20 @@ const Projects = () => {
 
   useEffect(() => {
     readProjects().then(response => setProjects(response.data));
-  }, []);
+  });
+
+  const refresh = () => {
+    readProjects().then(response => setProjects(response.data));
+  };
 
   return (
     <div>
+      {/* <TopBar>
+        <div className="Searchbar">
+          <InputBase placeholder="Search…" style={{ width: "100%" }} />
+          <SearchIcon />
+        </div>
+      </TopBar> */}
       <MainContainer>
         <Container typeOfList={typeOfList}>
           {projects &&
@@ -68,7 +80,7 @@ const Projects = () => {
       </Tooltip>
       {formDisplaying && (
         <FormContainer>
-          <TopicForm />
+          <TopicForm close={setFormDisplaying} refresh={refresh} />
         </FormContainer>
       )}
     </div>

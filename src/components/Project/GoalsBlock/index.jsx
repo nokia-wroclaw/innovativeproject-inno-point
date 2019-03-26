@@ -1,12 +1,10 @@
 import React from "react";
-import { Container, Panel } from "./style";
+import { Container } from "./style";
 
 export default ({ project }) => {
-  const { goals, theme_color } = project[0];
-  console.log(project[0]);
+  const { goals } = project[0];
   return (
     <Container>
-      {/* <Panel theme_color={theme_color} /> */}
       <div className="Main">
         <div className="Label">Goals</div>
         {goals.split(",").map((goal, index) => (

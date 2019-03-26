@@ -9,8 +9,8 @@ const show = keyframes`
 `;
 
 export const Container = styled.div`
+  min-height: 200px;
   width: calc(50% - 10px);
-  min-height: 250px;
   height: auto;
   display: grid;
   grid-template: "main";
@@ -18,13 +18,13 @@ export const Container = styled.div`
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
   background-color: white;
   transition: all 0.1s ease-in-out;
-  margin-right: 10px;
+  margin-left: 10px;
   margin-top: var(--blockMargin);
   animation: ${show} 0.3s;
 
   div.Main {
     display: grid;
-    grid-template: "name" 40px "desc" "button" auto;
+    grid-template: "name" 40px "space" 10px "desc" "button" auto;
     grid-gap: 5px;
     padding: 20px;
 
@@ -33,27 +33,19 @@ export const Container = styled.div`
       border-bottom: solid 1px hsl(0, 0%, 90%);
       font-size: 25px;
     }
-
-    div.Goal {
-      margin: 5px;
-      display: flex;
-
-      > span.Index {
-        height: 25px;
-        padding-right: 5px;
-        font-size: 25px;
-        line-height: 25px;
-        margin-right: 10px;
-        border-right: 1px solid black;
-        color: black;
-      }
-      > span.Title {
-        color: gray;
-        padding-top: 2px;
-        font-size: 18px;
-      }
-    }
   }
+`;
+
+export const Technology = styled.span`
+  font-size: 22px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: ${({ theme_color }) => (theme_color ? theme_color : "black")};
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 50px;
+  border: solid 1px
+    ${({ theme_color }) =>
+      theme_color ? Color(theme_color).lighten(0.2) : "black"};
 `;
 
 export const Panel = styled.div`
