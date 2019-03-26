@@ -18,8 +18,8 @@ const state = "randomState";
 
 const gitHubRoutes = app => {
   app.get("/auth", (req, res) => {
-    const mailService = new MailService();
-    mailService.sendMail(" ");
+    // const mailService = new MailService();
+    // mailService.sendMail(" ");
 
     res.redirect(
       `${github_url_authorize}?client_id=${client_id}&scope=${scope}&allow_signup=${allow_signup}&state=${state}`

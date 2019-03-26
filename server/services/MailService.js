@@ -16,7 +16,7 @@ class MailService {
     });
 
     let mailOptions = {
-      from: '"Fred Foo 👻" <inno.project.test@gmail.com>', // sender address
+      from: '"Test inno point noreply" <inno.project.test@gmail.com>', // sender address
       to: "inno.project.test@gmail.com", // list of receivers
       subject: "Hello ✔", // Subject line
       text: "Hello world?", // plain text body
