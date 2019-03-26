@@ -14,6 +14,13 @@ const config = {
     client_secret: "6689a1dc924d845a4296030a710eaeaadc1c60e3",
     scope: "user",
     allow_signup: "true"
+  },
+
+  mailer: {
+    mailerAccount: "inno.project.test@gmail.com",
+    mailerPassword: "17bc8311-f8ce-4bd6-bce6-d796b4ce5863",
+    mailerHost: "smtp.elasticemail.com",
+    mailerPort: "2525"
   }
 };
 
