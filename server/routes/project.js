@@ -4,14 +4,16 @@ const DBConnection = require("../services/DBConnection");
 const projectRoutes = app => {
   app.get("/projects", (req, res) => {
     const database = new DBConnection();
-
-    sequelize.query('SELECT * FROM project')
-      .then(result => {
-        res.send(result);
+    console.log("Coś się zrobiło przed \n");
+    sequelize.query('SELECT * FROM project')          //można wykorzytać sequelize.query do wykonania zapytania surowego
+      .then(project => {
+        console.log(project);
+        res.send(project);
       })
       .then(() => {
         database.close();
       });
+      console.log("Coś się zrobiło!");
 
    /* database
       .query("SELECT * FROM project")

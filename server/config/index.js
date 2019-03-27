@@ -5,7 +5,7 @@ const config = {
     user: "root",
     password: "",
     socketPath: "",//"/Applications/MAMP/tmp/mysql/mysql.sock",
-    port: 8889
+    port: 3306
   },
   github: {
     github_url_authorize: "https://github.com/login/oauth/authorize",
