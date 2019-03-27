@@ -16,11 +16,11 @@ class MailService {
     });
 
     let mailOptions = {
-      from: '"Test inno point noreply" <inno.project.test@gmail.com>', // sender address
-      to: "inno.project.test@gmail.com", // list of receivers
+      from: '"Test inno point noreply" <' + config.mailerAccount + ">", // sender address
+      to: recipientEmail, // list of receivers
       subject: "Hello ✔", // Subject line
       text: "Hello world?", // plain text body
-      html: "<b>Hello world?</b>" // html body
+      html: "<b>Witam Artura?</b>" // html body
     };
 
     let info = await transporter.sendMail(mailOptions);
