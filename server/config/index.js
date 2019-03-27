@@ -15,10 +15,10 @@ const config = {
     scope: "user",
     allow_signup: "true"
   },
-  // api: "http://localhost:3030",
-  // appUrl: "http://localhost:3000"
-  api: "http://192.168.0.2:3030", // dom
-  appUrl: "http://192.168.0.2:3000" // dom
+  api: "http://localhost:3030",
+  appUrl: "http://localhost:3000"
+  // api: "http://192.168.0.2:3030", // dom
+  // appUrl: "http://192.168.0.2:3000" // dom
   // api: "http://192.168.10.117:3030", // LC
   // appUrl: "http://192.168.10.117:3000", // LC
 };
