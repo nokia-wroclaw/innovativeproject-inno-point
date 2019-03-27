@@ -7,4 +7,12 @@ export const Container = styled.div`
   display: grid;
   grid-template: "header main" / var(--headerWidth) auto;
   background-color: hsl(0, 0%, 95%);
+
+  @media (max-width: 700px) {
+    grid-template: "header main" / 80px auto;
+  }
+
+  @media (max-width: 470px) {
+    grid-template: "header main" / 60px auto;
+  }
 `;

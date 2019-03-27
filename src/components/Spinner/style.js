@@ -1,5 +1,8 @@
-export const spinnerStyle = {
-  position: "absolute",
-  left: "calc(50vw - 25px)",
-  top: "200px"
-};
+import styled, { keyframes } from "styled-components";
+
+export const Container = styled.div`
+  grid-area: ${({ gridArea }) => gridArea};
+  align-self: ${({ alignSelf }) => alignSelf};
+`;
+
+export const spinnerStyle = {};

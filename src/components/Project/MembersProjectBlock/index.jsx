@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Panel } from "./style";
-import { iconStyle, tableStyle, Container } from "./style";
+import { iconStyle, tableStyle, Container, Picture } from "./style";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -43,9 +43,16 @@ export default ({ members, theme_color }) => {
             const { name, surname } = element;
             return (
               <div className="Member">
-                <Person style={iconStyle} strokeWidth="10" />
+                {element.github_picture ? (
+                  <Picture
+                    src={element.github_picture}
+                    theme_color={theme_color}
+                  />
+                ) : (
+                  <Person style={iconStyle} />
+                )}
                 <div className="Data">
-                  {element.name} {name.length + surname.length > 15 && <br />}
+                  {element.name} {name.length > 15 && <br />}
                   {element.surname}
                 </div>
               </div>
