@@ -25,10 +25,15 @@ export const Container = styled.div`
   display: grid;
   justify-items: center;
   align-items: center;
-
   background: url("photos/bcg-new.png");
-  background-size: 100% 100%;
+  background-position: center;
+  background-size: ${({ loading }) => (!loading ? "100% 100%" : "200% 200%")};
   background-color: hsl(0, 0%, 90%);
+  transition: all 2s ease-in-out;
+
+  @media (max-width: 1000px) {
+    background: none;
+  }
 `;
 
 export const Img = styled.img`
@@ -36,11 +41,15 @@ export const Img = styled.img`
   bottom: -100px;
   left: calc(
     ${({ index }) => {
-        return (100 / 3) * (index % 3) + "%";
-      }} + 150px
+        return 25 + 25 * (index % 3) + "vw";
+      }} - 100px
   );
   width: 200px;
 
   animation: ${animationFrames1} linear 20s infinite
     calc(${props => props.index / 2}s + ${props => (props.index < 3 ? 0 : 10)}s);
+
+  @media (max-width: 1000px) {
+    display: none;
+  }
 `;

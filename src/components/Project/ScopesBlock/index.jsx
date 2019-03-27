@@ -3,7 +3,6 @@ import { Container, Panel } from "./style";
 
 export default ({ project }) => {
   const { scopes } = project[0];
-  console.log(project[0]);
   return (
     <Container>
       <div className="Main">

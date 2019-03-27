@@ -12,7 +12,7 @@ export const Element = styled.div`
   min-height: 150px;
   height: 100%;
   display: grid;
-  grid-template: "panel info" / 100px auto;
+  grid-template: "photo main" / 130px auto;
   cursor: pointer;
   border-radius: 8px;
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
@@ -28,45 +28,47 @@ export const Element = styled.div`
     transform: scale(1.02);
   }
 
-  div.Info {
+  div.Picture {
     display: grid;
-    grid-template: "name members" 30px "desc ." auto "tags tags" 40px / 5fr 1fr;
-    grid-gap: 10px;
-    padding: 15px;
+    align-items: center;
+    justify-items: center;
+    background: var(--gradientTop1);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
 
+  div.Main {
+    display: grid;
+    grid-template: "title" 30px "project" 30px "members" 30px;
+    padding: 10px;
+    grid-gap: 10px;
+
+    div.Title {
+      letter-spacing: 1px;
+      font-size: 16px;
+      border-bottom: solid 2px hsl(0, 0%, 80%);
+    }
     div.Name {
       grid-area: name;
       letter-spacing: 1px;
       font-size: 24px;
     }
 
-    div.Desc {
-      grid-area: desc;
+    div.Project {
       font-family: Arial, Helvetica, sans-serif;
       color: hsl(0, 0%, 60%);
     }
 
-    div.Tags {
-      grid-area: tags;
-      align-self: center;
-    }
-
     div.Members {
-      grid-area: members;
       display: flex;
-      fill: gray;
-      padding: 0px 5px;
-      align-items: center;
-      justify-self: end;
-      border: 1px solid hsl(0, 0%, 90%);
-      border-radius: 8px;
+      font-family: Arial, Helvetica, sans-serif;
+      color: hsl(0, 0%, 60%);
 
       > span {
+        border-radius: 8px;
+        margin-left: 5px;
+        color: #00336e;
         width: 20px;
-        color: gray;
-        margin-top: 1px;
-        margin-right: 3px;
-        margin-left: 3px;
       }
 
       > img {
@@ -84,7 +86,7 @@ export const Panel = styled.div`
       ? `linear-gradient(to left, ${theme_color}, ${Color(theme_color).darken(
           0.2
         )})`
-      : "var(--gradientLeft1)"};
+      : "hsl(0, 0%, 50%)"};
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
 `;
@@ -98,3 +100,15 @@ export const Tag = styled.span`
   color: gray;
   background-color: hsl(0, 0%, 95%);
 `;
+
+export const Picture = styled.img`
+  width: 80px;
+  opacity: 0.9;
+  border-radius: 50px;
+`;
+
+export const iconStyle = {
+  width: "80px",
+  height: "80px",
+  fill: "rgba(255, 255, 255, 0.7)"
+};

@@ -13,11 +13,15 @@ export const Container = styled.div`
   display: grid;
   grid-template: "panel form" / 170px auto;
   box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
+  border: 1px solid hsl(0, 0%, 85%);
+  border-radius: 8px;
   background-color: white;
   animation: ${show} 0.5s;
   transition: all 0.2s ease-in-out;
 
   div.Panel {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
     background: var(--gradientTop1);
   }
 

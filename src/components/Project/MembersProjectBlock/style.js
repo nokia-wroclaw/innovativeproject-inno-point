@@ -59,6 +59,14 @@ export const Panel = styled.div`
   border-bottom-left-radius: 8px;
 `;
 
+export const Picture = styled.img`
+  width: 60px;
+  border-radius: 50px;
+  border: solid 4px ${({ theme_color }) => theme_color};
+  margin: 20px;
+  margin-top: 25px;
+`;
+
 export const tableStyle = {
   boxShadow: "0px 0px 50px rgba(0, 0, 0, 0.1) !important",
   fontSize: "18px"
