@@ -74,6 +74,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true
 		}
 	}, {
-		tableName: 'project'
+		tableName: 'project',
+		timestamps: false,
 	});
 };

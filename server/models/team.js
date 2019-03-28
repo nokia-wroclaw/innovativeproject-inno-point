@@ -17,6 +17,7 @@ module.exports = function(sequelize, DataTypes) {
 			}
 		}
 	}, {
-		tableName: 'team'
+		tableName: 'team',
+		timestamps: false,
 	});
 };

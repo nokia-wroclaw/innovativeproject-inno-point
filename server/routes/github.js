@@ -5,6 +5,8 @@ const config = require("../config/index").github;
 const { getCode, getState, getToken } = require("../utils/selectors");
 const crypto = require("crypto");
 
+const User = require("../services/dbConnection");
+
 const {
   client_id,
   client_secret,
