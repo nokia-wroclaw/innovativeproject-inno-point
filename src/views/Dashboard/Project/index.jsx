@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import {
   MembersProjectBlock,
   ProjectMainBlock,
-  Spinner,
   DeleteProjectBlock,
   GoalsBlock,
   ScopesBlock,
@@ -11,7 +10,7 @@ import {
   TagsBlock
 } from "../../../components";
 
-import { MainContainer } from "./style";
+import { MainContainer, StyledSpinner } from "./style";
 
 import { readProjectsById } from "../../../api/projects";
 
@@ -25,7 +24,7 @@ const Project = props => {
 
   const { project, members } = data;
   if (!project || Object.keys(project).length === 0) {
-    return <Spinner />;
+    return <StyledSpinner />;
   }
   const { theme_color, goals, scopes, technology, tags } = project[0];
   return (

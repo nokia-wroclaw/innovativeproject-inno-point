@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { Container, MainContainer, FormContainer, TopBar } from "./style";
+import {
+  Container,
+  MainContainer,
+  FormContainer,
+  TopBar,
+  StyledSpinner
+} from "./style";
 
 import {
   tooltipStyle,
@@ -45,6 +51,17 @@ const Teams = () => {
     readUsers().then(response => setUsers(response.data));
     readProjects().then(response => setProjects(response.data));
   }, [update]);
+
+  if (
+    !projects ||
+    Object.keys(projects).length === 0 ||
+    !users ||
+    Object.keys(users).length === 0 ||
+    !teams ||
+    Object.keys(teams).length === 0
+  ) {
+    return <StyledSpinner />;
+  }
 
   return (
     <div>

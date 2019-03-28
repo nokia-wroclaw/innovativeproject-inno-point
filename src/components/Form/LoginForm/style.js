@@ -74,7 +74,7 @@ export const Container = styled.div`
 export const Form = styled.form`
   height: 380px;
   display: grid;
-  grid-template: "." 1px "email" 30px "pass" 30px "button" auto "github" 35px "space" 7px;
+  grid-template: "email" 20px "." 10px "pass" 20px "button" auto "github" 35px "space" 7px / 300px;
   grid-gap: 10px;
   background-color: transparent;
   padding: 10px;

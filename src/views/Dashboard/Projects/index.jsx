@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { projectCreateRequest } from "../../../actions";
 
 import {
   Container,
   MainContainer,
   TopBar,
   StyledTooltip,
-  StyledBottomNavigation
+  StyledBottomNavigation,
+  StyledSpinner
 } from "./style";
 
 import { fabAddStyle, iconAddStyle } from "./style";
@@ -29,7 +33,7 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-const Projects = () => {
+const Projects = props => {
   const [typeOfList, setTypeOfList] = useState("block");
   const [projects, setProjects] = useState([]);
   const [update, setUpdate] = useState(false);
@@ -51,12 +55,20 @@ const Projects = () => {
     readProjects().then(response => setProjects(response.data));
   }, [update]);
 
+  if (!projects || projects.length === 0) {
+    return <StyledSpinner />;
+  }
+
   return (
     <div>
       <TopBar>
         <div className="Searchbar">
           <InputBase placeholder="Search…" style={{ width: "100%" }} />
-          <SearchIcon />
+          <SearchIcon
+            onClick={() => {
+              props.createProject();
+            }}
+          />
         </div>
       </TopBar>
       <MainContainer>
@@ -98,10 +110,20 @@ const Projects = () => {
           handleClose={handleClose}
         />
       </Dialog>
-
-      {/* {formDisplaying && <FormContainer />} */}
     </div>
   );
 };
 
-export default Projects;
+const mapState = state => ({
+  projects: state.projects
+});
+
+const mapDispatch = dispatch => ({
+  createProject: () =>
+    dispatch(projectCreateRequest("dominik jest super programista :)"))
+});
+
+export default connect(
+  mapState,
+  mapDispatch
+)(Projects);

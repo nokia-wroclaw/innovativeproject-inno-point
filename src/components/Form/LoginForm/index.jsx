@@ -3,9 +3,11 @@ import { createGlobalStyle } from "styled-components";
 import config from "../../../config";
 
 import { Form, Container } from "./style";
-import Input from "../../Input";
 import Button from "../../Button";
 import Spinner from "../../Spinner";
+import TextField from "@material-ui/core/TextField";
+
+import { textFieldValidator } from "../../../utils/validators";
 
 const GlobalStyle = createGlobalStyle`
    body{
@@ -16,9 +18,15 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const LoginForm = props => {
-  const onLogin = event => {
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+
+  const onLogin = async event => {
     event.preventDefault();
-    props.setLoading(true);
+    const check = textFieldValidator(login) || textFieldValidator(password);
+    setError(check);
+    props.setLoading(!check);
   };
 
   const onLoginWithGitHub = event => {
@@ -31,12 +39,21 @@ const LoginForm = props => {
     <Container>
       <GlobalStyle />
       <Form gridArea={props.gridArea}>
-        <Input placeholder="e-mail" size="large" gridArea="email" />
-        <Input
-          placeholder="password"
-          size="large"
+        <TextField
+          label="login"
+          type="text"
+          value={login}
+          onChange={e => setLogin(e.target.value)}
+          error={error}
+          style={{ gridArea: "email", width: "100%" }}
+        />
+        <TextField
+          label="password"
           type="password"
-          gridArea="pass"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          error={error}
+          style={{ gridArea: "pass", width: "100%" }}
         />
         {props.loading ? (
           <Spinner gridArea="github" alignSelf="end" />
@@ -57,7 +74,7 @@ const LoginForm = props => {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplate: '"icon text space"/2fr 5fr 1fr',
+                    gridTemplate: '"icon text space" / 2fr 5fr 1fr',
                     alignItems: "center"
                   }}
                 >

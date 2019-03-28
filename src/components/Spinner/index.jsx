@@ -4,6 +4,6 @@ import { spinnerStyle, Container } from "./style";
 
 export default props => (
   <Container {...props}>
-    <CircularProgress size={50} style={spinnerStyle} />
+    <CircularProgress size={100} style={spinnerStyle} />
   </Container>
 );

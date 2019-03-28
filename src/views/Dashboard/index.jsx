@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 
-import { News, Profile, Header, Settings, Manager } from "../../components";
+import { Header } from "../../components";
 
 import Project from "./Project";
 import Projects from "./Projects";
 import Teams from "./Teams";
+import News from "./News";
+import Profile from "./Profile";
+import Settings from "./Settings";
+import Manager from "./Manager";
 
 import { Container } from "./style";
 
