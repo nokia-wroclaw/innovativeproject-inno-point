@@ -56,7 +56,7 @@ const LoginForm = props => {
           style={{ gridArea: "pass", width: "100%" }}
         />
         {props.loading ? (
-          <Spinner gridArea="github" alignSelf="end" />
+          <Spinner gridArea="github" alignSelf="end" size={50} />
         ) : (
           <Fragment>
             <Button
@@ -65,7 +65,7 @@ const LoginForm = props => {
               label="Log In"
               alignSelf="end"
               gridArea="button"
-              onClick={onLogin}
+              onClick={event => event.preventDefault()}
             />
             <Button
               size="large"

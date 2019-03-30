@@ -2,7 +2,7 @@ import React from "react";
 import { Container } from "./style";
 
 export default ({ project }) => {
-  const { goals } = project[0];
+  const { goals } = project;
   return (
     <Container>
       <div className="Main">

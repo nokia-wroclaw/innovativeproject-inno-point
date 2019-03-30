@@ -2,18 +2,25 @@ import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider } from "react-redux";
-import { configureStore } from "redux-starter-kit";
+import { configureStore, getDefaultMiddleware } from "redux-starter-kit";
+import { createStore, applyMiddleware } from "redux";
+import createSagaMiddleware from "redux-saga";
+
+import { SnackbarProvider } from "notistack";
 
 import { Welcome, Dashboard } from "./views";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
 
-import rootReducer from "./reducers";
+import reducers from "./reducers";
+import mySaga from "./sagas";
 
+const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
-  reducer: rootReducer,
-  middleware: []
+  reducer: reducers,
+  middleware: [...getDefaultMiddleware(), sagaMiddleware]
 });
+sagaMiddleware.run(mySaga);
 
 const App = () => {
   return (
@@ -28,5 +35,11 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const IntegrationNotistack = () => (
+  <SnackbarProvider maxSnack={3}>
+    <App />
+  </SnackbarProvider>
+);
+
+ReactDOM.render(<IntegrationNotistack />, document.getElementById("root"));
 serviceWorker.unregister();

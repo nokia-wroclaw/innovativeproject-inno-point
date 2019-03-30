@@ -8,6 +8,5 @@ export const StyledSpinner = styled(Spinner)`
 `;
 
 export const MainContainer = styled.div`
-  width: 100%;
-  padding: 40px;
+  padding: 100px;
 `;

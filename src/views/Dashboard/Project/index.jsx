@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+
+import { getProjectById } from "../../../store/selectors";
+import { projectsReadRequest } from "../../../actions";
 
 import {
   MembersProjectBlock,
@@ -12,31 +16,23 @@ import {
 
 import { MainContainer, StyledSpinner } from "./style";
 
-import { readProjectsById } from "../../../api/projects";
-
 const Project = props => {
-  const [data, setData] = useState({});
-  const id = props.match.params.id;
+  useEffect(() => {}, []);
 
-  useEffect(() => {
-    readProjectsById(id).then(response => setData(response.data));
-  }, []);
-
-  const { project, members } = data;
+  const { project, members } = props;
   if (!project || Object.keys(project).length === 0) {
     return <StyledSpinner />;
   }
-  const { theme_color, goals, scopes, technology, tags } = project[0];
+  const { theme_color, goals, scopes, technology, tags } = project;
   return (
     <MainContainer>
       <ProjectMainBlock project={project} />
-      {members.length > 0 && (
+      {/* {members.length > 0 && (
         <MembersProjectBlock members={members} theme_color={theme_color} />
-      )}
+      )} */}
       <div
         style={{
-          display: "flex",
-          width: "calc(100% - var(--projectMargin))"
+          display: "flex"
         }}
       >
         {goals && <GoalsBlock project={project} />}
@@ -44,8 +40,7 @@ const Project = props => {
       </div>
       <div
         style={{
-          display: "flex",
-          width: "calc(100% - var(--projectMargin))"
+          display: "flex"
         }}
       >
         {technology && <TechnologyBlock project={project} />}
@@ -56,4 +51,19 @@ const Project = props => {
   );
 };
 
-export default Project;
+const mapStateToProps = (state, ownProps) => {
+  const id = ownProps.match.params.id;
+  const currentProject = getProjectById(state, id);
+  return {
+    project: currentProject
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  readProjects: () => dispatch(projectsReadRequest())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Project);

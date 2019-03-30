@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Panel, Technology } from "./style";
 
 export default ({ project }) => {
-  const { technology, theme_color } = project[0];
+  const { technology, theme_color } = project;
   return (
     <Container>
       {/* <Panel theme_color={theme_color} /> */}

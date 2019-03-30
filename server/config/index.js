@@ -1,14 +1,5 @@
 const config = {
-  // db: { // local
-  //   host: "localhost",
-  //   database: "inno-point",
-  //   user: "root",
-  //   password: "tosia123sl",
-  //   socketPath: "/Applications/MAMP/tmp/mysql/mysql.sock",
-  //   port: 8889
-  // },
   db: {
-    // remote
     host: "mydatabase.cbcpl7nwu3lo.us-east-1.rds.amazonaws.com",
     database: "inno_point",
     port: 3306,
@@ -27,10 +18,6 @@ const config = {
   },
   api: "http://localhost:3030",
   appUrl: "http://localhost:3000"
-  // api: "http://192.168.0.2:3030", // dom
-  // appUrl: "http://192.168.0.2:3000" // dom
-  // api: "http://192.168.10.117:3030", // LC
-  // appUrl: "http://192.168.10.117:3000", // LC
 };
 
 module.exports = config;
