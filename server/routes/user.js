@@ -1,4 +1,4 @@
-const User = require("../services/dbConnection");
+const { User } = require("../services/dbConnection");
 
 const userRoutes = app => {
   app.get("/users", (req, res) => {

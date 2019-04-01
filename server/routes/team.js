@@ -1,4 +1,4 @@
-const Team = require("../services/dbConnection");
+const { Team } = require("../services/dbConnection");
 
 const teamRoutes = app => {
   app.get("/teams", (req, res) => {

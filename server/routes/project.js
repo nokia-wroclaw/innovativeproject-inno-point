@@ -1,4 +1,4 @@
-const Project  = require("../services/dbConnection");
+const { Project, User } = require("../services/dbConnection");
 
 const projectRoutes = app => {
   app.get("/projects", (req, res) => {
@@ -10,17 +10,16 @@ const projectRoutes = app => {
   app.get("/projects/:id", (req, res) => {
     const id = parseInt(req.params.id);
     let project, members;
-
     Project.findAll({
       where: {
         team_id: id
       }})
       .then(result => {
-        project = result;
-        return Project.findAll({ where: {team_id: id }});
+        project = JSON.stringify(result);
+        return User.findAll({ where: {team_id: id }});
       })
       .then(result => {
-        members = result;
+        members = JSON.stringify(result);
         res.send({ project, members });
       })
   });

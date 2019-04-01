@@ -1,11 +1,27 @@
-const { User, Team, Project } = require("../services/dbConnection");
+const { Project, User } = require("../services/dbConnection");
 
+const id = 1;
 const testSequelizer = app => {
+
+
   app.get("/test", (req, res) => {
-    res.send("ddd");
-    Project.findAll().then(users => {
-      console.log("All projects:", JSON.stringify(users, null, 4));
-    });
+    //const id = parseInt(req.params.id);
+    let project, members;
+
+    Project.findAll({
+      where: {
+        team_id: id
+      }})
+      .then(result => {
+        project = JSON.stringify(result);
+        console.log(project);
+        return User.findAll({ where: {team_id: id }});
+      })
+      .then(result => {
+        members = JSON.stringify(result);
+        console.log(members);
+        res.send({ project, members });
+      })
   });
 };
 
