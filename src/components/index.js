@@ -6,6 +6,7 @@ import Header from "./Header";
 import MembersProjectBlock from "./Project/MembersProjectBlock";
 import Spinner from "./Spinner";
 import DeleteProjectBlock from "./Project/DeleteProjectBlock";
+import VerifyProjectBlock from "./Project/VerifyProjectBlock";
 import GoalsBlock from "./Project/GoalsBlock";
 import ScopesBlock from "./Project/ScopesBlock";
 import TechnologyBlock from "./Project/TechnologyBlock";
@@ -27,5 +28,6 @@ export {
   TechnologyBlock,
   TagsBlock,
   TeamCard,
-  TeamForm
+  TeamForm,
+  VerifyProjectBlock
 };

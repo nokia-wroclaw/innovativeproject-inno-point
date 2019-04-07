@@ -1,5 +1,6 @@
 const config = {
   db: {
+    // remote
     host: "mydatabase.cbcpl7nwu3lo.us-east-1.rds.amazonaws.com",
     database: "inno_point",
     port: 3306,

@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import {
   projectsReadRequest,
   teamsReadRequest,
-  usersReadRequest
+  usersReadRequest,
+  userReadRequest
 } from "../../actions";
 
 import { Header } from "../../components";
@@ -21,10 +22,16 @@ import Manager from "./Manager";
 import { Container } from "./style";
 
 const Dashboard = props => {
+  const search = props.location.search;
+  const id = search.substr(search.indexOf("id") + 3, search.length);
+
   useEffect(() => {
     props.readProjects();
     props.readTeams();
     props.readUsers();
+    if (id) {
+      props.readUser(id);
+    }
   }, []);
 
   return (
@@ -48,7 +55,8 @@ const Dashboard = props => {
 const mapDispatchToProps = dispatch => ({
   readProjects: () => dispatch(projectsReadRequest()),
   readTeams: () => dispatch(teamsReadRequest()),
-  readUsers: () => dispatch(usersReadRequest())
+  readUsers: () => dispatch(usersReadRequest()),
+  readUser: id => dispatch(userReadRequest({ id }))
 });
 
 export default connect(

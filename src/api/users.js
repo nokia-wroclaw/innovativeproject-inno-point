@@ -3,7 +3,10 @@ import createApiRequest from "../utils/createApiRequest";
 
 export const readUsers = () => createApiRequest(GET, "/users");
 
-export const readUsersById = id => createApiRequest(GET, `/users/${id}`);
+export const readUser = id => {
+  console.log(id);
+  return createApiRequest(GET, `/users/${id}`);
+};
 
 export const createUsers = user =>
   createApiRequest(POST, "/users", {

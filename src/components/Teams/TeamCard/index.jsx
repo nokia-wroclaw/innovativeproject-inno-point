@@ -10,19 +10,28 @@ export default ({ team, users, project, index }) => {
     <Link to={`/dashboard/teams/${team.id}`}>
       <Element key={index} delay={index}>
         <div className="Picture">
-          {leader ? (
+          {/* {leader ? (
             leader.github_picture ? (
               <Picture src={leader.github_picture} />
             ) : (
               <AccountCircle style={iconStyle} />
             )
-          ) : (
-            <AccountCircle style={iconStyle} />
-          )}
+          ) : ( */}
+          {/* <AccountCircle style={iconStyle} /> */}
+          {/* )} */}
         </div>
         <div className="Main">
           <div className="Title">
-            ID <b>{team.id}</b>
+            {leader.github_picture ? (
+              <Picture src={leader.github_picture} />
+            ) : (
+              <AccountCircle style={iconStyle} />
+            )}
+            <span>{leader ? `${leader.name}'s Team` : "Unknow Team"}</span>
+          </div>
+          <div className="Members">
+            <span>{users.length}</span>
+            <img src="/icons/member.svg" />
           </div>
           <div className="Project">
             {project ? (
@@ -33,8 +42,9 @@ export default ({ team, users, project, index }) => {
               "No project chosen"
             )}
           </div>
-          <div className="Members">
-            Mambers: <span>0/5</span>
+          <div className="Status">
+            Status:
+            <b style={{ color: "#00336e" }}> {team.open ? "Open" : "Close"}</b>
           </div>
         </div>
       </Element>

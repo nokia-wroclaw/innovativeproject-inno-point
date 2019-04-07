@@ -28,31 +28,7 @@ const Manager = props => {
     projects = projects.filter(project => project.name.includes(inputValue));
   }
 
-  return (
-    <MainContainer>
-      <TopBar>
-        <div className="Searchbar">
-          <InputBase
-            placeholder="Search…"
-            style={{ width: "100%" }}
-            onChange={e => setInputValue(e.target.value)}
-          />
-          <SearchIcon
-            onClick={() => {
-              props.createProject();
-            }}
-          />
-        </div>
-      </TopBar>
-      <Container>
-        {Object.keys(projects).length !== 0 &&
-          projects.length !== 0 &&
-          projects.map((project, index) => (
-            <ProjectCard project={project} index={index} />
-          ))}
-      </Container>
-    </MainContainer>
-  );
+  return <div>Manager</div>;
 };
 
 const mapStateToProps = state => {

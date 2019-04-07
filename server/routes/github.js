@@ -66,7 +66,9 @@ const gitHubRoutes = app => {
               database.close();
             })
             .then(() =>
-              res.redirect(`${appUrl}/dashboard/projects?access_token=${token}`)
+              res.redirect(
+                `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
+              )
             );
         });
       });

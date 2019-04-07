@@ -45,7 +45,7 @@ export const TopBar = styled.div`
   width: 100%;
   height: 40px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   padding: 5px;
 
@@ -71,6 +71,17 @@ export const TopBar = styled.div`
       width: 250px;
       transition: all 0.1s ease-in-out;
     }
+  }
+
+  > div.Label {
+    align-items: center;
+    margin-top: 50px;
+    margin-left: 60px;
+    font-size: 20px;
+    padding: 5px 15px;
+    border-radius: 8px;
+    color: gray;
+    background: white;
   }
 `;
 export const FormContainer = styled.div`

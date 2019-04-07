@@ -16,7 +16,10 @@ import {
   userCreateRequest,
   usersReadRequest,
   usersReadSuccess,
-  usersReadFailure
+  usersReadFailure,
+  userReadRequest,
+  userReadSuccess,
+  userReadFailure
 } from "./users";
 
 export {
@@ -31,5 +34,8 @@ export {
   userCreateRequest,
   usersReadRequest,
   usersReadSuccess,
-  usersReadFailure
+  usersReadFailure,
+  userReadRequest,
+  userReadSuccess,
+  userReadFailure
 };

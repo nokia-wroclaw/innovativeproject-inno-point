@@ -17,10 +17,13 @@ const updateProject = project =>
 
 const deleteProject = id => createApiRequest(DELETE, `/projects/${id}`);
 
+const verifyProject = id => createApiRequest(PUT, `/projects/verify/${id}`);
+
 export {
   readProjects,
   readProjectsById,
   createProject,
   updateProject,
-  deleteProject
+  deleteProject,
+  verifyProject
 };

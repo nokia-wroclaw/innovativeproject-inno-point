@@ -36,14 +36,29 @@ import { List, GridOn } from "@material-ui/icons";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 
+import Dialog from "@material-ui/core/Dialog";
+import Slide from "@material-ui/core/Slide";
+
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
+
 const Teams = props => {
   const [typeOfList, setTypeOfList] = useState("block");
   const [formDisplaying, setFormDisplaying] = useState(false);
-
+  const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState(false);
 
   function handleChange(event, newValue) {
     setTypeOfList(newValue);
+  }
+
+  function handleClickOpen() {
+    setOpen(true);
+  }
+
+  function handleClose() {
+    setOpen(false);
   }
 
   useEffect(() => {
@@ -72,6 +87,7 @@ const Teams = props => {
   return (
     <div>
       <TopBar>
+        <div className="Label">Teams</div>
         <div className="Searchbar">
           <InputBase placeholder="Search…" style={{ width: "100%" }} />
           <SearchIcon />
@@ -108,7 +124,9 @@ const Teams = props => {
         title={formDisplaying ? "" : "Add team"}
         aria-label="Add"
         style={tooltipStyle}
-        onClick={() => setFormDisplaying(!formDisplaying)}
+        onClick={() => {
+          handleClickOpen();
+        }}
       >
         <Link to="#">
           <Fab style={formDisplaying ? fabBackStyle : fabAddStyle}>
@@ -116,15 +134,20 @@ const Teams = props => {
           </Fab>
         </Link>
       </Tooltip>
-      {formDisplaying && (
-        <FormContainer>
-          <TeamForm
-            close={setFormDisplaying}
-            setUpdate={setUpdate}
-            update={update}
-          />
-        </FormContainer>
-      )}
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        maxWidth={false}
+        onClose={handleClose}
+      >
+        <TeamForm
+          user={props.user}
+          setUpdate={setUpdate}
+          update={update}
+          handleClose={handleClose}
+        />
+      </Dialog>
     </div>
   );
 };
@@ -132,7 +155,8 @@ const Teams = props => {
 const mapStateToProps = state => ({
   teams: state.teams,
   projects: state.projects,
-  users: state.users
+  users: state.users,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({

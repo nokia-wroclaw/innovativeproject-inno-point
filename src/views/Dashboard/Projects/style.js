@@ -64,7 +64,7 @@ export const TopBar = styled.div`
   width: 100%;
   height: 40px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   padding: 5px;
 
@@ -91,6 +91,17 @@ export const TopBar = styled.div`
       transition: all 0.1s ease-in-out;
     }
   }
+
+  > div.Label {
+    align-items: center;
+    margin-top: 50px;
+    margin-left: 60px;
+    font-size: 20px;
+    padding: 5px 15px;
+    border-radius: 8px;
+    color: gray;
+    background: white;
+  }
 `;
 
 export const FormContainer = styled.div`
@@ -109,9 +120,9 @@ export const StyledTooltip = styled(Tooltip)`
   }
 `;
 
-export const StyledBottomNavigation = styled(BottomNavigation)`
+export const StyledTypeOfList = styled(BottomNavigation)`
   width: 170px;
-  right: 115px;
+  right: 300px;
   bottom: 5%;
   position: fixed;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
@@ -122,6 +133,17 @@ export const StyledBottomNavigation = styled(BottomNavigation)`
   @media (max-width: 1175px) {
     display: none !important;
   }
+`;
+
+export const StyledTypeOfProjects = styled(BottomNavigation)`
+  width: 170px;
+  right: 115px;
+  bottom: 5%;
+  position: fixed;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  font-size: 5px;
+  transition: all 0.2s ease-in-out;
 `;
 
 export const fabAddStyle = {

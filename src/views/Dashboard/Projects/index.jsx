@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import styled from "styled-components/macro";
 
 import { getVerifiedProjects } from "../../../store/selectors";
 import { projectsReadRequest } from "../../../actions";
@@ -10,8 +11,9 @@ import {
   MainContainer,
   TopBar,
   StyledTooltip,
-  StyledBottomNavigation,
-  StyledSpinner
+  StyledTypeOfList,
+  StyledSpinner,
+  StyledTypeOfProjects
 } from "./style";
 
 import { fabAddStyle, iconAddStyle } from "./style";
@@ -21,12 +23,17 @@ import { ProjectCard, TopicForm } from "../../../components";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import { List, GridOn } from "@material-ui/icons";
+import { List, GridOn, VerifiedUser, Schedule } from "@material-ui/icons";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 
 import Dialog from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
+
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -34,6 +41,7 @@ function Transition(props) {
 
 const Projects = props => {
   const [typeOfList, setTypeOfList] = useState("block");
+  const [typeOfProject, setTypeOfProject] = useState("verified");
   const [update, setUpdate] = useState(false);
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -46,8 +54,12 @@ const Projects = props => {
     setOpen(false);
   }
 
-  function handleChange(event, newValue) {
+  function handleTypeOfList(event, newValue) {
     setTypeOfList(newValue);
+  }
+
+  function handleTypeOfProject(event, newValue) {
+    setTypeOfProject(newValue);
   }
 
   useEffect(() => {
@@ -64,9 +76,16 @@ const Projects = props => {
     projects = projects.filter(project => project.name.includes(inputValue));
   }
 
+  if (typeOfProject === "verified") {
+    projects = projects.filter(project => project.verified);
+  } else {
+    projects = projects.filter(project => !project.verified);
+  }
+
   return (
     <div>
       <TopBar>
+        <div className="Label">Projects</div>
         <div className="Searchbar">
           <InputBase
             placeholder="Search…"
@@ -89,10 +108,25 @@ const Projects = props => {
             ))}
         </Container>
       </MainContainer>
-      <StyledBottomNavigation value={typeOfList} onChange={handleChange}>
+      <StyledTypeOfList value={typeOfList} onChange={handleTypeOfList}>
         <BottomNavigationAction label="Block" value="block" icon={<GridOn />} />
         <BottomNavigationAction label="List" value="list" icon={<List />} />
-      </StyledBottomNavigation>
+      </StyledTypeOfList>
+      <StyledTypeOfProjects
+        value={typeOfProject}
+        onChange={handleTypeOfProject}
+      >
+        <BottomNavigationAction
+          label="Verified"
+          value="verified"
+          icon={<VerifiedUser />}
+        />
+        <BottomNavigationAction
+          label="Pending"
+          value="pending"
+          icon={<Schedule />}
+        />
+      </StyledTypeOfProjects>
       <StyledTooltip
         title={"Add project"}
         aria-label="Add"
@@ -124,9 +158,9 @@ const Projects = props => {
 };
 
 const mapStateToProps = state => {
-  const verifiedProjects = getVerifiedProjects(state);
+  const projects = state.projects.items;
   return {
-    projects: verifiedProjects
+    projects
   };
 };
 

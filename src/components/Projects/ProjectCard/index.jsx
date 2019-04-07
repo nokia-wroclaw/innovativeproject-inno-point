@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Element, Tag, Panel } from "./style";
+import { VerifiedUser, Schedule } from "@material-ui/icons";
 
 import { Link } from "react-router-dom";
 
@@ -25,6 +26,9 @@ export default ({ project, index }) => (
             <img src="/icons/member.svg" />
           </div>
         )}
+        <div className="Status">
+          {project.verified ? <VerifiedUser /> : <Schedule />}
+        </div>
       </div>
     </Element>
   </Link>

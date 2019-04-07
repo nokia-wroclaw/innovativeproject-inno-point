@@ -5,7 +5,7 @@ export const readTeams = () => createApiRequest(GET, "/teams");
 
 export const readTeamsById = id => createApiRequest(GET, `/teams/${id}`);
 
-export const createTeams = team =>
+export const createTeam = team =>
   createApiRequest(POST, "/teams", {
     team
   });

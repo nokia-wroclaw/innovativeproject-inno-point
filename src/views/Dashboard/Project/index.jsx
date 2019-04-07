@@ -11,7 +11,8 @@ import {
   GoalsBlock,
   ScopesBlock,
   TechnologyBlock,
-  TagsBlock
+  TagsBlock,
+  VerifyProjectBlock
 } from "../../../components";
 
 import { MainContainer, StyledSpinner } from "./style";
@@ -23,7 +24,15 @@ const Project = props => {
   if (!project || Object.keys(project).length === 0) {
     return <StyledSpinner />;
   }
-  const { theme_color, goals, scopes, technology, tags } = project;
+  const {
+    id,
+    theme_color,
+    goals,
+    scopes,
+    technology,
+    tags,
+    verified
+  } = project;
   return (
     <MainContainer>
       <ProjectMainBlock project={project} />
@@ -46,7 +55,8 @@ const Project = props => {
         {technology && <TechnologyBlock project={project} />}
         {tags && <TagsBlock project={project} />}
       </div>
-      <DeleteProjectBlock project={project} />
+      {!verified && <VerifyProjectBlock id={id} />}
+      <DeleteProjectBlock id={id} />
     </MainContainer>
   );
 };

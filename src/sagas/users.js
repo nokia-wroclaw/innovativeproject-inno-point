@@ -3,7 +3,10 @@ import * as api from "../api/users";
 import {
   usersReadRequest,
   usersReadSuccess,
-  usersReadFailure
+  usersReadFailure,
+  userReadRequest,
+  userReadSuccess,
+  userReadFailure
 } from "../actions";
 
 function* fetchUsers() {
@@ -16,8 +19,20 @@ function* fetchUsers() {
   }
 }
 
+function* fetchUser({ payload: { id } }) {
+  try {
+    console.log(id);
+    const { data } = yield call(api.readUser, id);
+    yield put(userReadSuccess(data[0]));
+  } catch (e) {
+    console.log(e);
+    yield put(userReadFailure());
+  }
+}
+
 function* watchUsersRequests() {
   yield takeEvery(usersReadRequest, fetchUsers);
+  yield takeEvery(userReadRequest, fetchUser);
 }
 
 export { watchUsersRequests };

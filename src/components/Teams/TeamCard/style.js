@@ -9,10 +9,10 @@ const show = keyframes`
 `;
 
 export const Element = styled.div`
-  min-height: 150px;
   height: 100%;
+  min-height: 192px;
   display: grid;
-  grid-template: "photo main" / 130px auto;
+  grid-template: "photo main" / 100px auto;
   cursor: pointer;
   border-radius: 8px;
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
@@ -39,14 +39,21 @@ export const Element = styled.div`
 
   div.Main {
     display: grid;
-    grid-template: "title" 30px "project" 30px "members" 30px;
+    grid-template: "title members" 30px "project project" 30px "status status" 30px;
     padding: 10px;
     grid-gap: 10px;
+    align-items: center;
 
     div.Title {
+      grid-area: title;
+      display: flex;
+      align-items: center;
       letter-spacing: 1px;
-      font-size: 16px;
-      border-bottom: solid 2px hsl(0, 0%, 80%);
+      font-size: 20px;
+
+      > span {
+        margin-left: 10px;
+      }
     }
     div.Name {
       grid-area: name;
@@ -55,25 +62,51 @@ export const Element = styled.div`
     }
 
     div.Project {
+      grid-area: project;
       font-family: Arial, Helvetica, sans-serif;
       color: hsl(0, 0%, 60%);
     }
 
     div.Members {
+      grid-area: members;
+      height: 30px;
       display: flex;
-      font-family: Arial, Helvetica, sans-serif;
-      color: hsl(0, 0%, 60%);
+      fill: gray;
+      padding: 0px 5px;
+      align-items: center;
+      justify-self: end;
+      border: 1px solid hsl(0, 0%, 90%);
+      border-radius: 8px;
+
+      @media (max-width: 700px) {
+        justify-self: start;
+        height: 30px;
+      }
+
+      @media (max-width: 460px) {
+        display: none;
+      }
 
       > span {
-        border-radius: 8px;
-        margin-left: 5px;
-        color: #00336e;
         width: 20px;
+        color: gray;
+
+        @media (max-width: 460px) {
+          width: 10px;
+        }
       }
 
       > img {
         width: 18px;
+
+        @media (max-width: 460px) {
+          width: 9px;
+        }
       }
+    }
+
+    > div.Status {
+      color: hsl(0, 0%, 60%);
     }
   }
 `;
@@ -102,13 +135,13 @@ export const Tag = styled.span`
 `;
 
 export const Picture = styled.img`
-  width: 80px;
+  width: 35px;
   opacity: 0.9;
   border-radius: 50px;
 `;
 
 export const iconStyle = {
-  width: "80px",
-  height: "80px",
-  fill: "rgba(255, 255, 255, 0.7)"
+  width: "35px",
+  height: "35px",
+  fill: "gray"
 };
