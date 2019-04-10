@@ -2,7 +2,7 @@ import News from "./News";
 import { ProjectMainBlock } from "./Project/index";
 import { ProjectCard } from "./Projects/index";
 import Button from "./Button";
-import { LoginForm, TopicForm } from "./Form";
+import { LoginForm, TopicForm, TeamForm } from "./Form";
 import Profile from "./Profile";
 import Header from "./Header";
 import Settings from "./Settings";
@@ -15,6 +15,7 @@ import ScopesBlock from "./Project/ScopesBlock";
 import TechnologyBlock from "./Project/TechnologyBlock";
 import TagsBlock from "./Project/TagsBlock";
 import MailButton from "./MailButton";
+import { TeamCard } from "./Teams";
 
 export {
   News,
@@ -34,5 +35,10 @@ export {
   ScopesBlock,
   TechnologyBlock,
   TagsBlock,
+<<<<<<< HEAD
   MailButton
+=======
+  TeamCard,
+  TeamForm
+>>>>>>> master
 };

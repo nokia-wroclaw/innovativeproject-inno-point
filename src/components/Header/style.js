@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const show = keyframes`
   from {
     transform: translateX(-100px);
-    opacity: .2;
+    opacity: .8;
   }
 `;
 
@@ -16,7 +16,6 @@ export const Container = styled.header`
   display: grid;
   grid-template-rows: 40px repeat(4, 35px) auto repeat(2, 35px) 20px;
   background: var(--gradientHeader);
-  /* background-color: hsl(0, 0%, 15%); */
   box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
   animation: ${show} 0.5s;
 
@@ -29,14 +28,18 @@ export const Container = styled.header`
     color: white;
     display: flex;
     justify-content: center;
-
-    /* img {
-      width: 30px;
-    } */
   }
 
   div.Border {
     background-color: white;
+  }
+
+  @media (max-width: 700px) {
+    width: 80px;
+  }
+
+  @media (max-width: 470px) {
+    width: 60px;
   }
 `;
 
@@ -47,26 +50,34 @@ export const StyledLink = styled(Link)`
   padding: 0 10px;
   /* border-left: ${props =>
     props.to === props.pathname
-      ? "2px solid white"
-      : "2px solid transparent"}; */
+      ? "1px solid hsl(0, 0%, 70%)"
+      : "1px solid transparent"}; */
   background-color: ${props =>
     props.to === props.pathname ? "rgba(255, 255, 255, 0.1)" : "transparent"};
   display: flex;
   align-items: center;
 
+   @media (max-width: 700px) {
+     > span { 
+       display: none;
+     }
+     justify-content: center;
+  }
+
   span {
     @import url("https://fonts.googleapis.com/css?family=Lato");
     font-family: "Lato", sans-serif;
     display: inline-block;
+    letter-spacing: 1px;
     margin: 5px;
-    font-size: 13px;
+    font-size: 12px;
     text-align: center;
     transition: all 0.05s ease-in-out;
   }
-  /* :hover > span {
-    transform: translateX(5px);
-  } */
-  transition: all 0.05s ease-in-out;
+  :hover > span {
+    color: white;
+  }
+  transition: all 0.1s ease-in-out;
 `;
 
 export const iconStyle = {

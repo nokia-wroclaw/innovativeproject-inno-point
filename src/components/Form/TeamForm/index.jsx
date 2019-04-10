@@ -15,7 +15,7 @@ import {
   textAreaValidator
 } from "../../../utils/validators";
 
-class TopicForm extends Component {
+class TeamForm extends Component {
   state = {
     name: {
       value: "",
@@ -75,8 +75,8 @@ class TopicForm extends Component {
         createProject(project).then(() => {
           const { setUpdate, update } = this.props;
           setUpdate(!update);
-          this.props.handleClose();
         });
+        this.props.close(false);
       }
     }
   };
@@ -151,7 +151,6 @@ class TopicForm extends Component {
               size="small"
               label="Submit"
               gridArea="button"
-              color={true}
               style={{ justifySelf: "end", alignSelf: "end" }}
             />
           </Form>
@@ -160,4 +159,4 @@ class TopicForm extends Component {
     );
   }
 }
-export { TopicForm };
+export { TeamForm };

@@ -1,34 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { Container, MainContainer, FormContainer, TopBar } from "./style";
-
 import {
-  tooltipStyle,
-  fabAddStyle,
-  fabBackStyle,
-  typeOfListStyle,
-  iconAddStyle,
-  iconBackStyle
+  Container,
+  MainContainer,
+  TopBar,
+  StyledTooltip,
+  StyledBottomNavigation
 } from "./style";
+
+import { fabAddStyle, iconAddStyle } from "./style";
 
 import { ProjectCard, TopicForm } from "../../../components";
 
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
-import Tooltip from "@material-ui/core/Tooltip";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import { List, GridOn } from "@material-ui/icons";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 
+import Dialog from "@material-ui/core/Dialog";
+import Slide from "@material-ui/core/Slide";
+
 import { readProjects } from "../../../api/projects";
+
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
 
 const Projects = () => {
   const [typeOfList, setTypeOfList] = useState("block");
-  const [formDisplaying, setFormDisplaying] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [update, setUpdate] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  function handleClickOpen() {
+    setOpen(true);
+  }
+
+  function handleClose() {
+    setOpen(false);
+  }
 
   function handleChange(event, newValue) {
     setTypeOfList(newValue);
@@ -36,20 +49,16 @@ const Projects = () => {
 
   useEffect(() => {
     readProjects().then(response => setProjects(response.data));
-  });
-
-  const refresh = () => {
-    readProjects().then(response => setProjects(response.data));
-  };
+  }, [update]);
 
   return (
     <div>
-      {/* <TopBar>
+      <TopBar>
         <div className="Searchbar">
           <InputBase placeholder="Search…" style={{ width: "100%" }} />
           <SearchIcon />
         </div>
-      </TopBar> */}
+      </TopBar>
       <MainContainer>
         <Container typeOfList={typeOfList}>
           {projects &&
@@ -58,31 +67,39 @@ const Projects = () => {
             ))}
         </Container>
       </MainContainer>
-      <BottomNavigation
-        value={typeOfList}
-        onChange={handleChange}
-        style={typeOfListStyle}
-      >
+      <StyledBottomNavigation value={typeOfList} onChange={handleChange}>
         <BottomNavigationAction label="Block" value="block" icon={<GridOn />} />
         <BottomNavigationAction label="List" value="list" icon={<List />} />
-      </BottomNavigation>
-      <Tooltip
-        title={formDisplaying ? "" : "Add project"}
+      </StyledBottomNavigation>
+      <StyledTooltip
+        title={"Add project"}
         aria-label="Add"
-        style={tooltipStyle}
-        onClick={() => setFormDisplaying(!formDisplaying)}
+        onClick={() => {
+          handleClickOpen();
+        }}
       >
         <Link to="#">
-          <Fab style={formDisplaying ? fabBackStyle : fabAddStyle}>
-            <AddIcon style={formDisplaying ? iconBackStyle : iconAddStyle} />
+          <Fab style={fabAddStyle}>
+            <AddIcon style={iconAddStyle} />
           </Fab>
         </Link>
-      </Tooltip>
-      {formDisplaying && (
-        <FormContainer>
-          <TopicForm close={setFormDisplaying} refresh={refresh} />
-        </FormContainer>
-      )}
+      </StyledTooltip>
+
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        maxWidth={false}
+        onClose={handleClose}
+      >
+        <TopicForm
+          setUpdate={setUpdate}
+          update={update}
+          handleClose={handleClose}
+        />
+      </Dialog>
+
+      {/* {formDisplaying && <FormContainer />} */}
     </div>
   );
 };

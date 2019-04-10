@@ -16,15 +16,20 @@ export const StyledButton = styled.button`
   }};
   height: 35px;
   background: ${({ color }) => {
-    switch (color) {
-      case "red":
-        return "var(--gradientLeft2)";
-      case "black":
-        return "black";
-      default:
-        return "var(--gradientLeft1)";
+    if (color) {
+      switch (color) {
+        case "red":
+          return "var(--gradientLeft2)";
+        case "black":
+          return "black";
+        case "gray":
+          return "gray";
+        default:
+          return "var(--gradientLeft1)";
+      }
     }
   }};
+  background-color: ${({ bcg }) => bcg};
   align-self: ${props => props.alignSelf};
   border-radius: 8px;
   color: white;
@@ -39,6 +44,6 @@ export const StyledButton = styled.button`
 
   :active {
     filter: brightness(1.2);
-    transform: scale(1.02);
+    transform: scale(1.05);
   }
 `;

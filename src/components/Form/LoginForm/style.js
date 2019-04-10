@@ -15,12 +15,20 @@ export const Container = styled.div`
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
 
+  @media (max-width: 650px) {
+    border-radius: 8px;
+  }
+
   div.Panel {
     width: 300px;
     height: 400px;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     background: var(--gradientTop1);
+
+    @media (max-width: 650px) {
+      display: none;
+    }
 
     div.Title {
       padding: 10px;
@@ -66,7 +74,7 @@ export const Container = styled.div`
 export const Form = styled.form`
   height: 380px;
   display: grid;
-  grid-template: "." 1px "email" 30px "pass" 30px "button" auto "github" 30px;
+  grid-template: "." 1px "email" 30px "pass" 30px "button" auto "github" 35px "space" 7px;
   grid-gap: 10px;
   background-color: transparent;
   padding: 10px;

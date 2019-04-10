@@ -21,7 +21,10 @@ const config = {
     mailerPassword: "17bc8311-f8ce-4bd6-bce6-d796b4ce5863",
     mailerHost: "smtp.elasticemail.com",
     mailerPort: "2525"
-  }
+  },
+
+  api: "http://localhost:3030",
+  appUrl: "http://localhost:3000"
 };
 
 module.exports = config;
