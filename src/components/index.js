@@ -35,10 +35,7 @@ export {
   ScopesBlock,
   TechnologyBlock,
   TagsBlock,
-<<<<<<< HEAD
-  MailButton
-=======
+  MailButton,
   TeamCard,
   TeamForm
->>>>>>> master
 };

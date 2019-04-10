@@ -20,7 +20,7 @@ class MailService {
       to: recipientEmail, // list of receivers
       subject: "Hello ✔", // Subject line
       text: "Hello world?", // plain text body
-      html: "<b>Witam Artura?</b>" // html body
+      html: "<b>Witam </b>" // html body
     };
 
     let info = await transporter.sendMail(mailOptions);
