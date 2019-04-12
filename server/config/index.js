@@ -1,12 +1,21 @@
 const config = {
+  // db: {
+  //   // remote
+  //   host: "mydatabase.cbcpl7nwu3lo.us-east-1.rds.amazonaws.com",
+  //   database: "inno_point",
+  //   port: 3306,
+  //   user: "admin",
+  //   password: "databaseinnopoint",
+  //   socketPath: "",
+  //   waitForConnections: true
+  // },
   db: {
-    // remote
-    host: "mydatabase.cbcpl7nwu3lo.us-east-1.rds.amazonaws.com",
-    database: "inno_point",
-    port: 3306,
-    user: "admin",
-    password: "databaseinnopoint",
-    socketPath: "",
+    host: "localhost",
+    database: "inno-point",
+    port: 8889,
+    user: "root",
+    password: "tosia123sl",
+    socketPath: "/Applications/MAMP/tmp/mysql/mysql.sock",
     waitForConnections: true
   },
   github: {

@@ -38,8 +38,7 @@ export const Form = styled.form`
   display: grid;
   grid-template:
     "title title" 35px
-    "number number" 55px
-    "status status" 55px
+    "number status" 55px
     ". button" auto
     ". ." 1px
     / 3fr 2fr;

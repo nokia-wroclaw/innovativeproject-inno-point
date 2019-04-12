@@ -9,8 +9,8 @@ const show = keyframes`
 `;
 
 export const Container = styled.div`
+  grid-area: ${({ gridArea }) => gridArea};
   height: auto;
-
   display: grid;
   grid-template:
     "panel main"

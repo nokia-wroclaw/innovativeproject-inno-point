@@ -23,6 +23,10 @@ export const Element = styled.div`
     min-height: 192px;
   }
 
+  @media (min-width: 600px) {
+    min-height: 160px;
+  }
+
   :hover {
     box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.2);
   }
@@ -63,7 +67,7 @@ export const Element = styled.div`
       }
 
       @media (max-width: 460px) {
-        font-size: 14px;
+        font-size: 15px;
       }
     }
 
@@ -128,7 +132,6 @@ export const Element = styled.div`
 
       > img {
         width: 18px;
-
         @media (max-width: 460px) {
           width: 9px;
         }

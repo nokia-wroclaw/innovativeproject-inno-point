@@ -1,11 +1,20 @@
 import React, { useState } from "react";
 import { withSnackbar } from "notistack";
+import styled from "styled-components/macro";
 
 import TextField from "@material-ui/core/TextField";
-import ChipInput from "material-ui-chip-input";
-import MenuItem from "@material-ui/core/MenuItem";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import { LockOpen, Lock } from "@material-ui/icons";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemText from "@material-ui/core/ListItemText";
+import Avatar from "@material-ui/core/Avatar";
+import IconButton from "@material-ui/core/IconButton";
+
+import FolderIcon from "@material-ui/icons/Folder";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import { Form, Container, StyledSpinner, StyledStatusOfTeam } from "./style";
 import Button from "../../Button";
@@ -16,7 +25,9 @@ import { createTeam } from "../../../api/teams";
 import { textFieldValidator } from "../../../utils/validators";
 
 const TopicForm1 = props => {
-  const [typeOfProject, setTypeOfProject] = useState("open");
+  const [dense, setDense] = useState(false);
+  const [secondary, setSecondary] = useState(false);
+  const [typeOfProject, setTypeOfProject] = useState(true);
   const [number, setNumber] = useState({
     value: "",
     error: false
@@ -38,6 +49,14 @@ const TopicForm1 = props => {
     error: validator ? validator(value) : false
   });
 
+  function generate(element) {
+    return [0, 1, 2].map(value =>
+      React.cloneElement(element, {
+        key: value
+      })
+    );
+  }
+
   const handleSubmit = async event => {
     const fields = [number];
     const mathods = [setNumber];
@@ -45,7 +64,8 @@ const TopicForm1 = props => {
     if (fields.every(e => !e.error && e.value)) {
       const team = {
         number_of_members: number.value,
-        leader_id: props.user.id
+        leader_id: props.user.id,
+        open: typeOfProject
       };
       setWaiting(true);
       createTeam(team).then(() => {
@@ -55,6 +75,7 @@ const TopicForm1 = props => {
         props.enqueueSnackbar("Team has been created!", {
           variant: "success"
         });
+        setWaiting(false);
       });
     } else {
       mathods.map((e, i) =>
@@ -87,15 +108,39 @@ const TopicForm1 = props => {
           >
             <BottomNavigationAction
               label="Open"
-              value="open"
+              value={true}
               icon={<LockOpen />}
             />
             <BottomNavigationAction
               label="Close"
-              value="close"
+              value={false}
               icon={<Lock />}
             />
           </StyledStatusOfTeam>
+          {/* <List
+            dense={dense}
+            css={`
+              grid-area: list;
+              border: 1px solid rgba(0, 0, 0, 0.23);
+              border-radius: 8px;
+            `}
+          >
+            {generate(
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <FolderIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Single-line item" />
+                <ListItemSecondaryAction>
+                  <IconButton aria-label="Delete">
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            )}
+          </List> */}
           {waiting ? (
             <StyledSpinner
               size={30}

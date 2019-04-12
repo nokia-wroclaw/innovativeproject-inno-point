@@ -19,7 +19,7 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 export default withSnackbar(
-  withRouter(({ id, history, enqueueSnackbar }) => {
+  withRouter(({ id, history, enqueueSnackbar, gridArea }) => {
     const [open, setOpen] = useState(false);
 
     function handleClickOpen() {
@@ -39,7 +39,7 @@ export default withSnackbar(
       });
     }
     return (
-      <Container>
+      <Container gridArea={gridArea}>
         <div className="Main">
           <div className="Label">Verify this project</div>
           <div className="Info">

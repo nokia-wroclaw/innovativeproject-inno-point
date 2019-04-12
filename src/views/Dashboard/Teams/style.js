@@ -1,5 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import { Spinner } from "../../../components";
+import BottomNavigation from "@material-ui/core/BottomNavigation";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export const StyledSpinner = styled(Spinner)`
   margin-left: auto;
@@ -22,18 +24,41 @@ export const CompanyProjects = styled.div``;
 
 export const Container = styled.div`
   display: grid;
-  width: calc(100px + 3 * 450px);
 
-  ${props => {
-    switch (props.typeOfList) {
-      case "block":
-        return `grid-template-columns: repeat(3, 450px); 
+  @media (max-width: 700px) {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  @media (min-width: 1676px) {
+    ${props => {
+      switch (props.typeOfList) {
+        case "block":
+          return `grid-template-columns: repeat(3, 450px); 
                 grid-gap: 50px;`;
-      case "list":
-        return `grid-gap: 30px;`;
-    }
-  }}
-  margin: 50px auto;
+        case "list":
+          return `grid-gap: 30px; max-width: 1000px`;
+      }
+    }}
+  }
+
+  @media (max-width: 1675px) and (min-width: 1176px) {
+    ${props => {
+      switch (props.typeOfList) {
+        case "block":
+          return `grid-template-columns: repeat(2, 450px); 
+                grid-gap: 50px;`;
+        case "list":
+          return `grid-gap: 30px; max-width: 1000px`;
+      }
+    }}
+  }
+
+  @media (max-width: 1175px) {
+    grid-gap: 30px;
+  }
+
+  margin: 50px;
 
   > a {
     text-decoration: none;
@@ -45,7 +70,7 @@ export const TopBar = styled.div`
   width: 100%;
   height: 40px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding: 5px;
 
@@ -84,10 +109,37 @@ export const TopBar = styled.div`
     background: white;
   }
 `;
+
+export const StyledTypeOfList = styled(BottomNavigation)`
+  width: 170px;
+  right: 115px;
+  bottom: 5%;
+  position: fixed;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  font-size: 5px;
+  transition: all 0.2s ease-in-out;
+
+  @media (max-width: 1175px) {
+    display: none !important;
+  }
+`;
+
 export const FormContainer = styled.div`
   position: fixed;
   top: 150px;
   left: calc(50vw - 475px);
+`;
+
+export const StyledTooltip = styled(Tooltip)`
+  position: fixed;
+  right: 50px;
+  bottom: 5%;
+  transition: all 0.2s ease-in-out;
+
+  @media (max-width: 1175px) {
+    grid-gap: 30px;
+  }
 `;
 
 export const tooltipStyle = {

@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Element, Tag, Panel, Picture, iconStyle } from "./style";
 import { AccountCircle } from "@material-ui/icons";
+import { LockOpen, Lock } from "@material-ui/icons";
 
 import { Link } from "react-router-dom";
 
@@ -9,17 +10,7 @@ export default ({ team, users, project, index }) => {
   return (
     <Link to={`/dashboard/teams/${team.id}`}>
       <Element key={index} delay={index}>
-        <div className="Picture">
-          {/* {leader ? (
-            leader.github_picture ? (
-              <Picture src={leader.github_picture} />
-            ) : (
-              <AccountCircle style={iconStyle} />
-            )
-          ) : ( */}
-          {/* <AccountCircle style={iconStyle} /> */}
-          {/* )} */}
-        </div>
+        <div className="Picture" />
         <div className="Main">
           <div className="Title">
             {leader.github_picture ? (
@@ -36,15 +27,16 @@ export default ({ team, users, project, index }) => {
           <div className="Project">
             {project ? (
               <Fragment>
-                Project: <b style={{ color: "#00336e" }}>{project.name}</b>
+                Project:{" "}
+                <span style={{ color: "#00336e" }}>{project.name}</span>
               </Fragment>
             ) : (
               "No project chosen"
             )}
           </div>
           <div className="Status">
-            Status:
-            <b style={{ color: "#00336e" }}> {team.open ? "Open" : "Close"}</b>
+            <span> Status:</span>
+            <span>{team.open ? <LockOpen /> : <Lock />}</span>
           </div>
         </div>
       </Element>

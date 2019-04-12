@@ -10,7 +10,6 @@ const show = keyframes`
 
 export const Element = styled.div`
   height: 100%;
-  min-height: 192px;
   display: grid;
   grid-template: "photo main" / 100px auto;
   cursor: pointer;
@@ -19,6 +18,14 @@ export const Element = styled.div`
   animation: ${show} 0.3s;
   transition: all 0.1s ease-in-out;
   background-color: white;
+
+  @media (min-width: 700px) {
+    min-height: 192px;
+  }
+
+  @media (min-width: 600px) {
+    min-height: 160px;
+  }
 
   :hover {
     box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.2);
@@ -40,9 +47,25 @@ export const Element = styled.div`
   div.Main {
     display: grid;
     grid-template: "title members" 30px "project project" 30px "status status" 30px;
-    padding: 10px;
-    grid-gap: 10px;
+    padding: 15px;
+    grid-gap: 15px;
     align-items: center;
+
+    @media (max-width: 700px) {
+      grid-template: "title" 25px "members" 30px "project" 30px "status" 30px;
+    }
+
+    @media (max-width: 560px) {
+      font-size: 18px;
+    }
+
+    @media (max-width: 500px) {
+      grid-template: "title" 25px "members" 30px;
+    }
+
+    @media (max-width: 460px) {
+      grid-template: "title" 15px "members" 10px;
+    }
 
     div.Title {
       grid-area: title;
@@ -50,6 +73,14 @@ export const Element = styled.div`
       align-items: center;
       letter-spacing: 1px;
       font-size: 20px;
+
+      @media (max-width: 560px) {
+        font-size: 18px;
+      }
+
+      @media (max-width: 460px) {
+        font-size: 15px;
+      }
 
       > span {
         margin-left: 10px;
@@ -65,6 +96,10 @@ export const Element = styled.div`
       grid-area: project;
       font-family: Arial, Helvetica, sans-serif;
       color: hsl(0, 0%, 60%);
+
+      @media (max-width: 500px) {
+        display: none;
+      }
     }
 
     div.Members {
@@ -107,6 +142,12 @@ export const Element = styled.div`
 
     > div.Status {
       color: hsl(0, 0%, 60%);
+      display: flex;
+      align-items: center;
+
+      @media (max-width: 500px) {
+        display: none;
+      }
     }
   }
 `;

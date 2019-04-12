@@ -64,7 +64,7 @@ export const TopBar = styled.div`
   width: 100%;
   height: 40px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding: 5px;
 

@@ -14,9 +14,10 @@ import {
   tooltipStyle,
   fabAddStyle,
   fabBackStyle,
-  typeOfListStyle,
+  StyledTypeOfList,
   iconAddStyle,
-  iconBackStyle
+  iconBackStyle,
+  StyledTooltip
 } from "./style";
 
 import {
@@ -61,6 +62,10 @@ const Teams = props => {
     setOpen(false);
   }
 
+  function handleTypeOfList(event, newValue) {
+    setTypeOfList(newValue);
+  }
+
   useEffect(() => {
     props.readProjects();
     props.readTeams();
@@ -87,7 +92,6 @@ const Teams = props => {
   return (
     <div>
       <TopBar>
-        <div className="Label">Teams</div>
         <div className="Searchbar">
           <InputBase placeholder="Search…" style={{ width: "100%" }} />
           <SearchIcon />
@@ -112,28 +116,23 @@ const Teams = props => {
             })}
         </Container>
       </MainContainer>
-      <BottomNavigation
-        value={typeOfList}
-        onChange={handleChange}
-        style={typeOfListStyle}
-      >
+      <StyledTypeOfList value={typeOfList} onChange={handleTypeOfList}>
         <BottomNavigationAction label="Block" value="block" icon={<GridOn />} />
         <BottomNavigationAction label="List" value="list" icon={<List />} />
-      </BottomNavigation>
-      <Tooltip
-        title={formDisplaying ? "" : "Add team"}
+      </StyledTypeOfList>
+      <StyledTooltip
+        title={"Add project"}
         aria-label="Add"
-        style={tooltipStyle}
         onClick={() => {
           handleClickOpen();
         }}
       >
         <Link to="#">
-          <Fab style={formDisplaying ? fabBackStyle : fabAddStyle}>
-            <AddIcon style={formDisplaying ? iconBackStyle : iconAddStyle} />
+          <Fab style={fabAddStyle}>
+            <AddIcon style={iconAddStyle} />
           </Fab>
         </Link>
-      </Tooltip>
+      </StyledTooltip>
       <Dialog
         open={open}
         TransitionComponent={Transition}

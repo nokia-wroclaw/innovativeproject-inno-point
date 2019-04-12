@@ -85,7 +85,6 @@ const Projects = props => {
   return (
     <div>
       <TopBar>
-        <div className="Label">Projects</div>
         <div className="Searchbar">
           <InputBase
             placeholder="Search…"

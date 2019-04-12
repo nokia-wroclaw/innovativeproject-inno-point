@@ -18,9 +18,17 @@ const usersReducer = createReducer(user, {
     });
   },
   [AT.USER_READ_SUCCESS]: (state, action) => {
-    const { name, surname, github_picture, email, team_id } = action.payload;
+    const {
+      id,
+      name,
+      surname,
+      github_picture,
+      email,
+      team_id
+    } = action.payload;
     return produce(state, draft => {
       draft.isFetching = false;
+      draft.id = id;
       draft.name = name;
       draft.surname = surname;
       draft.github_picture = github_picture;

@@ -14,6 +14,7 @@ import { Header } from "../../components";
 import Project from "./Project";
 import Projects from "./Projects";
 import Teams from "./Teams";
+import Team from "./Team";
 import News from "./News";
 import Profile from "./Profile";
 import Settings from "./Settings";
@@ -44,7 +45,7 @@ const Dashboard = props => {
         <Route exact path="/dashboard/projects" component={Projects} />
         <Route exact path="/dashboard/projects/:id" component={Project} />
         <Route exact path="/dashboard/teams" component={Teams} />
-        {/* <Route exact path="/dashboard/teams/:id" component={Team} /> */}
+        <Route exact path="/dashboard/teams/:id" component={Team} />
         <Route path="/dashboard/profile" component={Profile} />
         <Route path="/dashboard/settings" component={Settings} />
       </Switch>

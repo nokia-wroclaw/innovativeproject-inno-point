@@ -23,6 +23,23 @@ const teamsReducer = createReducer(teams, {
     return produce(state, draft => {
       draft.isFetching = false;
     });
+  },
+  [AT.TEAM_READ_REQUEST]: (state, action) => {
+    return produce(state, draft => {
+      draft.isFetching = true;
+    });
+  },
+  [AT.TEAM_READ_SUCCESS]: (state, action) => {
+    const { id } = action.payload;
+    return produce(state, draft => {
+      draft.isFetching = false;
+      draft.items[id] = {};
+    });
+  },
+  [AT.TEAM_READ_FAILURE]: (state, action) => {
+    return produce(state, draft => {
+      draft.isFetching = false;
+    });
   }
 });
 

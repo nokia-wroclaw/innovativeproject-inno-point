@@ -5,10 +5,12 @@ export const readTeams = () => createApiRequest(GET, "/teams");
 
 export const readTeamsById = id => createApiRequest(GET, `/teams/${id}`);
 
-export const createTeam = team =>
-  createApiRequest(POST, "/teams", {
+export const createTeam = team => {
+  console.log(team);
+  return createApiRequest(POST, "/teams", {
     team
   });
+};
 
 export const updateTeams = team =>
   createApiRequest(PUT, "/teams", {
