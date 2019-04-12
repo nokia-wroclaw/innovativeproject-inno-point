@@ -15,12 +15,20 @@ class MailService {
       }
     });
 
+    var fs = require("fs");
+    var file = fs.readFileSync(
+      "C:/GIT/innovativeproject-inno-point/server/email_templates/request_mentor_status.html",
+      "utf8"
+    );
+
+    //   console.log(file);
+
     let mailOptions = {
       from: '"Test inno point noreply" <' + config.mailerAccount + ">", // sender address
-      to: recipientEmail, // list of receivers
+      to: "inno.project.test@gmail.com", // list of receivers
       subject: "Hello ✔", // Subject line
       text: "Hello world?", // plain text body
-      html: "<b>Witam </b>" // html body
+      html: file.toString() // html body
     };
 
     let info = await transporter.sendMail(mailOptions);

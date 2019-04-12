@@ -20,7 +20,8 @@ const config = {
     mailerAccount: "inno.project.test@gmail.com",
     mailerPassword: "17bc8311-f8ce-4bd6-bce6-d796b4ce5863",
     mailerHost: "smtp.elasticemail.com",
-    mailerPort: "2525"
+    mailerPort: "2525",
+    request_mentor_status: "../email_templates/request_mentro_status.html"
   },
 
   api: "http://localhost:3030",
