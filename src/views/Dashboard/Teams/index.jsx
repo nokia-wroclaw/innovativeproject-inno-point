@@ -14,9 +14,10 @@ import {
   tooltipStyle,
   fabAddStyle,
   fabBackStyle,
-  typeOfListStyle,
+  StyledTypeOfList,
   iconAddStyle,
-  iconBackStyle
+  iconBackStyle,
+  StyledTooltip
 } from "./style";
 
 import {
@@ -36,13 +37,32 @@ import { List, GridOn } from "@material-ui/icons";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 
+import Dialog from "@material-ui/core/Dialog";
+import Slide from "@material-ui/core/Slide";
+
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
+
 const Teams = props => {
   const [typeOfList, setTypeOfList] = useState("block");
   const [formDisplaying, setFormDisplaying] = useState(false);
-
+  const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState(false);
 
   function handleChange(event, newValue) {
+    setTypeOfList(newValue);
+  }
+
+  function handleClickOpen() {
+    setOpen(true);
+  }
+
+  function handleClose() {
+    setOpen(false);
+  }
+
+  function handleTypeOfList(event, newValue) {
     setTypeOfList(newValue);
   }
 
@@ -96,35 +116,37 @@ const Teams = props => {
             })}
         </Container>
       </MainContainer>
-      <BottomNavigation
-        value={typeOfList}
-        onChange={handleChange}
-        style={typeOfListStyle}
-      >
+      <StyledTypeOfList value={typeOfList} onChange={handleTypeOfList}>
         <BottomNavigationAction label="Block" value="block" icon={<GridOn />} />
         <BottomNavigationAction label="List" value="list" icon={<List />} />
-      </BottomNavigation>
-      <Tooltip
-        title={formDisplaying ? "" : "Add team"}
+      </StyledTypeOfList>
+      <StyledTooltip
+        title={"Add project"}
         aria-label="Add"
-        style={tooltipStyle}
-        onClick={() => setFormDisplaying(!formDisplaying)}
+        onClick={() => {
+          handleClickOpen();
+        }}
       >
         <Link to="#">
-          <Fab style={formDisplaying ? fabBackStyle : fabAddStyle}>
-            <AddIcon style={formDisplaying ? iconBackStyle : iconAddStyle} />
+          <Fab style={fabAddStyle}>
+            <AddIcon style={iconAddStyle} />
           </Fab>
         </Link>
-      </Tooltip>
-      {formDisplaying && (
-        <FormContainer>
-          <TeamForm
-            close={setFormDisplaying}
-            setUpdate={setUpdate}
-            update={update}
-          />
-        </FormContainer>
-      )}
+      </StyledTooltip>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        maxWidth={false}
+        onClose={handleClose}
+      >
+        <TeamForm
+          user={props.user}
+          setUpdate={setUpdate}
+          update={update}
+          handleClose={handleClose}
+        />
+      </Dialog>
     </div>
   );
 };
@@ -132,7 +154,8 @@ const Teams = props => {
 const mapStateToProps = state => ({
   teams: state.teams,
   projects: state.projects,
-  users: state.users
+  users: state.users,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,10 +1,10 @@
 import React from "react";
 import { Container } from "./style";
 
-export default ({ project }) => {
+export default ({ project, gridArea }) => {
   const { goals } = project;
   return (
-    <Container>
+    <Container gridArea={gridArea}>
       <div className="Main">
         <div className="Label">Goals</div>
         {goals.split(",").map((goal, index) => (

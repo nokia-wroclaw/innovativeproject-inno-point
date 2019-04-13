@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import {
   projectsReadRequest,
   teamsReadRequest,
-  usersReadRequest
+  usersReadRequest,
+  userReadRequest
 } from "../../actions";
 
 import { Header } from "../../components";
@@ -13,6 +14,7 @@ import { Header } from "../../components";
 import Project from "./Project";
 import Projects from "./Projects";
 import Teams from "./Teams";
+import Team from "./Team";
 import News from "./News";
 import Profile from "./Profile";
 import Settings from "./Settings";
@@ -21,10 +23,16 @@ import Manager from "./Manager";
 import { Container } from "./style";
 
 const Dashboard = props => {
+  const search = props.location.search;
+  const id = search.substr(search.indexOf("id") + 3, search.length);
+
   useEffect(() => {
     props.readProjects();
     props.readTeams();
     props.readUsers();
+    if (id) {
+      props.readUser(id);
+    }
   }, []);
 
   return (
@@ -37,7 +45,7 @@ const Dashboard = props => {
         <Route exact path="/dashboard/projects" component={Projects} />
         <Route exact path="/dashboard/projects/:id" component={Project} />
         <Route exact path="/dashboard/teams" component={Teams} />
-        {/* <Route exact path="/dashboard/teams/:id" component={Team} /> */}
+        <Route exact path="/dashboard/teams/:id" component={Team} />
         <Route path="/dashboard/profile" component={Profile} />
         <Route path="/dashboard/settings" component={Settings} />
       </Switch>
@@ -48,7 +56,8 @@ const Dashboard = props => {
 const mapDispatchToProps = dispatch => ({
   readProjects: () => dispatch(projectsReadRequest()),
   readTeams: () => dispatch(teamsReadRequest()),
-  readUsers: () => dispatch(usersReadRequest())
+  readUsers: () => dispatch(usersReadRequest()),
+  readUser: id => dispatch(userReadRequest({ id }))
 });
 
 export default connect(

@@ -1,11 +1,29 @@
 const config = {
+  // db: {
+  //   // remote
+  //   host: "mydatabase.cbcpl7nwu3lo.us-east-1.rds.amazonaws.com",
+  //   database: "inno_point",
+  //   port: 3306,
+  //   user: "admin",
+  //   password: "databaseinnopoint",
+  //   socketPath: "",
+  //   waitForConnections: true
+  // },
   db: {
-    host: "mydatabase.cbcpl7nwu3lo.us-east-1.rds.amazonaws.com",
-    database: "inno_point",
+    // host: "localhost",
+    // database: "inno-point",
+    // user: "root",
+    // password: "tosia123sl",
+    // socketPath: "/Applications/MAMP/tmp/mysql/mysql.sock",
+    // port: 8889
+
+    host: "localhost",
+    database: "inno-point",
     port: 3306,
-    user: "admin",
-    password: "databaseinnopoint",
+    user: "root",
+    password: "",
     socketPath: "",
+
     waitForConnections: true
   },
   github: {
@@ -16,6 +34,15 @@ const config = {
     scope: "user",
     allow_signup: "true"
   },
+
+  mailer: {
+    mailerAccount: "inno.project.test@gmail.com",
+    mailerPassword: "17bc8311-f8ce-4bd6-bce6-d796b4ce5863",
+    mailerHost: "smtp.elasticemail.com",
+    mailerPort: "2525",
+    request_mentor_status: "../email_templates/request_mentro_status.html"
+  },
+
   api: "http://localhost:3030",
   appUrl: "http://localhost:3000"
 };

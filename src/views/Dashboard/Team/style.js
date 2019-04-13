@@ -9,7 +9,4 @@ export const StyledSpinner = styled(Spinner)`
 
 export const MainContainer = styled.div`
   padding: 100px;
-  display: grid;
-  grid-gap: 15px;
-  grid-template: "main main" "goals scopes" "techno tags" "verify delete" / 1fr 1fr;
 `;

@@ -5,7 +5,7 @@ import { withSnackbar } from "notistack";
 import { Container } from "./style";
 import { Button as DeleteButton } from "../..";
 
-import { deleteProject } from "../../../api/projects";
+import { verifyProject } from "../../../api/projects";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -30,10 +30,10 @@ export default withSnackbar(
       setOpen(false);
     }
 
-    function handleDelete() {
-      deleteProject(id).then(() => {
+    function handleVerify() {
+      verifyProject(id).then(() => {
         history.push("/dashboard/projects");
-        enqueueSnackbar("Topic has been deleted!", {
+        enqueueSnackbar("Topic has been verified!", {
           variant: "info"
         });
       });
@@ -41,12 +41,14 @@ export default withSnackbar(
     return (
       <Container gridArea={gridArea}>
         <div className="Main">
-          <div className="Label">Delete this project</div>
-          <div className="Info">You can permanently remove this project.</div>
+          <div className="Label">Verify this project</div>
+          <div className="Info">
+            You can accept this project, teams will be able to join it.
+          </div>
           <DeleteButton
-            label="Delete"
+            label="Verify"
             size="small"
-            color="red"
+            color="blue"
             gridArea="button"
             style={{ justifySelf: "end", alignSelf: "end" }}
             onClick={handleClickOpen}
@@ -60,16 +62,15 @@ export default withSnackbar(
             <DialogTitle>Are you sure?</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                You can remove this app. Once you delete the app, there is no
-                going back. Please be certain.
+                Teams will be able to join projects
               </DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose} color="primary">
-                Back
+                <span style={{ color: "gray" }}>Back</span>
               </Button>
-              <Button onClick={handleDelete} color="primary">
-                <span style={{ color: "red" }}>Delete</span>
+              <Button onClick={handleVerify} color="primary">
+                Verify
               </Button>
             </DialogActions>
           </Dialog>

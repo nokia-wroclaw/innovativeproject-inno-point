@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import styled from "styled-components/macro";
 
 import { getProjectById } from "../../../store/selectors";
-import { projectsReadRequest } from "../../../actions";
+import { teamReadRequest, usersReadRequest } from "../../../actions";
 
 import {
   MembersProjectBlock,
@@ -18,7 +17,7 @@ import {
 
 import { MainContainer, StyledSpinner } from "./style";
 
-const Project = props => {
+const Team = props => {
   useEffect(() => {}, []);
 
   const { project, members } = props;
@@ -36,19 +35,28 @@ const Project = props => {
   } = project;
   return (
     <MainContainer>
-      <ProjectMainBlock project={project} gridArea="main" />
+      <ProjectMainBlock project={project} />
       {/* {members.length > 0 && (
         <MembersProjectBlock members={members} theme_color={theme_color} />
       )} */}
-
-      {goals && <GoalsBlock project={project} gridArea="goals" />}
-      {scopes && <ScopesBlock project={project} gridArea="scopes" />}
-
-      {technology && <TechnologyBlock project={project} gridArea="techno" />}
-      {tags && <TagsBlock project={project} gridArea="tags" />}
-
-      {!verified && <VerifyProjectBlock id={id} gridArea="verify" />}
-      <DeleteProjectBlock id={id} gridArea="delete" />
+      <div
+        style={{
+          display: "flex"
+        }}
+      >
+        {goals && <GoalsBlock project={project} />}
+        {scopes && <ScopesBlock project={project} />}
+      </div>
+      <div
+        style={{
+          display: "flex"
+        }}
+      >
+        {technology && <TechnologyBlock project={project} />}
+        {tags && <TagsBlock project={project} />}
+      </div>
+      {!verified && <VerifyProjectBlock id={id} />}
+      <DeleteProjectBlock id={id} />
     </MainContainer>
   );
 };
@@ -62,10 +70,11 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  readProjects: () => dispatch(projectsReadRequest())
+  readTeam: () => dispatch(teamReadRequest()),
+  readUsers: () => dispatch(usersReadRequest())
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Project);
+)(Team);

@@ -9,6 +9,7 @@ const show = keyframes`
 `;
 
 export const Container = styled.div`
+  grid-area: ${({ gridArea }) => gridArea};
   height: 120px;
   display: grid;
   grid-template: "table";
@@ -16,7 +17,6 @@ export const Container = styled.div`
   border-radius: 8px;
   box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
   transition: all 0.1s ease-in-out;
-  margin-top: var(--blockMargin);
   animation: ${show} 0.3s;
   background-color: white;
 

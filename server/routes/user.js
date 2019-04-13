@@ -16,6 +16,7 @@ const userRoutes = app => {
   app.get("/users/:id", (req, res) => {
     const id = parseInt(req.params.id);
     const database = new DBConnection();
+    console.log(req.params);
     database
       .query(`SELECT * FROM user WHERE id = ${id}`)
       .then(result => {

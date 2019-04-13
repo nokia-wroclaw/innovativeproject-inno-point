@@ -9,16 +9,23 @@ const show = keyframes`
 `;
 
 export const Element = styled.div`
-  min-height: 150px;
   height: 100%;
   display: grid;
-  grid-template: "photo main" / 130px auto;
+  grid-template: "photo main" / 100px auto;
   cursor: pointer;
   border-radius: 8px;
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
   animation: ${show} 0.3s;
   transition: all 0.1s ease-in-out;
   background-color: white;
+
+  @media (min-width: 700px) {
+    min-height: 192px;
+  }
+
+  @media (min-width: 600px) {
+    min-height: 160px;
+  }
 
   :hover {
     box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.2);
@@ -39,14 +46,45 @@ export const Element = styled.div`
 
   div.Main {
     display: grid;
-    grid-template: "title" 30px "project" 30px "members" 30px;
-    padding: 10px;
-    grid-gap: 10px;
+    grid-template: "title members" 30px "project project" 30px "status status" 30px;
+    padding: 15px;
+    grid-gap: 15px;
+    align-items: center;
+
+    @media (max-width: 700px) {
+      grid-template: "title" 25px "members" 30px "project" 30px "status" 30px;
+    }
+
+    @media (max-width: 560px) {
+      font-size: 18px;
+    }
+
+    @media (max-width: 500px) {
+      grid-template: "title" 25px "members" 30px;
+    }
+
+    @media (max-width: 460px) {
+      grid-template: "title" 15px "members" 10px;
+    }
 
     div.Title {
+      grid-area: title;
+      display: flex;
+      align-items: center;
       letter-spacing: 1px;
-      font-size: 16px;
-      border-bottom: solid 2px hsl(0, 0%, 80%);
+      font-size: 20px;
+
+      @media (max-width: 560px) {
+        font-size: 18px;
+      }
+
+      @media (max-width: 460px) {
+        font-size: 15px;
+      }
+
+      > span {
+        margin-left: 10px;
+      }
     }
     div.Name {
       grid-area: name;
@@ -55,24 +93,60 @@ export const Element = styled.div`
     }
 
     div.Project {
+      grid-area: project;
       font-family: Arial, Helvetica, sans-serif;
       color: hsl(0, 0%, 60%);
+
+      @media (max-width: 500px) {
+        display: none;
+      }
     }
 
     div.Members {
+      grid-area: members;
+      height: 30px;
       display: flex;
-      font-family: Arial, Helvetica, sans-serif;
-      color: hsl(0, 0%, 60%);
+      fill: gray;
+      padding: 0px 5px;
+      align-items: center;
+      justify-self: end;
+      border: 1px solid hsl(0, 0%, 90%);
+      border-radius: 8px;
+
+      @media (max-width: 700px) {
+        justify-self: start;
+        height: 30px;
+      }
+
+      @media (max-width: 460px) {
+        display: none;
+      }
 
       > span {
-        border-radius: 8px;
-        margin-left: 5px;
-        color: #00336e;
         width: 20px;
+        color: gray;
+
+        @media (max-width: 460px) {
+          width: 10px;
+        }
       }
 
       > img {
         width: 18px;
+
+        @media (max-width: 460px) {
+          width: 9px;
+        }
+      }
+    }
+
+    > div.Status {
+      color: hsl(0, 0%, 60%);
+      display: flex;
+      align-items: center;
+
+      @media (max-width: 500px) {
+        display: none;
       }
     }
   }
@@ -102,13 +176,13 @@ export const Tag = styled.span`
 `;
 
 export const Picture = styled.img`
-  width: 80px;
+  width: 35px;
   opacity: 0.9;
   border-radius: 50px;
 `;
 
 export const iconStyle = {
-  width: "80px",
-  height: "80px",
-  fill: "rgba(255, 255, 255, 0.7)"
+  width: "35px",
+  height: "35px",
+  fill: "gray"
 };

@@ -9,14 +9,20 @@ import {
   teamCreateRequest,
   teamsReadRequest,
   teamsReadSuccess,
-  teamsReadFailure
+  teamsReadFailure,
+  teamReadRequest,
+  teamReadSuccess,
+  teamReadFailure
 } from "./teams";
 
 import {
   userCreateRequest,
   usersReadRequest,
   usersReadSuccess,
-  usersReadFailure
+  usersReadFailure,
+  userReadRequest,
+  userReadSuccess,
+  userReadFailure
 } from "./users";
 
 export {
@@ -28,8 +34,14 @@ export {
   teamsReadRequest,
   teamsReadSuccess,
   teamsReadFailure,
+  teamReadRequest,
+  teamReadSuccess,
+  teamReadFailure,
   userCreateRequest,
   usersReadRequest,
   usersReadSuccess,
-  usersReadFailure
+  usersReadFailure,
+  userReadRequest,
+  userReadSuccess,
+  userReadFailure
 };
