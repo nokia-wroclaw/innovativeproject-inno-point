@@ -6,10 +6,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { Container, Panel } from "./style";
 import Spinner from "../../Spinner";
 
-export default ({ project }) => {
-  const { name, long_description, short_description, theme_color } = project[0];
+export default ({ project, gridArea }) => {
+  const { name, long_description, short_description, theme_color } = project;
   return (
-    <Container>
+    <Container gridArea={gridArea}>
       <Panel theme_color={theme_color} />
       <div className="Main">
         <div className="Name">{name ? name : "No name"}</div>

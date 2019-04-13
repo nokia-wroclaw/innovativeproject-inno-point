@@ -9,16 +9,23 @@ const show = keyframes`
 `;
 
 export const Element = styled.div`
-  min-height: 150px;
   height: 100%;
   display: grid;
-  grid-template: "panel info" / 100px auto;
+  grid-template: "photo main" / 100px auto;
   cursor: pointer;
   border-radius: 8px;
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
   animation: ${show} 0.3s;
   transition: all 0.1s ease-in-out;
   background-color: white;
+
+  @media (min-width: 700px) {
+    min-height: 192px;
+  }
+
+  @media (min-width: 600px) {
+    min-height: 160px;
+  }
 
   :hover {
     box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.2);
@@ -28,31 +35,76 @@ export const Element = styled.div`
     transform: scale(1.02);
   }
 
-  div.Info {
+  div.Picture {
     display: grid;
-    grid-template: "name members" 30px "desc ." auto "tags tags" 40px / 5fr 1fr;
-    grid-gap: 10px;
-    padding: 15px;
+    align-items: center;
+    justify-items: center;
+    background: var(--gradientTop1);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
 
+  div.Main {
+    display: grid;
+    grid-template: "title members" 30px "project project" 30px "status status" 30px;
+    padding: 15px;
+    grid-gap: 15px;
+    align-items: center;
+
+    @media (max-width: 700px) {
+      grid-template: "title" 25px "members" 30px "project" 30px "status" 30px;
+    }
+
+    @media (max-width: 560px) {
+      font-size: 18px;
+    }
+
+    @media (max-width: 500px) {
+      grid-template: "title" 25px "members" 30px;
+    }
+
+    @media (max-width: 460px) {
+      grid-template: "title" 15px "members" 10px;
+    }
+
+    div.Title {
+      grid-area: title;
+      display: flex;
+      align-items: center;
+      letter-spacing: 1px;
+      font-size: 20px;
+
+      @media (max-width: 560px) {
+        font-size: 18px;
+      }
+
+      @media (max-width: 460px) {
+        font-size: 15px;
+      }
+
+      > span {
+        margin-left: 10px;
+      }
+    }
     div.Name {
       grid-area: name;
       letter-spacing: 1px;
       font-size: 24px;
     }
 
-    div.Desc {
-      grid-area: desc;
+    div.Project {
+      grid-area: project;
       font-family: Arial, Helvetica, sans-serif;
       color: hsl(0, 0%, 60%);
-    }
 
-    div.Tags {
-      grid-area: tags;
-      align-self: center;
+      @media (max-width: 500px) {
+        display: none;
+      }
     }
 
     div.Members {
       grid-area: members;
+      height: 30px;
       display: flex;
       fill: gray;
       padding: 0px 5px;
@@ -61,16 +113,40 @@ export const Element = styled.div`
       border: 1px solid hsl(0, 0%, 90%);
       border-radius: 8px;
 
+      @media (max-width: 700px) {
+        justify-self: start;
+        height: 30px;
+      }
+
+      @media (max-width: 460px) {
+        display: none;
+      }
+
       > span {
         width: 20px;
         color: gray;
-        margin-top: 1px;
-        margin-right: 3px;
-        margin-left: 3px;
+
+        @media (max-width: 460px) {
+          width: 10px;
+        }
       }
 
       > img {
         width: 18px;
+
+        @media (max-width: 460px) {
+          width: 9px;
+        }
+      }
+    }
+
+    > div.Status {
+      color: hsl(0, 0%, 60%);
+      display: flex;
+      align-items: center;
+
+      @media (max-width: 500px) {
+        display: none;
       }
     }
   }
@@ -84,7 +160,7 @@ export const Panel = styled.div`
       ? `linear-gradient(to left, ${theme_color}, ${Color(theme_color).darken(
           0.2
         )})`
-      : "var(--gradientLeft1)"};
+      : "hsl(0, 0%, 50%)"};
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
 `;
@@ -98,3 +174,15 @@ export const Tag = styled.span`
   color: gray;
   background-color: hsl(0, 0%, 95%);
 `;
+
+export const Picture = styled.img`
+  width: 35px;
+  opacity: 0.9;
+  border-radius: 50px;
+`;
+
+export const iconStyle = {
+  width: "35px",
+  height: "35px",
+  fill: "gray"
+};

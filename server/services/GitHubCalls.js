@@ -111,8 +111,6 @@ class GitHubCalls {
       }
     };
 
-    //    console.log(token);
-
     return new Promise((resolve, reject) => {
       let reqGet = https.request(optionsGet, function(res) {
         let rawData = "";
@@ -122,12 +120,14 @@ class GitHubCalls {
         res.on("end", () => {
           try {
             const parsedData = JSON.parse(rawData);
-
             const clientInfo = {
               clientId: parsedData.id,
               clientName: parsedData.name,
               clientEmail: parsedData.email,
-              clientAvatar: parsedData.avatar_url
+              clientAvatar: parsedData.avatar_url,
+              bio: parsedData.bio,
+              hireable: parsedData.hireable,
+              public_repos: parsedData.public_repos
             };
             //            console.log(clientInfo);
             resolve(clientInfo);

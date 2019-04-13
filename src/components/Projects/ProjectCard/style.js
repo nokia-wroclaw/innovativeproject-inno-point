@@ -9,7 +9,6 @@ const show = keyframes`
 `;
 
 export const Element = styled.div`
-  min-height: 150px;
   height: 100%;
   display: grid;
   grid-template: "panel info" / 100px auto;
@@ -19,6 +18,14 @@ export const Element = styled.div`
   animation: ${show} 0.3s;
   transition: all 0.1s ease-in-out;
   background-color: white;
+
+  @media (min-width: 700px) {
+    min-height: 192px;
+  }
+
+  @media (min-width: 600px) {
+    min-height: 160px;
+  }
 
   :hover {
     box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.2);
@@ -30,25 +37,66 @@ export const Element = styled.div`
 
   div.Info {
     display: grid;
-    grid-template: "name members" 30px "desc ." auto "tags tags" 40px / 5fr 1fr;
+    grid-template: "name members" 30px "desc ." auto "tags status" 40px / 5fr 1fr;
     grid-gap: 10px;
     padding: 15px;
+
+    @media (max-width: 700px) {
+      grid-template: "name name" 25px "members members" 30px "tags tags" 30px / 5fr 1fr;
+    }
+
+    @media (max-width: 560px) {
+      font-size: 18px;
+    }
+
+    @media (max-width: 500px) {
+      grid-template: "name name" 25px "members members" 25px / 5fr 1fr;
+    }
+
+    @media (max-width: 460px) {
+      grid-template: "name name" 15px "members members" 10px / 5fr 1fr;
+    }
 
     div.Name {
       grid-area: name;
       letter-spacing: 1px;
       font-size: 24px;
+
+      @media (max-width: 560px) {
+        font-size: 18px;
+      }
+
+      @media (max-width: 460px) {
+        font-size: 15px;
+      }
     }
 
     div.Desc {
       grid-area: desc;
       font-family: Arial, Helvetica, sans-serif;
       color: hsl(0, 0%, 60%);
+      @import url("https://fonts.googleapis.com/css?family=Lato");
+      font-family: "Lato", sans-serif;
+
+      @media (max-width: 700px) {
+        display: none;
+      }
     }
 
     div.Tags {
       grid-area: tags;
       align-self: center;
+
+      @media (max-width: 500px) {
+        display: none;
+      }
+    }
+
+    div.Status {
+      grid-area: status;
+      align-self: center;
+      justify-self: end;
+      color: gray;
     }
 
     div.Members {
@@ -61,16 +109,32 @@ export const Element = styled.div`
       border: 1px solid hsl(0, 0%, 90%);
       border-radius: 8px;
 
+      @media (max-width: 700px) {
+        justify-self: start;
+        height: 30px;
+      }
+
+      @media (max-width: 460px) {
+        display: none;
+      }
+
       > span {
         width: 20px;
         color: gray;
         margin-top: 1px;
-        margin-right: 3px;
+        margin-right: 5px;
         margin-left: 3px;
+
+        @media (max-width: 460px) {
+          width: 10px;
+        }
       }
 
       > img {
         width: 18px;
+        @media (max-width: 460px) {
+          width: 9px;
+        }
       }
     }
   }

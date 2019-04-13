@@ -1,15 +1,15 @@
 import React from "react";
 import { Container, Panel, Technology } from "./style";
 
-export default ({ project }) => {
-  const { technology, theme_color } = project[0];
+export default ({ project, gridArea }) => {
+  const { technology, theme_color } = project;
   return (
-    <Container>
+    <Container gridArea={gridArea}>
       {/* <Panel theme_color={theme_color} /> */}
       <div className="Main">
         <div className="Label">Technology</div>
         <div />
-        <div>
+        <div className="TechContainer">
           {technology.split(",").map((technology, index) => (
             <Technology theme_color={theme_color} key={index}>
               {technology}

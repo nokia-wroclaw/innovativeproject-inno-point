@@ -1,60 +1,71 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import styled from "styled-components/macro";
+
+import { getProjectById } from "../../../store/selectors";
+import { projectsReadRequest } from "../../../actions";
 
 import {
   MembersProjectBlock,
   ProjectMainBlock,
-  Spinner,
   DeleteProjectBlock,
   GoalsBlock,
   ScopesBlock,
   TechnologyBlock,
-  TagsBlock
+  TagsBlock,
+  VerifyProjectBlock
 } from "../../../components";
 
-import { MainContainer } from "./style";
-
-import { readProjectsById } from "../../../api/projects";
+import { MainContainer, StyledSpinner } from "./style";
 
 const Project = props => {
-  const [data, setData] = useState({});
-  const id = props.match.params.id;
+  useEffect(() => {}, []);
 
-  useEffect(() => {
-    readProjectsById(id).then(response => setData(response.data));
-  }, []);
-
-  const { project, members } = data;
+  const { project, members } = props;
   if (!project || Object.keys(project).length === 0) {
-    return <Spinner />;
+    return <StyledSpinner />;
   }
-  const { theme_color, goals, scopes, technology, tags } = project[0];
+  const {
+    id,
+    theme_color,
+    goals,
+    scopes,
+    technology,
+    tags,
+    verified
+  } = project;
   return (
     <MainContainer>
-      <ProjectMainBlock project={project} />
-      {members.length > 0 && (
+      <ProjectMainBlock project={project} gridArea="main" />
+      {/* {members.length > 0 && (
         <MembersProjectBlock members={members} theme_color={theme_color} />
-      )}
-      <div
-        style={{
-          display: "flex",
-          width: "calc(100% - var(--projectMargin))"
-        }}
-      >
-        {goals && <GoalsBlock project={project} />}
-        {scopes && <ScopesBlock project={project} />}
-      </div>
-      <div
-        style={{
-          display: "flex",
-          width: "calc(100% - var(--projectMargin))"
-        }}
-      >
-        {technology && <TechnologyBlock project={project} />}
-        {tags && <TagsBlock project={project} />}
-      </div>
-      <DeleteProjectBlock project={project} />
+      )} */}
+
+      {goals && <GoalsBlock project={project} gridArea="goals" />}
+      {scopes && <ScopesBlock project={project} gridArea="scopes" />}
+
+      {technology && <TechnologyBlock project={project} gridArea="techno" />}
+      {tags && <TagsBlock project={project} gridArea="tags" />}
+
+      {!verified && <VerifyProjectBlock id={id} gridArea="verify" />}
+      <DeleteProjectBlock id={id} gridArea="delete" />
     </MainContainer>
   );
 };
 
-export default Project;
+const mapStateToProps = (state, ownProps) => {
+  const id = ownProps.match.params.id;
+  const currentProject = getProjectById(state, id);
+  return {
+    project: currentProject
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  readProjects: () => dispatch(projectsReadRequest())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Project);

@@ -9,6 +9,7 @@ const show = keyframes`
 `;
 
 export const Container = styled.div`
+  grid-area: ${({ gridArea }) => gridArea};
   height: 120px;
   display: grid;
   grid-template: "table";
@@ -16,7 +17,6 @@ export const Container = styled.div`
   border-radius: 8px;
   box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
   transition: all 0.1s ease-in-out;
-  margin-top: var(--blockMargin);
   animation: ${show} 0.3s;
   background-color: white;
 
@@ -57,6 +57,14 @@ export const Panel = styled.div`
       : "var(--gradientLeft1)"};
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
+`;
+
+export const Picture = styled.img`
+  width: 60px;
+  border-radius: 50px;
+  border: solid 4px ${({ theme_color }) => theme_color};
+  margin: 20px;
+  margin-top: 25px;
 `;
 
 export const tableStyle = {

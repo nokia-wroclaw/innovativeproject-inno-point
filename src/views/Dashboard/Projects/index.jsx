@@ -1,90 +1,173 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import styled from "styled-components/macro";
 
-import { Container, MainContainer, FormContainer, TopBar } from "./style";
+import { getVerifiedProjects } from "../../../store/selectors";
+import { projectsReadRequest } from "../../../actions";
 
 import {
-  tooltipStyle,
-  fabAddStyle,
-  fabBackStyle,
-  typeOfListStyle,
-  iconAddStyle,
-  iconBackStyle
+  Container,
+  MainContainer,
+  TopBar,
+  StyledTooltip,
+  StyledTypeOfList,
+  StyledSpinner,
+  StyledTypeOfProjects
 } from "./style";
+
+import { fabAddStyle, iconAddStyle } from "./style";
 
 import { ProjectCard, TopicForm } from "../../../components";
 
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
-import Tooltip from "@material-ui/core/Tooltip";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import { List, GridOn } from "@material-ui/icons";
+import { List, GridOn, VerifiedUser, Schedule } from "@material-ui/icons";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 
-import { readProjects } from "../../../api/projects";
+import Dialog from "@material-ui/core/Dialog";
+import Slide from "@material-ui/core/Slide";
 
-const Projects = () => {
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
+
+const Projects = props => {
   const [typeOfList, setTypeOfList] = useState("block");
-  const [formDisplaying, setFormDisplaying] = useState(false);
-  const [projects, setProjects] = useState([]);
+  const [typeOfProject, setTypeOfProject] = useState("verified");
+  const [update, setUpdate] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
-  function handleChange(event, newValue) {
+  function handleClickOpen() {
+    setOpen(true);
+  }
+
+  function handleClose() {
+    setOpen(false);
+  }
+
+  function handleTypeOfList(event, newValue) {
     setTypeOfList(newValue);
   }
 
-  useEffect(() => {
-    readProjects().then(response => setProjects(response.data));
-  });
+  function handleTypeOfProject(event, newValue) {
+    setTypeOfProject(newValue);
+  }
 
-  const refresh = () => {
-    readProjects().then(response => setProjects(response.data));
-  };
+  useEffect(() => {
+    props.readProjects();
+  }, [update]);
+
+  let { projects } = props;
+
+  if (!projects || projects.length === 0) {
+    return <StyledSpinner />;
+  }
+
+  if (inputValue) {
+    projects = projects.filter(project => project.name.includes(inputValue));
+  }
+
+  if (typeOfProject === "verified") {
+    projects = projects.filter(project => project.verified);
+  } else {
+    projects = projects.filter(project => !project.verified);
+  }
 
   return (
     <div>
-      {/* <TopBar>
+      <TopBar>
         <div className="Searchbar">
-          <InputBase placeholder="Search…" style={{ width: "100%" }} />
-          <SearchIcon />
+          <InputBase
+            placeholder="Search…"
+            style={{ width: "100%" }}
+            onChange={e => setInputValue(e.target.value)}
+          />
+          <SearchIcon
+            onClick={() => {
+              props.createProject();
+            }}
+          />
         </div>
-      </TopBar> */}
+      </TopBar>
       <MainContainer>
         <Container typeOfList={typeOfList}>
-          {projects &&
+          {Object.keys(projects).length !== 0 &&
+            projects.length !== 0 &&
             projects.map((project, index) => (
               <ProjectCard project={project} index={index} />
             ))}
         </Container>
       </MainContainer>
-      <BottomNavigation
-        value={typeOfList}
-        onChange={handleChange}
-        style={typeOfListStyle}
-      >
+      <StyledTypeOfList value={typeOfList} onChange={handleTypeOfList}>
         <BottomNavigationAction label="Block" value="block" icon={<GridOn />} />
         <BottomNavigationAction label="List" value="list" icon={<List />} />
-      </BottomNavigation>
-      <Tooltip
-        title={formDisplaying ? "" : "Add project"}
+      </StyledTypeOfList>
+      <StyledTypeOfProjects
+        value={typeOfProject}
+        onChange={handleTypeOfProject}
+      >
+        <BottomNavigationAction
+          label="Verified"
+          value="verified"
+          icon={<VerifiedUser />}
+        />
+        <BottomNavigationAction
+          label="Pending"
+          value="pending"
+          icon={<Schedule />}
+        />
+      </StyledTypeOfProjects>
+      <StyledTooltip
+        title={"Add project"}
         aria-label="Add"
-        style={tooltipStyle}
-        onClick={() => setFormDisplaying(!formDisplaying)}
+        onClick={() => {
+          handleClickOpen();
+        }}
       >
         <Link to="#">
-          <Fab style={formDisplaying ? fabBackStyle : fabAddStyle}>
-            <AddIcon style={formDisplaying ? iconBackStyle : iconAddStyle} />
+          <Fab style={fabAddStyle}>
+            <AddIcon style={iconAddStyle} />
           </Fab>
         </Link>
-      </Tooltip>
-      {formDisplaying && (
-        <FormContainer>
-          <TopicForm close={setFormDisplaying} refresh={refresh} />
-        </FormContainer>
-      )}
+      </StyledTooltip>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        maxWidth={false}
+        onClose={handleClose}
+      >
+        <TopicForm
+          setUpdate={setUpdate}
+          update={update}
+          handleClose={handleClose}
+        />
+      </Dialog>
     </div>
   );
 };
 
-export default Projects;
+const mapStateToProps = state => {
+  const projects = state.projects.items;
+  return {
+    projects
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  readProjects: () => dispatch(projectsReadRequest())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Projects);

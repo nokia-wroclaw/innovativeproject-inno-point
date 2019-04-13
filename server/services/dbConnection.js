@@ -26,9 +26,5 @@ sequelize
   .catch(err => {
     console.error("Unable to connect to the database:", err);
   });
-  
-/*close() {
-  this.sequelize.close();
-}*/
 
 module.exports = { User, Team, Project };
