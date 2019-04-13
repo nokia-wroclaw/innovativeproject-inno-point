@@ -3,7 +3,7 @@ const { Team } = require("../services/dbConnection");
 const teamRoutes = app => {
   app.get("/teams", (req, res) => {
     Team.findAll().then(result => {
-        res.send(result);
+        res.send(JSON.stringify(result));
       })
   });
 
@@ -19,7 +19,6 @@ const teamRoutes = app => {
 
   app.post("/teams", (req, res) => {
     const { leader_id } = req.body;
-
     Team.findAll(
       { attributes: ['id'] },
       { order: [[ 'id', 'DESC' ]] },

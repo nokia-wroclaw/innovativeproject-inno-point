@@ -3,7 +3,7 @@ const { User } = require("../services/dbConnection");
 const userRoutes = app => {
   app.get("/users", (req, res) => {
     User.findAll().then(result => {
-        res.send(result);
+        res.send(JSON.stringify(result));
       })
   });
 
@@ -21,7 +21,7 @@ const userRoutes = app => {
     const { name, surname } = req.body;
     User.findAll({
       attributes: ['id'],
-      order: ['id', 'DESC'],
+      order: [['id', 'DESC']],
       limit: 1
     })
       .then(result => {

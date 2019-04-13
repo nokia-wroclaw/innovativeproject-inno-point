@@ -3,25 +3,29 @@ const { Project, User } = require("../services/dbConnection");
 const projectRoutes = app => {
   app.get("/projects", (req, res) => {
     Project.findAll().then(result => {
-      res.send(result);
+      res.send(JSON.stringify(result));
     })
   });
 
   app.get("/projects/:id", (req, res) => {
-    const id = parseInt(req.params.id);
+    let id = parseInt(req.params.id);
     let project, members;
     Project.findAll({
       where: {
-        team_id: id
+        id: id
       }})
       .then(result => {
-        project = JSON.stringify(result);
-        return User.findAll({ where: {team_id: id }});
-      })
+        project = result;
+        id = project.team_id;
+      });
+      User.findAll({
+        where: {
+          team_id: id
+      }})
       .then(result => {
-        members = JSON.stringify(result);
-        res.send({ project, members });
-      })
+        members = result;
+        res.send({ project, members});
+      });
   });
 
   app.post("/projects", (req, res) => {
@@ -36,10 +40,11 @@ const projectRoutes = app => {
       tags,
       theme_color
     } = req.body.project;
+    console.log(req.body.project);
 
     Project.findAll({ 
       attributes: ['id'],
-      order: ['id', 'DESC'],
+      order: [['id', 'DESC']],
       limit: 1
       })
       .then(result => {
