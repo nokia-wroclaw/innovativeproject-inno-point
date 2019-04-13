@@ -1,35 +1,45 @@
 const nodemailer = require("nodemailer");
 const config = require("../config").mailer;
 const mustache = require("mustache");
+const path = require("path");
+
+const transporter = nodemailer.createTransport({
+  host: config.mailerHost,
+  port: config.mailerPort,
+  secure: false,
+  auth: {
+    user: config.mailerAccount,
+    pass: config.mailerPassword
+  }
+});
 
 class MailService {
   constructor() {}
 
-  async sendMail(recipientEmail) {
-    let transporter = nodemailer.createTransport({
-      host: config.mailerHost,
-      port: config.mailerPort,
-      secure: false,
-      auth: {
-        user: config.mailerAccount,
-        pass: config.mailerPassword
-      }
-    });
+  async requestMentorStatus(data) {
+    console.log("requestMentorStatusParams: " + JSON.stringify(data));
 
-    var fs = require("fs");
-    var file = fs.readFileSync(
-      "C:/GIT/innovativeproject-inno-point/server/email_templates/request_mentor_status.html",
-      "utf8"
+    var filePath = path.join(
+      __dirname,
+      "../email_templates/requestMentorStatus.html"
     );
 
-    //   console.log(file);
+    var fs = require("fs");
+    var file = fs.readFileSync(filePath, "utf8");
+
+    var insertData = {
+      userName: data.userName,
+      userId: data.userId
+    };
+
+    var processedHTML = mustache.to_html(file, insertData); // replace all of the data
 
     let mailOptions = {
       from: '"Test inno point noreply" <' + config.mailerAccount + ">", // sender address
-      to: "inno.project.test@gmail.com", // list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?", // plain text body
-      html: file.toString() // html body
+      to: data.recipientEmails, // list of receivers
+      subject: "New mentor status request", // Subject line
+      text: "", // plain text body
+      html: processedHTML // html body
     };
 
     let info = await transporter.sendMail(mailOptions);
@@ -38,36 +48,26 @@ class MailService {
   }
 
   async sendTopicReviewRequest(data) {
-    let transporter = nodemailer.createTransport({
-      host: config.mailerHost,
-      port: config.mailerPort,
-      secure: false,
-      auth: {
-        user: config.mailerAccount,
-        pass: config.mailerPassword
-      }
-    });
+    console.log("requestTopicParams: " + JSON.stringify(data));
 
-    console.log("util data :" + JSON.stringify(data));
-
-    var fs = require("fs");
-    var file = fs.readFileSync(
-      "C:/GIT/innovativeproject-inno-point/server/email_templates/requestTopicReview.html",
-      "utf8"
+    var filePath = path.join(
+      __dirname,
+      "../email_templates/requestTopicReview.html"
     );
 
-    //   console.log(file);
+    var fs = require("fs");
+    var file = fs.readFileSync(filePath, "utf8");
 
-    var demoData = {
+    var insertData = {
       projectName: data.projectName,
       projectId: data.projectId
     };
 
-    var processedHTML = mustache.to_html(file, demoData); // replace all of the data
+    var processedHTML = mustache.to_html(file, insertData); // replace all of the data
 
     let mailOptions = {
       from: '"Test inno point noreply" <' + config.mailerAccount + ">", // sender address
-      to: "inno.project.test@gmail.com", // list of receivers
+      to: data.recipientEmails, // list of receivers
       subject: "New topic review request", // Subject line
       text: "", // plain text body
       html: processedHTML // html body
