@@ -23,6 +23,10 @@ export const Element = styled.div`
     min-height: 192px;
   }
 
+  @media (min-width: 600px) {
+    min-height: 160px;
+  }
+
   :hover {
     box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.2);
   }
@@ -33,7 +37,7 @@ export const Element = styled.div`
 
   div.Info {
     display: grid;
-    grid-template: "name members" 30px "desc ." auto "tags tags" 40px / 5fr 1fr;
+    grid-template: "name members" 30px "desc ." auto "tags status" 40px / 5fr 1fr;
     grid-gap: 10px;
     padding: 15px;
 
@@ -63,7 +67,7 @@ export const Element = styled.div`
       }
 
       @media (max-width: 460px) {
-        font-size: 14px;
+        font-size: 15px;
       }
     }
 
@@ -71,6 +75,8 @@ export const Element = styled.div`
       grid-area: desc;
       font-family: Arial, Helvetica, sans-serif;
       color: hsl(0, 0%, 60%);
+      @import url("https://fonts.googleapis.com/css?family=Lato");
+      font-family: "Lato", sans-serif;
 
       @media (max-width: 700px) {
         display: none;
@@ -84,6 +90,13 @@ export const Element = styled.div`
       @media (max-width: 500px) {
         display: none;
       }
+    }
+
+    div.Status {
+      grid-area: status;
+      align-self: center;
+      justify-self: end;
+      color: gray;
     }
 
     div.Members {
@@ -119,7 +132,6 @@ export const Element = styled.div`
 
       > img {
         width: 18px;
-
         @media (max-width: 460px) {
           width: 9px;
         }

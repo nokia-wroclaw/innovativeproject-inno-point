@@ -1,162 +1,172 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { withSnackbar } from "notistack";
+import styled from "styled-components/macro";
 
 import TextField from "@material-ui/core/TextField";
-import ChipInput from "material-ui-chip-input";
-import MenuItem from "@material-ui/core/MenuItem";
+import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+import { LockOpen, Lock } from "@material-ui/icons";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemText from "@material-ui/core/ListItemText";
+import Avatar from "@material-ui/core/Avatar";
+import IconButton from "@material-ui/core/IconButton";
 
-import { Form, Container } from "./style";
+import FolderIcon from "@material-ui/icons/Folder";
+import DeleteIcon from "@material-ui/icons/Delete";
+
+import { Form, Container, StyledSpinner, StyledStatusOfTeam } from "./style";
 import Button from "../../Button";
 import ColorPicker from "../../ColorPicker";
 
-import { createProject } from "../../../api/projects";
+import { createTeam } from "../../../api/teams";
 
-import {
-  textFieldValidator,
-  textAreaValidator
-} from "../../../utils/validators";
+import { textFieldValidator } from "../../../utils/validators";
 
-class TeamForm extends Component {
-  state = {
-    name: {
-      value: "",
-      error: false
-    },
-    number: {
-      value: "",
-      error: false
-    },
-    desc: {
-      value: "",
-      error: false
-    },
-    tags: {
-      value: [],
-      error: false
-    },
-    theme_color: {
-      value: [],
-      error: false
-    }
-  };
+const TopicForm1 = props => {
+  const [dense, setDense] = useState(false);
+  const [secondary, setSecondary] = useState(false);
+  const [typeOfProject, setTypeOfProject] = useState(true);
+  const [number, setNumber] = useState({
+    value: "",
+    error: false
+  });
 
-  handleChange = (name, value, validator) => {
-    this.setState({
-      [name]: { value: value, error: validator ? validator(value) : false }
-    });
-  };
+  const [status, setStatus] = useState({
+    value: "",
+    error: false
+  });
 
-  handleAddChip = chip =>
-    this.setState(prevState => ({
-      tags: {
-        value: [...prevState.tags.value, chip]
-      }
-    }));
+  const [waiting, setWaiting] = useState(false);
 
-  handleDeleteChip = (chip, index) => {
-    this.setState(prevState => ({
-      tags: {
-        value: prevState.tags.value.filter((e, i) => i !== index)
-      }
-    }));
-  };
+  function handleTypeOfProject(event, newValue) {
+    setTypeOfProject(newValue);
+  }
 
-  handleSubmit = async event => {
+  const returnValue = (value, validator) => ({
+    value,
+    error: validator ? validator(value) : false
+  });
+
+  function generate(element) {
+    return [0, 1, 2].map(value =>
+      React.cloneElement(element, {
+        key: value
+      })
+    );
+  }
+
+  const handleSubmit = async event => {
+    const fields = [number];
+    const mathods = [setNumber];
     event.preventDefault();
-    if (Object.keys(this.state).every(element => this.state[element].value)) {
-      if (Object.values(this.state).every(element => !element.error)) {
-        const { name, number, desc, tags, theme_color } = this.state;
-        const project = {
-          name: name.value,
-          number_of_members: number.value,
-          short_description: desc.value,
-          tags: tags.value,
-          theme_color: theme_color.value
-        };
-        createProject(project).then(() => {
-          const { setUpdate, update } = this.props;
-          setUpdate(!update);
+    if (fields.every(e => !e.error && e.value)) {
+      const team = {
+        number_of_members: number.value,
+        leader_id: props.user.id,
+        open: typeOfProject
+      };
+      setWaiting(true);
+      createTeam(team).then(() => {
+        const { setUpdate, update } = props;
+        setUpdate(!update);
+        props.handleClose();
+        props.enqueueSnackbar("Team has been created!", {
+          variant: "success"
         });
-        this.props.close(false);
-      }
+        setWaiting(false);
+      });
+    } else {
+      mathods.map((e, i) =>
+        e(returnValue(fields[i].value, textFieldValidator))
+      );
     }
   };
 
-  render() {
-    const { name, number, desc, tags, theme_color } = this.state;
-    return (
-      <Container>
-        <div className="Panel" />
-        <div className="FormContainer">
-          <Form onSubmit={this.handleSubmit} gridArea={this.props.gridArea}>
-            <div className="Title">Topic Details</div>
-            {[
-              {
-                label: "Name",
-                value: name.value,
-                onChange: event =>
-                  this.handleChange(
-                    "name",
-                    event.target.value,
-                    textFieldValidator
-                  ),
-                error: name.error,
-                style: { gridArea: "name" }
-              },
-              {
-                label: "Number of Students",
-                value: number.value,
-                onChange: event =>
-                  this.handleChange(
-                    "number",
-                    event.target.value,
-                    textFieldValidator
-                  ),
-                error: number.error,
-                type: "number",
-                style: { gridArea: "number" }
-              },
-              {
-                label: "Short description",
-                value: desc.value,
-                onChange: event =>
-                  this.handleChange(
-                    "desc",
-                    event.target.value,
-                    textAreaValidator
-                  ),
-                error: desc.error,
-                multiline: true,
-                rows: 6,
-                style: { gridArea: "desc" }
-              }
-            ].map((props, index) => (
-              <TextField {...props} key={index} variant="outlined" />
-            ))}
-            <ChipInput
-              key="chipsinput"
-              value={tags.value}
-              onAdd={chip => this.handleAddChip(chip)}
-              onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
-              style={{ gridArea: "chips" }}
-              label="Tags"
-              variant="outlined"
+  return (
+    <Container>
+      <div className="Panel" />
+      <div className="FormContainer">
+        <Form onSubmit={handleSubmit} gridArea={props.gridArea}>
+          <div className="Title">Team Details</div>
+          <TextField
+            label="Number of Students"
+            value={number.value}
+            onChange={event =>
+              setNumber(returnValue(event.target.value, textFieldValidator))
+            }
+            error={number.error}
+            type="number"
+            style={{ gridArea: "number" }}
+            variant="outlined"
+          />
+          <StyledStatusOfTeam
+            style={{ gridArea: "status" }}
+            value={typeOfProject}
+            onChange={handleTypeOfProject}
+          >
+            <BottomNavigationAction
+              label="Open"
+              value={true}
+              icon={<LockOpen />}
             />
-            <ColorPicker
-              gridArea={"colors"}
-              color={theme_color.value}
-              onChange={color => this.handleChange("theme_color", color.hex)}
+            <BottomNavigationAction
+              label="Close"
+              value={false}
+              icon={<Lock />}
             />
+          </StyledStatusOfTeam>
+          {/* <List
+            dense={dense}
+            css={`
+              grid-area: list;
+              border: 1px solid rgba(0, 0, 0, 0.23);
+              border-radius: 8px;
+            `}
+          >
+            {generate(
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <FolderIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Single-line item" />
+                <ListItemSecondaryAction>
+                  <IconButton aria-label="Delete">
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            )}
+          </List> */}
+          {waiting ? (
+            <StyledSpinner
+              size={30}
+              gridArea="button"
+              style={{
+                justifySelf: "end",
+                alignSelf: "end",
+                marginRight: "70px"
+              }}
+            />
+          ) : (
             <Button
               key="button"
               size="small"
               label="Submit"
               gridArea="button"
+              color={"true"}
               style={{ justifySelf: "end", alignSelf: "end" }}
             />
-          </Form>
-        </div>
-      </Container>
-    );
-  }
-}
+          )}
+        </Form>
+      </div>
+    </Container>
+  );
+};
+
+const TeamForm = withSnackbar(TopicForm1);
+
 export { TeamForm };

@@ -1,18 +1,29 @@
 import { GET, PUT, POST, DELETE } from "../utils/constants";
 import createApiRequest from "../utils/createApiRequest";
 
-export const readProjects = () => createApiRequest(GET, "/projects");
+const readProjects = () => createApiRequest(GET, "/projects");
 
-export const readProjectsById = id => createApiRequest(GET, `/projects/${id}`);
+const readProjectsById = id => createApiRequest(GET, `/projects/${id}`);
 
-export const createProject = project =>
+const createProject = project =>
   createApiRequest(POST, "/projects", {
     project
   });
 
-export const updateProject = project =>
+const updateProject = project =>
   createApiRequest(PUT, "/projects", {
     project
   });
 
-export const deleteProject = id => createApiRequest(DELETE, `/projects/${id}`);
+const deleteProject = id => createApiRequest(DELETE, `/projects/${id}`);
+
+const verifyProject = id => createApiRequest(PUT, `/projects/verify/${id}`);
+
+export {
+  readProjects,
+  readProjectsById,
+  createProject,
+  updateProject,
+  deleteProject,
+  verifyProject
+};

@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-import { Container, MainContainer, FormContainer, TopBar } from "./style";
+import {
+  Container,
+  MainContainer,
+  FormContainer,
+  TopBar,
+  StyledSpinner
+} from "./style";
 
 import {
   tooltipStyle,
   fabAddStyle,
   fabBackStyle,
-  typeOfListStyle,
+  StyledTypeOfList,
   iconAddStyle,
-  iconBackStyle
+  iconBackStyle,
+  StyledTooltip
 } from "./style";
+
+import {
+  projectsReadRequest,
+  teamsReadRequest,
+  usersReadRequest
+} from "../../../actions";
 
 import { TeamCard, TeamForm } from "../../../components";
 
@@ -23,28 +37,57 @@ import { List, GridOn } from "@material-ui/icons";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 
-import { readTeams } from "../../../api/teams";
-import { readUsers } from "../../../api/users";
-import { readProjects } from "../../../api/projects";
+import Dialog from "@material-ui/core/Dialog";
+import Slide from "@material-ui/core/Slide";
 
-const Teams = () => {
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
+
+const Teams = props => {
   const [typeOfList, setTypeOfList] = useState("block");
   const [formDisplaying, setFormDisplaying] = useState(false);
-  const [teams, setTeams] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [projects, setProjects] = useState([]);
-
+  const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState(false);
 
   function handleChange(event, newValue) {
     setTypeOfList(newValue);
   }
 
+  function handleClickOpen() {
+    setOpen(true);
+  }
+
+  function handleClose() {
+    setOpen(false);
+  }
+
+  function handleTypeOfList(event, newValue) {
+    setTypeOfList(newValue);
+  }
+
   useEffect(() => {
-    readTeams().then(response => setTeams(response.data));
-    readUsers().then(response => setUsers(response.data));
-    readProjects().then(response => setProjects(response.data));
+    props.readProjects();
+    props.readTeams();
+    props.readUsers();
   }, [update]);
+
+  const {
+    projects: { items: projects },
+    teams: { items: teams },
+    users: { items: users }
+  } = props;
+
+  if (
+    !projects ||
+    Object.keys(projects).length === 0 ||
+    !users ||
+    Object.keys(users).length === 0 ||
+    !teams ||
+    Object.keys(teams).length === 0
+  ) {
+    return <StyledSpinner />;
+  }
 
   return (
     <div>
@@ -73,37 +116,55 @@ const Teams = () => {
             })}
         </Container>
       </MainContainer>
-      <BottomNavigation
-        value={typeOfList}
-        onChange={handleChange}
-        style={typeOfListStyle}
-      >
+      <StyledTypeOfList value={typeOfList} onChange={handleTypeOfList}>
         <BottomNavigationAction label="Block" value="block" icon={<GridOn />} />
         <BottomNavigationAction label="List" value="list" icon={<List />} />
-      </BottomNavigation>
-      <Tooltip
-        title={formDisplaying ? "" : "Add team"}
+      </StyledTypeOfList>
+      <StyledTooltip
+        title={"Add project"}
         aria-label="Add"
-        style={tooltipStyle}
-        onClick={() => setFormDisplaying(!formDisplaying)}
+        onClick={() => {
+          handleClickOpen();
+        }}
       >
         <Link to="#">
-          <Fab style={formDisplaying ? fabBackStyle : fabAddStyle}>
-            <AddIcon style={formDisplaying ? iconBackStyle : iconAddStyle} />
+          <Fab style={fabAddStyle}>
+            <AddIcon style={iconAddStyle} />
           </Fab>
         </Link>
-      </Tooltip>
-      {formDisplaying && (
-        <FormContainer>
-          <TeamForm
-            close={setFormDisplaying}
-            setUpdate={setUpdate}
-            update={update}
-          />
-        </FormContainer>
-      )}
+      </StyledTooltip>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        maxWidth={false}
+        onClose={handleClose}
+      >
+        <TeamForm
+          user={props.user}
+          setUpdate={setUpdate}
+          update={update}
+          handleClose={handleClose}
+        />
+      </Dialog>
     </div>
   );
 };
 
-export default Teams;
+const mapStateToProps = state => ({
+  teams: state.teams,
+  projects: state.projects,
+  users: state.users,
+  user: state.user
+});
+
+const mapDispatchToProps = dispatch => ({
+  readTeams: () => dispatch(teamsReadRequest()),
+  readProjects: () => dispatch(projectsReadRequest()),
+  readUsers: () => dispatch(usersReadRequest())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Teams);

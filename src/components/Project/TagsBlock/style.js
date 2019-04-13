@@ -9,8 +9,8 @@ const show = keyframes`
 `;
 
 export const Container = styled.div`
+  grid-area: ${({ gridArea }) => gridArea};
   min-height: 200px;
-  width: calc(50% - 10px);
   height: auto;
   display: grid;
   grid-template: "main";
@@ -18,13 +18,11 @@ export const Container = styled.div`
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
   background-color: white;
   transition: all 0.1s ease-in-out;
-  margin-left: 10px;
-  margin-top: var(--blockMargin);
   animation: ${show} 0.3s;
 
   div.Main {
     display: grid;
-    grid-template: "name" 40px "space" 10px "desc" "button" auto;
+    grid-template: "name" 40px "space" 10px;
     grid-gap: 5px;
     padding: 20px;
 
@@ -32,6 +30,13 @@ export const Container = styled.div`
       letter-spacing: 1px;
       border-bottom: solid 1px hsl(0, 0%, 90%);
       font-size: 25px;
+    }
+
+    div.TagsContainer {
+      /* display: grid;
+      grid-gap: 10px;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 50px; */
     }
   }
 `;

@@ -10,9 +10,9 @@ import TableRow from "@material-ui/core/TableRow";
 
 import { Person } from "@material-ui/icons";
 
-export default ({ members, theme_color }) => {
+export default ({ members, theme_color, gridArea }) => {
   return (
-    <Container>
+    <Container gridArea={gridArea}>
       {/* <Panel theme_color={theme_color} /> */}
       {/* <Table style={tableStyle} fontSize="18px">
         <TableHead>

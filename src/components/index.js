@@ -1,15 +1,12 @@
-import News from "./News";
 import { ProjectMainBlock } from "./Project/index";
 import { ProjectCard } from "./Projects/index";
 import Button from "./Button";
 import { LoginForm, TopicForm, TeamForm } from "./Form";
-import Profile from "./Profile";
 import Header from "./Header";
-import Settings from "./Settings";
-import Manager from "./Manager";
 import MembersProjectBlock from "./Project/MembersProjectBlock";
 import Spinner from "./Spinner";
 import DeleteProjectBlock from "./Project/DeleteProjectBlock";
+import VerifyProjectBlock from "./Project/VerifyProjectBlock";
 import GoalsBlock from "./Project/GoalsBlock";
 import ScopesBlock from "./Project/ScopesBlock";
 import TechnologyBlock from "./Project/TechnologyBlock";
@@ -18,14 +15,10 @@ import MailButton from "./MailButton";
 import { TeamCard } from "./Teams";
 
 export {
-  News,
   LoginForm,
-  Profile,
   TopicForm,
   Header,
-  Settings,
   Button,
-  Manager,
   ProjectMainBlock,
   ProjectCard,
   MembersProjectBlock,
@@ -37,5 +30,6 @@ export {
   TagsBlock,
   MailButton,
   TeamCard,
-  TeamForm
+  TeamForm,
+  VerifyProjectBlock
 };
