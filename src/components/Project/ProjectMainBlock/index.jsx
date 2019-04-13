@@ -7,7 +7,7 @@ import { Container, Panel } from "./style";
 import Spinner from "../../Spinner";
 
 export default ({ project }) => {
-  const { name, long_description, short_description, theme_color } = project[0];
+  const { name, long_description, short_description, theme_color } = project;
   return (
     <Container>
       <Panel theme_color={theme_color} />

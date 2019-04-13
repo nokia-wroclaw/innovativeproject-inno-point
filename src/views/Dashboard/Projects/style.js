@@ -3,6 +3,13 @@ import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
+import { Spinner } from "../../../components";
+
+export const StyledSpinner = styled(Spinner)`
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: calc(50vh - 50px);
+`;
 
 export const MainContainer = styled.div`
   width: 100%;

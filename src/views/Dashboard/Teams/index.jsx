@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-import { Container, MainContainer, FormContainer, TopBar } from "./style";
+import {
+  Container,
+  MainContainer,
+  FormContainer,
+  TopBar,
+  StyledSpinner
+} from "./style";
 
 import {
   tooltipStyle,
@@ -11,6 +18,12 @@ import {
   iconAddStyle,
   iconBackStyle
 } from "./style";
+
+import {
+  projectsReadRequest,
+  teamsReadRequest,
+  usersReadRequest
+} from "../../../actions";
 
 import { TeamCard, TeamForm } from "../../../components";
 
@@ -23,16 +36,9 @@ import { List, GridOn } from "@material-ui/icons";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 
-import { readTeams } from "../../../api/teams";
-import { readUsers } from "../../../api/users";
-import { readProjects } from "../../../api/projects";
-
-const Teams = () => {
+const Teams = props => {
   const [typeOfList, setTypeOfList] = useState("block");
   const [formDisplaying, setFormDisplaying] = useState(false);
-  const [teams, setTeams] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [projects, setProjects] = useState([]);
 
   const [update, setUpdate] = useState(false);
 
@@ -41,10 +47,27 @@ const Teams = () => {
   }
 
   useEffect(() => {
-    readTeams().then(response => setTeams(response.data));
-    readUsers().then(response => setUsers(response.data));
-    readProjects().then(response => setProjects(response.data));
+    props.readProjects();
+    props.readTeams();
+    props.readUsers();
   }, [update]);
+
+  const {
+    projects: { items: projects },
+    teams: { items: teams },
+    users: { items: users }
+  } = props;
+
+  if (
+    !projects ||
+    Object.keys(projects).length === 0 ||
+    !users ||
+    Object.keys(users).length === 0 ||
+    !teams ||
+    Object.keys(teams).length === 0
+  ) {
+    return <StyledSpinner />;
+  }
 
   return (
     <div>
@@ -106,4 +129,19 @@ const Teams = () => {
   );
 };
 
-export default Teams;
+const mapStateToProps = state => ({
+  teams: state.teams,
+  projects: state.projects,
+  users: state.users
+});
+
+const mapDispatchToProps = dispatch => ({
+  readTeams: () => dispatch(teamsReadRequest()),
+  readProjects: () => dispatch(projectsReadRequest()),
+  readUsers: () => dispatch(usersReadRequest())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Teams);

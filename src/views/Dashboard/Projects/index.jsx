@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { getVerifiedProjects } from "../../../store/selectors";
+import { projectsReadRequest } from "../../../actions";
 
 import {
   Container,
   MainContainer,
   TopBar,
   StyledTooltip,
-  StyledBottomNavigation
+  StyledBottomNavigation,
+  StyledSpinner
 } from "./style";
 
 import { fabAddStyle, iconAddStyle } from "./style";
@@ -23,17 +28,15 @@ import SearchIcon from "@material-ui/icons/Search";
 import Dialog from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
 
-import { readProjects } from "../../../api/projects";
-
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-const Projects = () => {
+const Projects = props => {
   const [typeOfList, setTypeOfList] = useState("block");
-  const [projects, setProjects] = useState([]);
   const [update, setUpdate] = useState(false);
   const [open, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
   function handleClickOpen() {
     setOpen(true);
@@ -48,20 +51,39 @@ const Projects = () => {
   }
 
   useEffect(() => {
-    readProjects().then(response => setProjects(response.data));
+    props.readProjects();
   }, [update]);
+
+  let { projects } = props;
+
+  if (!projects || projects.length === 0) {
+    return <StyledSpinner />;
+  }
+
+  if (inputValue) {
+    projects = projects.filter(project => project.name.includes(inputValue));
+  }
 
   return (
     <div>
       <TopBar>
         <div className="Searchbar">
-          <InputBase placeholder="Search…" style={{ width: "100%" }} />
-          <SearchIcon />
+          <InputBase
+            placeholder="Search…"
+            style={{ width: "100%" }}
+            onChange={e => setInputValue(e.target.value)}
+          />
+          <SearchIcon
+            onClick={() => {
+              props.createProject();
+            }}
+          />
         </div>
       </TopBar>
       <MainContainer>
         <Container typeOfList={typeOfList}>
-          {projects &&
+          {Object.keys(projects).length !== 0 &&
+            projects.length !== 0 &&
             projects.map((project, index) => (
               <ProjectCard project={project} index={index} />
             ))}
@@ -84,7 +106,6 @@ const Projects = () => {
           </Fab>
         </Link>
       </StyledTooltip>
-
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -98,10 +119,22 @@ const Projects = () => {
           handleClose={handleClose}
         />
       </Dialog>
-
-      {/* {formDisplaying && <FormContainer />} */}
     </div>
   );
 };
 
-export default Projects;
+const mapStateToProps = state => {
+  const verifiedProjects = getVerifiedProjects(state);
+  return {
+    projects: verifiedProjects
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  readProjects: () => dispatch(projectsReadRequest())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Projects);

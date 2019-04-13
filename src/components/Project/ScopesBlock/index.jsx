@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Panel } from "./style";
 
 export default ({ project }) => {
-  const { scopes } = project[0];
+  const { scopes } = project;
   return (
     <Container>
       <div className="Main">

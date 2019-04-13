@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-import { Container, Panel } from "./style";
+import { withSnackbar } from "notistack";
+
+import { Container } from "./style";
 import { Button as DeleteButton } from "../..";
 
 import { deleteProject } from "../../../api/projects";
@@ -16,62 +18,65 @@ import Slide from "@material-ui/core/Slide";
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
+export default withSnackbar(
+  withRouter(({ project, history, enqueueSnackbar }) => {
+    const [open, setOpen] = useState(false);
 
-export default withRouter(({ project, history }) => {
-  const [open, setOpen] = useState(false);
+    function handleClickOpen() {
+      setOpen(true);
+    }
 
-  function handleClickOpen() {
-    setOpen(true);
-  }
+    function handleClose() {
+      setOpen(false);
+    }
 
-  function handleClose() {
-    setOpen(false);
-  }
+    const { id } = project;
 
-  const { id, theme_color } = project[0];
-
-  function handleDelete() {
-    deleteProject(id).then(() => {
-      history.push("/dashboard/projects");
-    });
-  }
-  return (
-    <Container>
-      {/* <Panel theme_color={theme_color} /> */}
-      <div className="Main">
-        <div className="Label">Delete this project</div>
-        <div className="Info">You can permanently remove this project.</div>
-        <DeleteButton
-          label="Delete"
-          size="small"
-          color="red"
-          gridArea="button"
-          style={{ justifySelf: "end", alignSelf: "end" }}
-          onClick={handleClickOpen}
-        />
-        <Dialog
-          open={open}
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={handleClose}
-        >
-          <DialogTitle>Are you sure?</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              You can remove this app. Once you delete the app, there is no
-              going back. Please be certain.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Disagree
-            </Button>
-            <Button onClick={handleDelete} color="primary">
-              <span style={{ color: "red" }}>Agree</span>
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    </Container>
-  );
-});
+    function handleDelete() {
+      deleteProject(id).then(() => {
+        history.push("/dashboard/projects");
+        enqueueSnackbar("Topic has been deleted!", {
+          variant: "warning"
+        });
+      });
+    }
+    return (
+      <Container>
+        <div className="Main">
+          <div className="Label">Delete this project</div>
+          <div className="Info">You can permanently remove this project.</div>
+          <DeleteButton
+            label="Delete"
+            size="small"
+            color="red"
+            gridArea="button"
+            style={{ justifySelf: "end", alignSelf: "end" }}
+            onClick={handleClickOpen}
+          />
+          <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose}
+          >
+            <DialogTitle>Are you sure?</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                You can remove this app. Once you delete the app, there is no
+                going back. Please be certain.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Disagree
+              </Button>
+              <Button onClick={handleDelete} color="primary">
+                <span style={{ color: "red" }}>Agree</span>
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      </Container>
+    );
+  })
+);

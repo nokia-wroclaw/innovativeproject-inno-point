@@ -36,10 +36,11 @@ export const StyledButton = styled.button`
   font-size: 16px;
   letter-spacing: 2px;
   cursor: pointer;
-  transition: filter 0.1s ease-in-out;
+  transition: all 0.2s ease-in-out;
 
   :hover {
-    filter: brightness(1.1);
+    filter: brightness(1.15);
+    transform: scale(1.02);
   }
 
   :active {

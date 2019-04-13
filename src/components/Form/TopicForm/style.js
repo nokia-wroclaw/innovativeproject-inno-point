@@ -1,4 +1,9 @@
 import styled, { keyframes } from "styled-components";
+import { Spinner } from "../../../components";
+
+export const StyledSpinner = styled(Spinner)`
+  position: static;
+`;
 
 const show = keyframes`
   from {
@@ -34,7 +39,7 @@ export const Form = styled.form`
     "title title" 35px
     "name number" 55px
     "desc colors" 170px
-    "chips chips" 60px
+    "chips chips" 70px
     ". button" auto
     ". ." 1px
     / 3fr 2fr;
