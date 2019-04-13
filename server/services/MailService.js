@@ -47,7 +47,7 @@ class MailService {
     console.log("Message sent: %s", info.messageId);
   }
 
-  async sendTopicReviewRequest(data) {
+  async requestTopicReview(data) {
     console.log("requestTopicParams: " + JSON.stringify(data));
 
     var filePath = path.join(

@@ -34,7 +34,7 @@ const mailServiceRoutes = app => {
         recipientEmails: moderatorsEmails
       };
 
-      mailService.sendTopicReviewRequest(data).then(() => {
+      mailService.requestTopicReview(data).then(() => {
         res.send("mail sent");
       });
     });
