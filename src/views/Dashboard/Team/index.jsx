@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { getProjectById } from "../../../store/selectors";
 import { teamReadRequest, usersReadRequest } from "../../../actions";
-
+import LinkButton from "../../../components/LinkButton";
 import {
   MembersProjectBlock,
   ProjectMainBlock,
@@ -35,28 +35,30 @@ const Team = props => {
   } = project;
   return (
     <MainContainer>
-      <ProjectMainBlock project={project} />
+      <LinkButton to="/dashboard/projects" />
+
+      <ProjectMainBlock project={project} gridArea="main" />
       {/* {members.length > 0 && (
         <MembersProjectBlock members={members} theme_color={theme_color} />
-      )} */}
-      <div
+      )} 
+      {/* <div
         style={{
           display: "flex"
         }}
-      >
-        {goals && <GoalsBlock project={project} />}
-        {scopes && <ScopesBlock project={project} />}
-      </div>
-      <div
+      > */}
+      {goals && <GoalsBlock project={project} gridArea="goals" />}
+      {scopes && <ScopesBlock project={project} gridArea="scopes" />}
+      {/* </div> */}
+      {/* <div
         style={{
           display: "flex"
         }}
-      >
-        {technology && <TechnologyBlock project={project} />}
-        {tags && <TagsBlock project={project} />}
-      </div>
+      > */}
+      {technology && <TechnologyBlock project={project} gridArea="techno" />}
+      {tags && <TagsBlock project={project} gridArea="tags" />}
+      {/* </div> */}
       {!verified && <VerifyProjectBlock id={id} />}
-      <DeleteProjectBlock id={id} />
+      <DeleteProjectBlock id={id} gridArea="delete" />
     </MainContainer>
   );
 };

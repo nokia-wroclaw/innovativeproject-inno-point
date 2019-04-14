@@ -11,11 +11,11 @@ const config = {
   // },
   db: {
     host: "localhost",
-    database: "inno-point",
-    port: 8889,
+    database: "inno_point_db",
+    port: 3306,
     user: "root",
-    password: "tosia123sl",
-    socketPath: "/Applications/MAMP/tmp/mysql/mysql.sock",
+    password: "",
+    socketPath: "",
     waitForConnections: true
   },
   github: {
