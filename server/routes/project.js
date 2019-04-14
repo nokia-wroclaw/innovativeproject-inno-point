@@ -96,19 +96,14 @@ const projectRoutes = app => {
 
   app.put("/projects/verify/:id", (req, res) => {
     const id = parseInt(req.params.id);
-    const database = new DBConnection();
-    database
-      .query(
-        `UPDATE project SET 
-              verified = 1
-              WHERE id = ${id}`
-      )
-      .then(result => {
+    Project.update({
+      verified: 1
+    },{
+      where: { id: id }
+    })
+    .then(result => {
         res.send(result);
-      })
-      .then(() => {
-        database.close();
-      });
+    });
   });
 
   app.delete("/projects/:id", (req, res) => {
