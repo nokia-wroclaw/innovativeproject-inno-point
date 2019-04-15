@@ -47,20 +47,6 @@ const projectRoutes = app => {
       theme_color
     } = req.body.project;
 
-    const mailService = new MailService();
-
-    dbQuerry.getModeratorEmails().then(moderatorsEmails => {
-      const data = {
-        projectName: req.body.projectName,
-        projectId: req.body.projectId,
-        recipientEmails: moderatorsEmails
-      };
-
-      mailService.requestTopicReview(data).then(() => {
-        console.log("mail sent from backend");
-      });
-    });
-
     const database = new DBConnection();
     database
       .query("SELECT id FROM project ORDER BY id DESC LIMIT 1")
@@ -70,6 +56,20 @@ const projectRoutes = app => {
                                VALUES (${id}, '${name}', '${short_description}', '${goals}', '${scopes}', '${requirements}', ${number_of_members}, '${technology}', '${tags}', '${theme_color}')`);
       })
       .then(result => {
+        const mailService = new MailService();
+
+        dbQuerry.getModeratorEmails().then(moderatorsEmails => {
+          const data = {
+            projectName: name,
+            projectId: result.insertId,
+            recipientEmails: moderatorsEmails
+          };
+
+          mailService.requestTopicReview(data).then(() => {
+            console.log("mail sent from backend");
+          });
+        });
+
         res.send(result);
       })
       .then(() => {

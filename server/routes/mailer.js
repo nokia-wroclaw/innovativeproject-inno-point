@@ -2,7 +2,7 @@ const MailService = require("../services/MailService");
 const DBConnection = require("../services/DBConnection");
 
 const mailServiceRoutes = app => {
-  app.get("/sendMail/requestMentorStatus", (req, res) => {
+  app.put("/sendMail/requestMentorStatus", (req, res) => {
     console.log(req.body);
 
     const mailService = new MailService();
@@ -21,7 +21,7 @@ const mailServiceRoutes = app => {
     });
   });
 
-  app.get("/sendMail/requestNewTopic", (req, res) => {
+  app.put("/sendMail/requestNewTopic", (req, res) => {
     console.log(req.body);
 
     const mailService = new MailService();
