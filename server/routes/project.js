@@ -1,4 +1,6 @@
 const DBConnection = require("../services/DBConnection");
+const dbQuerry = require("../services/dbQuerry");
+const MailService = require("../services/MailService");
 
 const projectRoutes = app => {
   app.get("/projects", (req, res) => {
@@ -44,6 +46,21 @@ const projectRoutes = app => {
       tags,
       theme_color
     } = req.body.project;
+
+    const mailService = new MailService();
+
+    dbQuerry.getModeratorEmails().then(moderatorsEmails => {
+      const data = {
+        projectName: req.body.projectName,
+        projectId: req.body.projectId,
+        recipientEmails: moderatorsEmails
+      };
+
+      mailService.requestTopicReview(data).then(() => {
+        console.log("mail sent from backend");
+      });
+    });
+
     const database = new DBConnection();
     database
       .query("SELECT id FROM project ORDER BY id DESC LIMIT 1")
