@@ -5,6 +5,32 @@ import Tooltip from "@material-ui/core/Tooltip";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import { Spinner } from "../../../components";
 
+export const Header = styled.div`
+  background: var(--gradientHeader);
+  width: 100%;
+  height: 50px;
+`;
+
+export const Label = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+  margin-left: 50px;
+  margin-top: 30px;
+  font-size: 24px;
+  color: hsl(0, 0%, 50%);
+  background-color: white;
+  border: solid 1px hsl(0, 0%, 80%);
+  border-radius: 8px;
+  padding: 7px;
+
+  > span {
+    margin-left: 5px;
+  }
+
+  transition: all 0.2s ease-in-out;
+`;
+
 export const StyledSpinner = styled(Spinner)`
   margin-left: auto;
   margin-right: auto;

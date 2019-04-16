@@ -35,6 +35,7 @@ export const Container = styled.div`
 `;
 
 export const TechContainer = styled.span`
+  cursor: pointer;
   /* display: grid;
   grid-gap: 10px;
   grid-template-columns: repeat(3, 1fr);

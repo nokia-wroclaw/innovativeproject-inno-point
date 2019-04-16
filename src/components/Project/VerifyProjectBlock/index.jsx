@@ -52,7 +52,7 @@ export default withSnackbar(
             size="small"
             color="blue"
             gridArea="button"
-            style={{ justifySelf: "center", alignSelf: "end" }}
+            style={{ justifySelf: "right", alignSelf: "end" }}
             onClick={handleClickOpen}
           />
           <Dialog

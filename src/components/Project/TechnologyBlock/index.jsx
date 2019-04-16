@@ -50,7 +50,7 @@ export default ({ project, gridArea, update, setUpdate }) => {
             >
               <Button
                 color="blue"
-                label="Add"
+                label="Update"
                 size="small"
                 onClick={() => {
                   const newProject = {
@@ -87,11 +87,17 @@ export default ({ project, gridArea, update, setUpdate }) => {
             className="TechContainer"
             onClick={() => setEdit(true)}
           >
-            {technology.split(",").map((technology, index) => (
-              <Technology theme_color={theme_color} key={index}>
-                {technology}
+            {technology ? (
+              technology.split(",").map((technology, index) => (
+                <Technology theme_color={theme_color} key={index}>
+                  {technology}
+                </Technology>
+              ))
+            ) : (
+              <Technology theme_color={theme_color} key={0}>
+                undefined
               </Technology>
-            ))}
+            )}
           </TechContainer>
         )}
       </div>

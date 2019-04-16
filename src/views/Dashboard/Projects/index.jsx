@@ -13,7 +13,9 @@ import {
   StyledTooltip,
   StyledTypeOfList,
   StyledSpinner,
-  StyledTypeOfProjects
+  StyledTypeOfProjects,
+  Header,
+  Label
 } from "./style";
 
 import { fabAddStyle, iconAddStyle } from "./style";
@@ -23,7 +25,13 @@ import { ProjectCard, TopicForm } from "../../../components";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import { List, GridOn, VerifiedUser, Schedule } from "@material-ui/icons";
+import {
+  List,
+  GridOn,
+  VerifiedUser,
+  Schedule,
+  VisibilityOff
+} from "@material-ui/icons";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 
@@ -41,7 +49,7 @@ function Transition(props) {
 
 const Projects = props => {
   const [typeOfList, setTypeOfList] = useState("block");
-  const [typeOfProject, setTypeOfProject] = useState("verified");
+  const [typeOfProject, setTypeOfProject] = useState("Verified");
   const [update, setUpdate] = useState(false);
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -73,10 +81,12 @@ const Projects = props => {
   }
 
   if (inputValue) {
-    projects = projects.filter(project => project.name.includes(inputValue));
+    projects = projects.filter(project =>
+      project.name.toLowerCase().includes(inputValue.toLowerCase())
+    );
   }
 
-  if (typeOfProject === "verified") {
+  if (typeOfProject === "Verified") {
     projects = projects.filter(project => project.verified);
   } else {
     projects = projects.filter(project => !project.verified);
@@ -84,7 +94,17 @@ const Projects = props => {
 
   return (
     <div>
+      {/* <Header /> */}
+
       <TopBar>
+        <Label>
+          {typeOfProject === "Verified" ? (
+            <VerifiedUser style={{ color: "#00336e" }} />
+          ) : (
+            <Schedule style={{ color: "#00336e" }} />
+          )}
+          <span>{typeOfProject} Projects</span>
+        </Label>
         <div className="Searchbar">
           <InputBase
             placeholder="Search…"
@@ -100,11 +120,28 @@ const Projects = props => {
       </TopBar>
       <MainContainer>
         <Container typeOfList={typeOfList}>
-          {Object.keys(projects).length !== 0 &&
+          {Object.keys(projects).length !== 0 ? (
             projects.length !== 0 &&
             projects.map((project, index) => (
               <ProjectCard project={project} index={index} />
-            ))}
+            ))
+          ) : (
+            <div
+              css={`
+                display: flex;
+                align-items: center;
+              `}
+            >
+              <span
+                css={`
+                  margin-right: 5px;
+                `}
+              >
+                No projects here
+              </span>{" "}
+              <VisibilityOff />
+            </div>
+          )}
         </Container>
       </MainContainer>
       <StyledTypeOfList value={typeOfList} onChange={handleTypeOfList}>
@@ -117,12 +154,12 @@ const Projects = props => {
       >
         <BottomNavigationAction
           label="Verified"
-          value="verified"
+          value="Verified"
           icon={<VerifiedUser />}
         />
         <BottomNavigationAction
           label="Pending"
-          value="pending"
+          value="Pending"
           icon={<Schedule />}
         />
       </StyledTypeOfProjects>

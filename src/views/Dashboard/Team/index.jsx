@@ -33,34 +33,7 @@ const Team = props => {
     tags,
     verified
   } = project;
-  return (
-    <MainContainer>
-      <LinkButton to="/dashboard/teams" />
-
-      <ProjectMainBlock project={project} gridArea="main" />
-      {/* {members.length > 0 && (
-        <MembersProjectBlock members={members} theme_color={theme_color} />
-      )} 
-      {/* <div
-        style={{
-          display: "flex"
-        }}
-      > */}
-      {goals && <GoalsBlock project={project} gridArea="goals" />}
-      {scopes && <ScopesBlock project={project} gridArea="scopes" />}
-      {/* </div> */}
-      {/* <div
-        style={{
-          display: "flex"
-        }}
-      > */}
-      {technology && <TechnologyBlock project={project} gridArea="techno" />}
-      {tags && <TagsBlock project={project} gridArea="tags" />}
-      {/* </div> */}
-      {!verified && <VerifyProjectBlock id={id} />}
-      <DeleteProjectBlock id={id} gridArea="delete" />
-    </MainContainer>
-  );
+  return <div>Current team</div>;
 };
 
 const mapStateToProps = (state, ownProps) => {

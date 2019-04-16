@@ -57,7 +57,7 @@ const TopicForm1 = props => {
         name: name.value,
         number_of_members: number.value,
         short_description: description.value,
-        tags: tags.value,
+        tags: tags.join(","),
         theme_color: themeColor.value
       };
       setWaiting(true);
@@ -122,7 +122,6 @@ const TopicForm1 = props => {
             onDelete={(chip, index) => handleDeleteChip(chip, index)}
             style={{ gridArea: "chips" }}
             label="Tags"
-            // variant="outlined"
           />
           <ColorPicker
             gridArea={"colors"}

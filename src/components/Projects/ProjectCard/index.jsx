@@ -12,7 +12,11 @@ export default ({ project, index }) => (
         {project && (
           <Fragment>
             <div className="Name">{project.name}</div>
-            <div className="Desc">{project.short_description}</div>
+            <div className="Desc">
+              {project.short_description.length <= 35
+                ? project.short_description
+                : project.short_description.slice(0, 35) + "..."}
+            </div>
           </Fragment>
         )}
         <div className="Tags">

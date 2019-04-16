@@ -59,17 +59,30 @@ const Project = props => {
           gridArea="members"
         />
       )}
-      {goals && <GoalsBlock project={project} gridArea="goals" />}
-      {scopes && <ScopesBlock project={project} gridArea="scopes" />}
-      {technology && (
-        <TechnologyBlock
-          project={project}
-          gridArea="techno"
-          update={update}
-          setUpdate={setUpdate}
-        />
-      )}
-      {tags && <TagsBlock project={project} gridArea="tags" />}
+      <GoalsBlock
+        project={project}
+        gridArea="goals"
+        update={update}
+        setUpdate={setUpdate}
+      />
+      <ScopesBlock
+        project={project}
+        gridArea="scopes"
+        update={update}
+        setUpdate={setUpdate}
+      />
+      <TechnologyBlock
+        project={project}
+        gridArea="techno"
+        update={update}
+        setUpdate={setUpdate}
+      />
+      <TagsBlock
+        project={project}
+        gridArea="tags"
+        update={update}
+        setUpdate={setUpdate}
+      />
       {!verified && <VerifyProjectBlock id={id} gridArea="verify" />}
       <DeleteProjectBlock id={id} gridArea="delete" />
     </MainContainer>
