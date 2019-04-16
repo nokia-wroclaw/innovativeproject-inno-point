@@ -28,10 +28,6 @@ export default withSnackbar(
       setOpen(true);
     }
 
-    function handleClickEdit() {
-      //<TeamForm></TeamForm>
-    }
-
     function handleClose() {
       setOpen(false);
     }
@@ -57,14 +53,6 @@ export default withSnackbar(
             color="blue"
             gridArea="button"
             style={{ justifySelf: "center", alignSelf: "end" }}
-            onClick={handleClickOpen}
-          />
-          <EditButton
-            label="Edit"
-            size="small"
-            color="gray"
-            gridArea="button"
-            style={{ justifySelf: "end", alignSelf: "end" }}
             onClick={handleClickOpen}
           />
           <Dialog

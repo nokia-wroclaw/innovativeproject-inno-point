@@ -25,7 +25,10 @@ import { Link } from "@material-ui/core";
 import LinkButton from "../../../components/LinkButton";
 
 const Project = props => {
-  useEffect(() => {}, []);
+  const [update, setUpdate] = useState(false);
+  useEffect(() => {
+    props.readProjects();
+  }, [update]);
 
   const { project, members } = props;
   if (!project || Object.keys(project).length === 0) {
@@ -43,14 +46,29 @@ const Project = props => {
   return (
     <MainContainer>
       <LinkButton to="/dashboard/projects" />
-      <ProjectMainBlock project={project} gridArea="main" />
-      {/* {members.length > 0 && (
-        <MembersProjectBlock members={members} theme_color={theme_color} />
-      )} */}
-      {/* {<button onClick={this.props.history.goBack}>Back</button>} */}
+      <ProjectMainBlock
+        project={project}
+        gridArea="main"
+        update={update}
+        setUpdate={setUpdate}
+      />
+      {members && members.length > 0 && (
+        <MembersProjectBlock
+          members={members}
+          theme_color={theme_color}
+          gridArea="members"
+        />
+      )}
       {goals && <GoalsBlock project={project} gridArea="goals" />}
       {scopes && <ScopesBlock project={project} gridArea="scopes" />}
-      {technology && <TechnologyBlock project={project} gridArea="techno" />}
+      {technology && (
+        <TechnologyBlock
+          project={project}
+          gridArea="techno"
+          update={update}
+          setUpdate={setUpdate}
+        />
+      )}
       {tags && <TagsBlock project={project} gridArea="tags" />}
       {!verified && <VerifyProjectBlock id={id} gridArea="verify" />}
       <DeleteProjectBlock id={id} gridArea="delete" />
@@ -61,8 +79,12 @@ const Project = props => {
 const mapStateToProps = (state, ownProps) => {
   const id = ownProps.match.params.id;
   const currentProject = getProjectById(state, id);
+  const teamId = currentProject.team_id;
+  const users = state.users;
+  const members = users.items.filter(user => user.team_id === teamId);
   return {
-    project: currentProject
+    project: currentProject,
+    members
   };
 };
 

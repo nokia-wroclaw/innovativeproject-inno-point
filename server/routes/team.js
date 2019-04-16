@@ -28,15 +28,23 @@ const teamRoutes = app => {
 
   app.post("/teams", (req, res) => {
     const { leader_id, open } = req.body.team;
-    console.log(leader_id, open);
+    let team_id;
     const database = new DBConnection();
     database
       .query("SELECT id FROM team ORDER BY id DESC LIMIT 1")
       .then(result => {
-        const id = result.row ? parseInt(result.row[0].id) + 1 : 0;
+        console.log(JSON.stringify(result));
+        team_id = result[0].id + 1;
         return database.query(
           `INSERT INTO team(id, leader_id, open)
-           VALUES (${id}, ${leader_id}, ${open ? "1" : "0"})`
+           VALUES (${team_id}, ${leader_id}, ${open ? "1" : "0"})`
+        );
+      })
+      .then(() => {
+        console.log(team_id, leader_id);
+        return database.query(
+          `UPDATE user SET team_id = ${team_id}
+           WHERE id = ${leader_id}`
         );
       })
       .then(result => {

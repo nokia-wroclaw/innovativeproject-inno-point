@@ -35,7 +35,7 @@ const Team = props => {
   } = project;
   return (
     <MainContainer>
-      <LinkButton to="/dashboard/projects" />
+      <LinkButton to="/dashboard/teams" />
 
       <ProjectMainBlock project={project} gridArea="main" />
       {/* {members.length > 0 && (

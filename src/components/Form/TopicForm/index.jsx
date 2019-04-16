@@ -68,11 +68,6 @@ const TopicForm1 = props => {
         props.enqueueSnackbar("Topic has been sent to verify!", {
           variant: "info"
         });
-        // setTimeout(() => {
-        //   props.enqueueSnackbar("Topic has been approve!", {
-        //     variant: "success"
-        //   });
-        // }, 500);
       });
     } else {
       mathods.map((e, i) =>

@@ -6,7 +6,7 @@ import { LockOpen, Lock } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 export default ({ team, users, project, index }) => {
-  const leader = users.find(user => user.id === team.leader_id);
+  const leader = users.find(user => user.id === team.leader_id) || {};
   return (
     <Link to={`/dashboard/teams/${team.id}`}>
       <Element key={index} delay={index}>

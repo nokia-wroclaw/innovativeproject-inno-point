@@ -3,7 +3,7 @@ class DBQuerry {
 
   static getModeratorEmails() {
     return new Promise((resolve, reject) => {
-      resolve("inno.project.test@gmail.com");
+      resolve("inno.project.test@gmail.com, dominik.slawkowski@gmail.com");
     });
   }
 }

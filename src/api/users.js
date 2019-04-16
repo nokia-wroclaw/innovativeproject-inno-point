@@ -18,3 +18,6 @@ export const updateUsers = user =>
   });
 
 export const deleteUsers = id => createApiRequest(DELETE, `/users/${id}`);
+
+export const changeUserTeam = (id, team_id) =>
+  createApiRequest(PUT, `/users/${id}`, team_id);

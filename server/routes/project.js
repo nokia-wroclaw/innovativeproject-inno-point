@@ -90,8 +90,10 @@ const projectRoutes = app => {
       number_of_members,
       technology,
       academic_contact_id,
-      tags
-    } = req.body;
+      tags,
+      long_description,
+      theme_color
+    } = req.body.project;
     const database = new DBConnection();
     database
       .query(
@@ -102,11 +104,13 @@ const projectRoutes = app => {
               goals = '${goals}',
               scopes = '${scopes}',
               requirements = '${requirements}',
-              mentor_id = '${mentor_id}',
+              mentor_id = ${mentor_id},
               number_of_members = ${number_of_members},
               technology = '${technology}',
               academic_contact_id = ${academic_contact_id},
-              tags = '${tags}'
+              tags = '${tags}',
+              long_description = '${long_description}',
+              theme_color = '${theme_color}'
               WHERE id = ${id}`
       )
       .then(result => {

@@ -145,15 +145,13 @@ class GitHubCalls {
   }
 
   gitPostGetUserToken(code) {
-    return new Promise((resolve, rejest) => {
+    return new Promise((resolve, reject) => {
       request.post(
         `${gitConfig.github_url_token}?client_id=${
           gitConfig.client_id
         }&client_secret=${gitConfig.client_secret}&code=${code}`,
         (error, response, body) => {
-          // console.log(body + "\n\n\n");
           const jsonWithToken = queryString.decode(body);
-          // console.log(json.access_token);
 
           if (error) {
             reject(err);
