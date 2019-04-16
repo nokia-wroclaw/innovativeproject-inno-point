@@ -11,6 +11,7 @@ import GoalsBlock from "./Project/GoalsBlock";
 import ScopesBlock from "./Project/ScopesBlock";
 import TechnologyBlock from "./Project/TechnologyBlock";
 import TagsBlock from "./Project/TagsBlock";
+import MailButton from "./MailButton";
 import { TeamCard } from "./Teams";
 
 export {
@@ -27,6 +28,7 @@ export {
   ScopesBlock,
   TechnologyBlock,
   TagsBlock,
+  MailButton,
   TeamCard,
   TeamForm,
   VerifyProjectBlock
