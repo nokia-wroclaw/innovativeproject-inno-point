@@ -13,10 +13,16 @@ import {
   ScopesBlock,
   TechnologyBlock,
   TagsBlock,
-  VerifyProjectBlock
+  VerifyProjectBlock,
+  Button
 } from "../../../components";
 
+import { withRouter } from "react-router-dom";
+
 import { MainContainer, StyledSpinner } from "./style";
+import { Link } from "@material-ui/core";
+
+import LinkButton from "../../../components/LinkButton";
 
 const Project = props => {
   useEffect(() => {}, []);
@@ -36,17 +42,16 @@ const Project = props => {
   } = project;
   return (
     <MainContainer>
+      <LinkButton to="/dashboard/projects" />
       <ProjectMainBlock project={project} gridArea="main" />
       {/* {members.length > 0 && (
         <MembersProjectBlock members={members} theme_color={theme_color} />
       )} */}
-
+      {/* {<button onClick={this.props.history.goBack}>Back</button>} */}
       {goals && <GoalsBlock project={project} gridArea="goals" />}
       {scopes && <ScopesBlock project={project} gridArea="scopes" />}
-
       {technology && <TechnologyBlock project={project} gridArea="techno" />}
       {tags && <TagsBlock project={project} gridArea="tags" />}
-
       {!verified && <VerifyProjectBlock id={id} gridArea="verify" />}
       <DeleteProjectBlock id={id} gridArea="delete" />
     </MainContainer>

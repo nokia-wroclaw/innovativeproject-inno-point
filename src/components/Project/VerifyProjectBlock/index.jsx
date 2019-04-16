@@ -4,8 +4,10 @@ import { withSnackbar } from "notistack";
 
 import { Container } from "./style";
 import { Button as DeleteButton } from "../..";
+import { Button as EditButton } from "../..";
 
 import { verifyProject } from "../../../api/projects";
+import { TeamForm } from "../../../components";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -24,6 +26,10 @@ export default withSnackbar(
 
     function handleClickOpen() {
       setOpen(true);
+    }
+
+    function handleClickEdit() {
+      //<TeamForm></TeamForm>
     }
 
     function handleClose() {
@@ -49,6 +55,14 @@ export default withSnackbar(
             label="Verify"
             size="small"
             color="blue"
+            gridArea="button"
+            style={{ justifySelf: "center", alignSelf: "end" }}
+            onClick={handleClickOpen}
+          />
+          <EditButton
+            label="Edit"
+            size="small"
+            color="gray"
             gridArea="button"
             style={{ justifySelf: "end", alignSelf: "end" }}
             onClick={handleClickOpen}
