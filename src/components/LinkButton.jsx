@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
-import { Link } from "@material-ui/core";
-import { Button as btn } from "../components/index";
-import Button from "@material-ui/core/Button";
+import Button from "./Button";
 
 const LinkButton = props => {
   const {
@@ -17,17 +15,16 @@ const LinkButton = props => {
   } = props;
   return (
     <Button
-      variant="contained"
+      label="Back"
       style={{ justifySelf: "start", alignSelf: "center" }}
       {...rest}
+      color="blue"
+      size="small"
       onClick={event => {
         onClick && onClick(event);
         history.push(to);
       }}
-    >
-      {" "}
-      previous page
-    </Button>
+    />
   );
 };
 

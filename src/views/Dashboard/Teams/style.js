@@ -133,7 +133,7 @@ export const FormContainer = styled.div`
 
 export const StyledTooltip = styled(Tooltip)`
   position: fixed;
-  right: 500px;
+  right: 50px;
   bottom: 5%;
   transition: all 0.2s ease-in-out;
 

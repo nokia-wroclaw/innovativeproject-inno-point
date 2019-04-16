@@ -23,7 +23,6 @@ const config = {
     user: "root",
     password: "",
     socketPath: "",
-
     waitForConnections: true
   },
   github: {
