@@ -1,34 +1,30 @@
-const DBConnection = require("../services/DBConnection");
+const { Project, User } = require("../services/dbConnection");
 
 const projectRoutes = app => {
   app.get("/projects", (req, res) => {
-    const database = new DBConnection();
-    database
-      .query("SELECT * FROM project")
-      .then(result => {
-        res.send(result);
-      })
-      .then(() => {
-        database.close();
-      });
+    Project.findAll().then(result => {
+      res.send(JSON.stringify(result));
+    })
   });
 
   app.get("/projects/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    const database = new DBConnection();
+    let id = parseInt(req.params.id);
     let project, members;
-    database
-      .query(`SELECT * FROM project WHERE id = ${id}`)
+    Project.findAll({
+      where: {
+        id: id
+      }})
       .then(result => {
         project = result;
-        return database.query(`SELECT * FROM user WHERE team_id = ${id}`);
-      })
+        id = project.team_id;
+      });
+      User.findAll({
+        where: {
+          team_id: id
+      }})
       .then(result => {
         members = result;
-        res.send({ project, members });
-      })
-      .then(() => {
-        database.close();
+        res.send({ project, members});
       });
   });
 
@@ -44,20 +40,24 @@ const projectRoutes = app => {
       tags,
       theme_color
     } = req.body.project;
-    const database = new DBConnection();
-    database
-      .query("SELECT id FROM project ORDER BY id DESC LIMIT 1")
+    console.log(req.body.project);
+
+    Project.findAll({ 
+      attributes: ['id'],
+      order: [['id', 'DESC']],
+      limit: 1
+      })
       .then(result => {
         const id = result.row ? parseInt(result.row[0].id) + 1 : 0;
-        return database.query(`INSERT INTO project(id, name, short_description, goals, scopes, requirements, number_of_members, technology, tags, theme_color)
-                               VALUES (${id}, '${name}', '${short_description}', '${goals}', '${scopes}', '${requirements}', ${number_of_members}, '${technology}', '${tags}', '${theme_color}')`);
+        return Project.bulkCreate([{
+          id: id, name: name, short_description: short_description, goals: goals, scopes: scopes,
+          requirements: requirements, number_of_members: number_of_members,
+          technology: technology, tags: tags, theme_color: theme_color
+        }])  
       })
       .then(result => {
         res.send(result);
       })
-      .then(() => {
-        database.close();
-      });
   });
 
   app.put("/projects/:id", (req, res) => {
@@ -75,59 +75,45 @@ const projectRoutes = app => {
       academic_contact_id,
       tags
     } = req.body;
-    const database = new DBConnection();
-    database
-      .query(
-        `UPDATE project SET 
-              name = '${name}',
-              short_description = '${short_description}',
-              team_id = ${team_id},
-              goals = '${goals}',
-              scopes = '${scopes}',
-              requirements = '${requirements}',
-              mentor_id = '${mentor_id}',
-              number_of_members = ${number_of_members},
-              technology = '${technology}',
-              academic_contact_id = ${academic_contact_id},
-              tags = '${tags}'
-              WHERE id = ${id}`
-      )
+    Project.update({
+      name: name,
+      short_description: short_description,
+      team_id: team_id,
+      goals: goals,
+      scopes: scopes,
+      requirements: requirements,
+      mentor_id: mentor_id,
+      number_of_members: number_of_members,
+      technology: technology,
+      academic_contact_id: academic_contact_id,
+      tags: tags
+    },
+    { where: { id: id }})
       .then(result => {
         res.send(result);
       })
-      .then(() => {
-        database.close();
-      });
   });
 
   app.put("/projects/verify/:id", (req, res) => {
     const id = parseInt(req.params.id);
-    const database = new DBConnection();
-    database
-      .query(
-        `UPDATE project SET 
-              verified = 1
-              WHERE id = ${id}`
-      )
-      .then(result => {
+    Project.update({
+      verified: 1
+    },{
+      where: { id: id }
+    })
+    .then(result => {
         res.send(result);
-      })
-      .then(() => {
-        database.close();
-      });
+    });
   });
 
   app.delete("/projects/:id", (req, res) => {
     const id = parseInt(req.params.id);
-    const database = new DBConnection();
-    database
-      .query(`DELETE FROM project WHERE id = ${id}`)
+    Project.destroy({
+      where: { id: id }
+    })
       .then(result => {
         res.send(result);
       })
-      .then(() => {
-        database.close();
-      });
   });
 };
 

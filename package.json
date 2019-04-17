@@ -19,6 +19,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",
     "react-svg": "^7.2.9",
+    "sequelize": "^5.1.1",
     "redux-saga": "^1.0.2",
     "redux-starter-kit": "^0.4.3",
     "styled-components": "^4.1.3",

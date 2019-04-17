@@ -1,32 +1,30 @@
+const Sequelize = require("sequelize");
 const config = require("../config").db;
-const mysql = require("mysql");
+const UserModel = require("../models/user");
+const TeamModel = require("../models/team");
+const ProjectModel = require("../models/project");
 
-class DBConnection {
-  constructor() {
-    this.connection = mysql.createConnection(config);
+const sequelize = new Sequelize(
+  config.database,
+  config.user,
+  config.password,
+  {
+    host: config.host,
+    dialect: "mysql", 
   }
-  query(sql) {
-    return new Promise((resolve, reject) => {
-      this.connection.query(sql, (err, rows) => {
-        if (err) return reject(err);
-        resolve(rows);
-      });
-    });
-  }
-  close() {
-    return new Promise((resolve, reject) => {
-      this.connection.end(err => {
-        if (err) return reject(err);
-        resolve();
-      });
-    });
-  }
+);
 
-  getModeratorEmails() {
-    return new Promise((resolve, reject) => {
-      resolve("inno.project.test@gmail.com");
-    });
-  }
-}
+const User = UserModel(sequelize, Sequelize);
+const Team = TeamModel(sequelize, Sequelize);
+const Project = ProjectModel(sequelize, Sequelize);
 
-module.exports = DBConnection;
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch(err => {
+    console.error("Unable to connect to the database:", err);
+  });
+
+module.exports = { User, Team, Project };

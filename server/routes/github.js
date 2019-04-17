@@ -1,10 +1,11 @@
 const request = require("request");
 const githubCalls = require("../services/GitHubCalls");
 const config = require("../config/index");
-const DBConnection = require("../services/DBConnection");
 
 const { getCode, getState, getToken } = require("../utils/selectors");
 const crypto = require("crypto");
+
+const User = require("../services/dbConnection");
 
 const {
   client_id,
@@ -47,29 +48,30 @@ const gitHubRoutes = app => {
             hireable,
             public_repos
           } = userData;
-
-          const database = new DBConnection();
-          database
-            .query(`SELECT * FROM user WHERE id = ${clientId}`)
-            .then(result => {
-              if (result.length === 0) {
-                return database.query(`INSERT INTO user (id, name, github_picture, email) 
-                               VALUES (${clientId}, '${clientName}', '${clientAvatar}', '${clientEmail}')`);
-              } else {
-                return database.query(
-                  `UPDATE user SET name = '${clientName}', github_picture = '${clientAvatar}', email = '${clientEmail}'
-                   WHERE id = ${clientId}`
-                );
-              }
-            })
-            .then(() => {
-              database.close();
-            })
-            .then(() =>
-              res.redirect(
-                `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
-              )
-            );
+          
+          User.findAll({
+            where: { id: clientId}
+          })
+          .then(result => {
+            if (result.length === 0) {
+              User.bulkCreate([{
+                id: clientId, name: clientName, 
+                github_picture: clientAvatar, email: clientEmail
+              }]);
+            } else {
+              User.update({
+                name: clientName, 
+                github_picture: clientAvatar, email: clientEmail
+              },{
+                where: { id: clientId}
+              });
+            }
+          })
+          .then(() => {
+            res.redirect(
+              `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
+            )
+          });
         });
       });
     }
