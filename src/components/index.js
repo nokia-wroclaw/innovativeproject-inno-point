@@ -13,6 +13,9 @@ import TechnologyBlock from "./Project/TechnologyBlock";
 import TagsBlock from "./Project/TagsBlock";
 import MailButton from "./MailButton";
 import { TeamCard } from "./Teams";
+import DeleteProfileBlock from "./Profile/DeleteProfileBlock";
+import PictureBlock from "./Profile/PictureBlock";
+import ProfileForm from "./Profile/ProfileForm";
 
 export {
   LoginForm,
@@ -31,5 +34,8 @@ export {
   MailButton,
   TeamCard,
   TeamForm,
-  VerifyProjectBlock
+  VerifyProjectBlock,
+  DeleteProfileBlock,
+  PictureBlock,
+  ProfileForm
 };
