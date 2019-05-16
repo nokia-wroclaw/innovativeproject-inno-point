@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Spinner } from "../../..components";
+import { Spinner } from "../../../components";
 
 export const StyledSpinner = styled(Spinner)`
     margin-left: auto;

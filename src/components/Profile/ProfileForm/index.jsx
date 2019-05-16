@@ -123,4 +123,4 @@ const ProfileForm1 = props => {
 
 const ProfileForm = withSnackbar(ProfileForm1);
 
-export { ProfileForm };
+export default { ProfileForm };
