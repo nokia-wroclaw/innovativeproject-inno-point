@@ -25,6 +25,16 @@ import {
   userReadFailure
 } from "./users";
 
+import {
+  profilesReadRequest,
+  profilesReadSuccess,
+  profilesReadFailure,
+  profileReadRequest,
+  profileReadSuccess,
+  profileReadFailure,
+  profileCreateRequest
+} from "./profile"
+
 export {
   projectCreateRequest,
   projectsReadRequest,
@@ -43,5 +53,12 @@ export {
   usersReadFailure,
   userReadRequest,
   userReadSuccess,
-  userReadFailure
+  userReadFailure,
+  profilesReadRequest,
+  profilesReadSuccess,
+  profilesReadFailure,
+  profileReadRequest,
+  profileReadSuccess,
+  profileReadFailure,
+  profileCreateRequest
 };

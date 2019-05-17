@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import styled from "styled-components/macro";
 
 import { getUserById } from "../../../store/selectors";
-import { usersReadRequest } from "../../../actions";
+import { profileReadRequest } from "../../../actions";
 
 import {
     ProfileForm,
@@ -29,7 +29,7 @@ const Profile = props => {
     } = user;
     return (
         <MainContainer>
-            <ProfileForm props={user} gridArea="input" /> { }
+            <ProfileForm user={user} gridArea="input" /> { }
             {github_picture && <PictureBlock user={user} gridArea="picture" />}
             <DeleteProfileBlock id={id} gridArea="delete" />
         </MainContainer>
@@ -45,7 +45,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    readProfile: () => dispatch(usersReadRequest())
+    readProfile: () => dispatch(profileReadRequest())
 });
 
 export default connect(

@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "../../Button";
 
 import { textFieldValidator } from "../../../utils/validators";
-import { updateProfile } from "../../../api/users";
+import { updateProfile } from "../../../api/profile";
 
 const ProfileForm1 = props => {
     const [name, setName] = useState({

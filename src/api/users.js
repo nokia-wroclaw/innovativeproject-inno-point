@@ -17,8 +17,4 @@ export const updateUsers = user =>
     user
   });
 
-export const updateProfile = profile => {
-  return createApiRequest(PUT, `/profile/${profile}`);
-};
-
 export const deleteUsers = id => createApiRequest(DELETE, `/users/${id}`);

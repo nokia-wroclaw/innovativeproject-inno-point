@@ -24,4 +24,6 @@ export const getProjectById = (state, id) => {
 export const getUserById = (state, id) => {
   const users = state.users.items;
   const user = users.length !== 0 ? users.find(e => e.id == id) : [];
+
+  return user;
 };
