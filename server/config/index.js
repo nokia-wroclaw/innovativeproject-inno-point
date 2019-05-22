@@ -14,7 +14,7 @@ const config = {
     github_url_repos: "https://api.github.com/user/repos",
     client_id: "cb8b7f9b4e0a03ead294",
     client_secret: "6689a1dc924d845a4296030a710eaeaadc1c60e3",
-    admin_token: "8ed086ffb560ae17581eb1d92e35c443c1fcc027",
+    app_token: "136441686325559577c760a7da349910f2ff3a1c",
     scope: "user",
     allow_signup: "true"
   },

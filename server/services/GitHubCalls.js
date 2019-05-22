@@ -188,7 +188,7 @@ class GitHubCalls {
       method: "POST",
       headers: {
         "user-agent": "node.js ",
-        Authorization: "token " + gitConfig.admin_token,
+        Authorization: "token " + gitConfig.app_token,
         "Content-Type": "application/json",
         'Content-Length': Buffer.byteLength(jsonObject, 'utf8')
       }
