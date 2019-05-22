@@ -19,6 +19,8 @@ const {
 const { api, appUrl } = config;
 const state = "randomState";
 
+const github = new githubCalls();
+
 const gitHubRoutes = app => {
   app.get("/auth", (req, res) => {
     res.redirect(
@@ -48,36 +50,55 @@ const gitHubRoutes = app => {
             hireable,
             public_repos
           } = userData;
-          
+
           User.findAll({
-            where: { id: clientId}
+            where: { id: clientId }
           })
-          .then(result => {
-            if (result.length === 0) {
-              User.bulkCreate([{
-                id: clientId, name: clientName, 
-                github_picture: clientAvatar, email: clientEmail
-              }]);
-            } else {
-              User.update({
-                name: clientName, 
-                github_picture: clientAvatar, email: clientEmail
-              },{
-                where: { id: clientId}
-              });
-            }
-          })
-          .then(() => {
-            res.redirect(
-              `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
-            )
-          });
+            .then(result => {
+              if (result.length === 0) {
+                User.bulkCreate([
+                  {
+                    id: clientId,
+                    name: clientName,
+                    github_picture: clientAvatar,
+                    email: clientEmail
+                  }
+                ]);
+              } else {
+                User.update(
+                  {
+                    name: clientName,
+                    github_picture: clientAvatar,
+                    email: clientEmail
+                  },
+                  {
+                    where: { id: clientId }
+                  }
+                );
+              }
+            })
+            .then(() => {
+              res.redirect(
+                `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
+              );
+            });
         });
       });
     }
   });
 
-  app.get("/", (req, res) => {});
+  app.post("/github/createRepo", (req, res) => {
+    console.log(req.body);
+    const data = {
+      title: req.body.title,
+      description: req.body.description
+    };
+
+    github.gitPostCreateNewRepository(data).then(repoData => {
+      // console.log("created repo");
+      res.send("repo created" + repoData);
+    });
+  });
 };
 
 module.exports = gitHubRoutes;
