@@ -9,7 +9,7 @@ install:
   - npm ci
 
 script:
-  - npm run lint
+  - npm start
 
 notifications:
   email: false
