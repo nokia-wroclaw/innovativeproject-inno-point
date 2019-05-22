@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  server:
+    build: "./server"
+    volumes:
+      - ./server:/usr/src/server
+    ports:
+      - 3030:3030
+    #networks:
+    # - webappnetwork
+  app:
+    build: "."
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    # networks:
+    #  - webappnetwork
+  db:
+    image: mysql
+    # command: ["rm", "-r", "/var/lib/mysql/lost+found"]
+    restart: always
+    environment:
+      MYSQL_DATABASE: "inno-point"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: ""
+      MYSQL_ROOT_PASSWORD: "inno-point"
+      container_name: mysql
+    ports:
+      - 3306:3306
+    expose:
+      - "3306"
+    volumes:
+      - /var/lib/mysql:/var/lib/mysql
+    #networks:
+    # - webappnetwork
+#networks:
+# webappnetwork:
+#  driver: bridge

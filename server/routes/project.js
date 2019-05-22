@@ -1,4 +1,7 @@
-const { Project, User } = require("../services/dbConnection");
+const {
+  Project,
+  User
+} = require("../services/DBConnection");
 
 const projectRoutes = app => {
   app.get("/projects", (req, res) => {
@@ -11,20 +14,25 @@ const projectRoutes = app => {
     let id = parseInt(req.params.id);
     let project, members;
     Project.findAll({
-      where: {
-        id: id
-      }})
+        where: {
+          id: id
+        }
+      })
       .then(result => {
         project = result;
         id = project.team_id;
       });
-      User.findAll({
+    User.findAll({
         where: {
           team_id: id
-      }})
+        }
+      })
       .then(result => {
         members = result;
-        res.send({ project, members});
+        res.send({
+          project,
+          members
+        });
       });
   });
 
@@ -42,18 +50,27 @@ const projectRoutes = app => {
     } = req.body.project;
     console.log(req.body.project);
 
-    Project.findAll({ 
-      attributes: ['id'],
-      order: [['id', 'DESC']],
-      limit: 1
+    Project.findAll({
+        attributes: ['id'],
+        order: [
+          ['id', 'DESC']
+        ],
+        limit: 1
       })
       .then(result => {
         const id = result.row ? parseInt(result.row[0].id) + 1 : 0;
         return Project.bulkCreate([{
-          id: id, name: name, short_description: short_description, goals: goals, scopes: scopes,
-          requirements: requirements, number_of_members: number_of_members,
-          technology: technology, tags: tags, theme_color: theme_color
-        }])  
+          id: id,
+          name: name,
+          short_description: short_description,
+          goals: goals,
+          scopes: scopes,
+          requirements: requirements,
+          number_of_members: number_of_members,
+          technology: technology,
+          tags: tags,
+          theme_color: theme_color
+        }])
       })
       .then(result => {
         res.send(result);
@@ -76,19 +93,22 @@ const projectRoutes = app => {
       tags
     } = req.body;
     Project.update({
-      name: name,
-      short_description: short_description,
-      team_id: team_id,
-      goals: goals,
-      scopes: scopes,
-      requirements: requirements,
-      mentor_id: mentor_id,
-      number_of_members: number_of_members,
-      technology: technology,
-      academic_contact_id: academic_contact_id,
-      tags: tags
-    },
-    { where: { id: id }})
+        name: name,
+        short_description: short_description,
+        team_id: team_id,
+        goals: goals,
+        scopes: scopes,
+        requirements: requirements,
+        mentor_id: mentor_id,
+        number_of_members: number_of_members,
+        technology: technology,
+        academic_contact_id: academic_contact_id,
+        tags: tags
+      }, {
+        where: {
+          id: id
+        }
+      })
       .then(result => {
         res.send(result);
       })
@@ -97,20 +117,24 @@ const projectRoutes = app => {
   app.put("/projects/verify/:id", (req, res) => {
     const id = parseInt(req.params.id);
     Project.update({
-      verified: 1
-    },{
-      where: { id: id }
-    })
-    .then(result => {
+        verified: 1
+      }, {
+        where: {
+          id: id
+        }
+      })
+      .then(result => {
         res.send(result);
-    });
+      });
   });
 
   app.delete("/projects/:id", (req, res) => {
     const id = parseInt(req.params.id);
     Project.destroy({
-      where: { id: id }
-    })
+        where: {
+          id: id
+        }
+      })
       .then(result => {
         res.send(result);
       })

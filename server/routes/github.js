@@ -2,10 +2,14 @@ const request = require("request");
 const githubCalls = require("../services/GitHubCalls");
 const config = require("../config/index");
 
-const { getCode, getState, getToken } = require("../utils/selectors");
+const {
+  getCode,
+  getState,
+  getToken
+} = require("../utils/selectors");
 const crypto = require("crypto");
 
-const User = require("../services/dbConnection");
+const User = require("../services/DBConnection");
 
 const {
   client_id,
@@ -16,7 +20,10 @@ const {
   github_url_token
 } = config.github;
 
-const { api, appUrl } = config;
+const {
+  api,
+  appUrl
+} = config;
 const state = "randomState";
 
 const gitHubRoutes = app => {
@@ -48,30 +55,37 @@ const gitHubRoutes = app => {
             hireable,
             public_repos
           } = userData;
-          
+
           User.findAll({
-            where: { id: clientId}
-          })
-          .then(result => {
-            if (result.length === 0) {
-              User.bulkCreate([{
-                id: clientId, name: clientName, 
-                github_picture: clientAvatar, email: clientEmail
-              }]);
-            } else {
-              User.update({
-                name: clientName, 
-                github_picture: clientAvatar, email: clientEmail
-              },{
-                where: { id: clientId}
-              });
-            }
-          })
-          .then(() => {
-            res.redirect(
-              `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
-            )
-          });
+              where: {
+                id: clientId
+              }
+            })
+            .then(result => {
+              if (result.length === 0) {
+                User.bulkCreate([{
+                  id: clientId,
+                  name: clientName,
+                  github_picture: clientAvatar,
+                  email: clientEmail
+                }]);
+              } else {
+                User.update({
+                  name: clientName,
+                  github_picture: clientAvatar,
+                  email: clientEmail
+                }, {
+                  where: {
+                    id: clientId
+                  }
+                });
+              }
+            })
+            .then(() => {
+              res.redirect(
+                `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
+              )
+            });
         });
       });
     }
