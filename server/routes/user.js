@@ -56,6 +56,36 @@ const userRoutes = app => {
         res.send(result);
       })
   });
+
+  app.post("/users/:id", (req, res) => {
+    const role = req.body;
+    User.findAll({
+      attributes: ['id'],
+      order: [['id', 'DESC']],
+      limit: 1
+    })
+      .then(result => {
+        const id = result.row ? parseInt(result.row[0].id) + 1 : 0;
+        return User.bulkCreate([{
+          id: id, role: role
+        }])
+      })
+      .then(result => {
+        res.send(result);
+      })
+  });
+
+  app.put("/users/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const role = req.body;
+    User.update({
+      role: role
+    },
+    { where: { id: id }})
+      .then(result => {
+        res.send(result);
+      })
+  });
 };
 
 module.exports = userRoutes;
