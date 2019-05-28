@@ -7,6 +7,10 @@ module.exports = function(sequelize, DataTypes) {
                   primaryKey: true,
                   autoIncrement: true
                 },
+                role: {
+                  type: DataTypes.CHAR(50),
+                  allowNull: false
+                },
                 name: {
                   type: DataTypes.CHAR(25),
                   allowNull: true
