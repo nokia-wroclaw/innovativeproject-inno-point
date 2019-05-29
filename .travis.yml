@@ -11,5 +11,10 @@ install:
 script:
   - npm start
 
+start: "node index.js"
+
+services:
+  - mysql
+
 notifications:
   email: false
