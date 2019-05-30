@@ -7,8 +7,8 @@ services:
       - ./server:/usr/src/server
     ports:
       - 3030:3030
-    #networks:
-    # - webappnetwork
+    networks:
+      - webappnetwork
   app:
     build: "."
     volumes:
@@ -17,12 +17,13 @@ services:
       - 3000:3000
     depends_on:
       - db
-    # networks:
-    #  - webappnetwork
+    networks: #odkomentować to!!!!!
+      - webappnetwork
   db:
     image: mysql
     # command: ["rm", "-r", "/var/lib/mysql/lost+found"]
     restart: always
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_DATABASE: "inno-point"
       MYSQL_USER: "root"
@@ -35,8 +36,10 @@ services:
       - "3306"
     volumes:
       - /var/lib/mysql:/var/lib/mysql
-    #networks:
-    # - webappnetwork
-#networks:
-# webappnetwork:
-#  driver: bridge
+    networks:
+      - webappnetwork
+networks:
+  webappnetwork:
+    driver: bridge
+#załadować wszystko do docker huba
+# nie łączy się z db albo przez porty albo przez hasło
