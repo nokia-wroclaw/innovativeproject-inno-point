@@ -1,12 +1,14 @@
 const request = require("request");
 const githubCalls = require("../services/GitHubCalls");
 const config = require("../config/index");
+const TokenHandler = require("../services/TokenHandler");
 
 const { getCode, getState, getToken } = require("../utils/selectors");
 const crypto = require("crypto");
 
 const Models = require("../services/dbConnection");
 const User = Models.User;
+const ROLE = require("../utils/role");
 
 const {
   client_id,
@@ -21,6 +23,7 @@ const { api, appUrl } = config;
 const state = "randomState";
 
 const github = new githubCalls();
+const tokenHandler = new TokenHandler();
 
 const gitHubRoutes = app => {
   app.get("/auth", (req, res) => {
@@ -57,26 +60,50 @@ const gitHubRoutes = app => {
 
               let createdNewAccount = false;
 
+              let databaseUserRole;
+
               User.findAll({
-                where: { id: clientId }
+                // attributes: ["role"],
+                where: { id: clientId },
+                raw: true
               })
-                .then(result => {
-                  if (result.length === 0) {
+
+                .then(user => {
+                  if (user.length === 0) {
                     User.bulkCreate([
                       {
                         id: clientId,
                         name: clientName,
                         github_picture: clientAvatar,
-                        email: clientEmail
+                        email: clientEmail,
+                        role: ROLE.DEVELOPER
                       }
                     ]);
                     console.log("created new account");
+                    databaseUserRole = ROLE.DEVELOPER;
                     createdNewAccount = true;
+                    //                   console.log(User.role);
                   } else {
                     console.log("didn't create new account");
+
+                    databaseUserRole = JSON.parse(JSON.stringify(user[0])).role;
+
                     createdNewAccount = false;
                   }
                 })
+
+                .then(result => {
+                  console.log(tokenHandler.generateToken(databaseUserRole));
+                  User.update(
+                    {
+                      token: tokenHandler.generateToken(databaseUserRole)
+                    },
+                    {
+                      where: { id: clientId }
+                    }
+                  );
+                })
+
                 .then(
                   () => {
                     if (createdNewAccount == true)
