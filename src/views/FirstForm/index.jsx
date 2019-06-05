@@ -1,53 +1,164 @@
-import React, { useEffect, useState } from "react";
-import { useForm, useField } from 'react-final-form-hooks'
-
+import React, { useEffect, useState, Fragment } from "react";
+import TextField from "@material-ui/core/TextField";
+import Spinner from "../../components/Spinner";
+import {
+  textFieldValidator,
+  emailFieldValidator
+} from "../../utils/validators";
+import Button from "../../components/Button";
 import { css } from "emotion";
+import axios from "axios";
+import config from "../../config";
+import { withSnackbar } from "notistack";
 
-const containerStyle = css`
-  width: 100vw;
-  min-height: 100vh;
-  height: auto;
-  display: grid;
-  grid-template: "header main" / var(--headerWidth) auto;
-  background-color: hsl(0, 0%, 95%);
+import styled, { keyframes } from "styled-components";
 
-  @media (max-width: 700px) {
-    grid-template: "header main" / 80px auto;
-  }
-
-  @media (max-width: 470px) {
-    grid-template: "header main" / 60px auto;
+const show = keyframes`
+  from {
+    transform: translateY(100px);
+    opacity: .2;
   }
 `;
 
-export default () => {
-    const { form, handleSubmit, values, pristine, submitting } = useForm({
-      onSubmit, 
-      validate 
-    })
-    const firstName = useField('firstName', form)
-    const lastName = useField('lastName', form)
-    return (
-        <div className={containerStyle}></div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>First Name</label>
-          <input {...firstName.input} placeholder="First Name" />
-          {firstName.meta.touched && firstName.meta.error && (
-            <span>{firstName.meta.error}</span>
-          )}
-        </div>
-        <div>
-          <label>Last Name</label>
-          <input {...lastName.input} placeholder="Last Name" />
-          {lastName.meta.touched && lastName.meta.error && (
-            <span>{lastName.meta.error}</span>
-          )}
-        </div>
-        <button type="submit" disabled={pristine || submitting}>
-          Submit
-        </button>
-      </form>
-      </div>
-    )
+const Form = styled.form`
+  height: 450px;
+  display: grid;
+  grid-template: "label label" 50px ". ." 1px "name surname" 20px ". ." 20px "email email" 20px ". ." 20px "email2 email2" 20px "button button" auto "space space" 7px / 200px 200px;
+  grid-gap: 10px;
+  background-color: transparent;
+  padding: 10px;
+  justify-items: center;
+  box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+
+  a.SingIn {
+    grid-area: singin;
+    color: #203870;
+    cursor: pointer;
   }
+`;
+
+const containerStyle = css`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ${show} 0.5s;
+
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  background: url("photos/bcg-new.png");
+  background-position: center;
+  background-size: 100% 100%;
+  background-color: hsl(0, 0%, 90%);
+
+  @media (max-width: 650px) {
+    border-radius: 8px;
+  }
+`;
+
+export default withSnackbar(props => {
+  const search = props.location.search;
+  const id = search.substr(search.indexOf("id") + 3, search.length);
+
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [email2, setEmail2] = useState("");
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const onSubmit = async event => {
+    event.preventDefault();
+    const check =
+      textFieldValidator(name) ||
+      textFieldValidator(surname) ||
+      emailFieldValidator(email) ||
+      emailFieldValidator(email2) ||
+      email !== email2;
+
+    setError(check);
+    if (!check) {
+      setLoading(true);
+      props.enqueueSnackbar("We try to complite your profile!", {
+        variant: "info"
+      });
+      // axios.put();
+    }
+  };
+
+  return (
+    <div className={containerStyle}>
+      <Form gridArea={props.gridArea} onSubmit={onSubmit}>
+        <div
+          className={css`
+            width: 100%;
+            grid-area: label;
+            font-weight: bold;
+            padding: 10px;
+            font-size: 20px;
+            border-bottom: solid 2px #003877;
+          `}
+        >
+          Fill in the profile data
+        </div>
+        <TextField
+          label="name"
+          type="text"
+          value={name}
+          onChange={e => setName(e.target.value)}
+          error={error}
+          className={css`
+            grid-area: name;
+            width: 200px;
+          `}
+        />
+        <TextField
+          label="surname"
+          type="text"
+          value={surname}
+          onChange={e => setSurname(e.target.value)}
+          error={error}
+          className={css`
+            grid-area: surname;
+            width: 200px;
+          `}
+        />
+        <TextField
+          label="email"
+          type="text"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          error={error}
+          className={css`
+            grid-area: email;
+            width: 410px;
+          `}
+        />
+        <TextField
+          label="retype email"
+          type="text"
+          value={email2}
+          onChange={e => setEmail2(e.target.value)}
+          error={error}
+          className={css`
+            grid-area: email2;
+            width: 410px;
+          `}
+        />
+        {loading ? (
+          <Spinner gridArea="button" alignSelf="end" size={50} />
+        ) : (
+          <Button
+            color={true}
+            size="large"
+            label="Complite "
+            alignSelf="end"
+            gridArea="button"
+          />
+        )}
+      </Form>
+    </div>
+  );
+});
