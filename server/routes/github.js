@@ -33,6 +33,7 @@ const gitHubRoutes = app => {
     const code = getCode(req.url);
     const req_state = getState(req.url);
     if (req_state !== state) {
+      res.state = 500;
       res.redirect(`${api}/error`);
     } else {
       const github = new githubCalls();
@@ -40,7 +41,6 @@ const gitHubRoutes = app => {
       github.gitPostGetUserToken(code).then(token => {
         //here should be all database operations
 
-        console.log("does work");
         //getting user information from github || user id , user name, user email, user avatar
         github.gitGetUserIdAndInfo(token).then(userData => {
           const {
@@ -83,25 +83,34 @@ const gitHubRoutes = app => {
               res.redirect(
                 `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
               );
+            }, reason => {
+              res.state = 500;
+              res.redirect(`${api}/error`);
             });
+        }, reason => {
+          res.state = 500;
+          res.redirect(`${api}/error`);
         });
+      }, reason => {
+        res.state = 500;
+        res.redirect(`${api}/error`);
       });
     }
   });
 
   app.get("/", (req, res) => { });
+
+
   app.post("/github/createRepo", (req, res) => {
-    console.log(req.body);
     const data = {
       title: req.body.title,
       description: req.body.description
     };
-
-
-
     github.gitPostCreateNewRepository(data).then(repoData => {
-      // console.log("created repo");
       res.send("repo created" + repoData);
+    }, reason => {
+      res.state = 500;
+      res.send("Error");
     });
   });
 };
