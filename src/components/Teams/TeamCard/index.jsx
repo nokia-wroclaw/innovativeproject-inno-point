@@ -13,8 +13,8 @@ export default ({ team, users, project, index }) => {
         <div className="Picture" />
         <div className="Main">
           <div className="Title">
-            {leader.github_picture ? (
-              <Picture src={leader.github_picture} />
+            { leader ? (
+              <Picture src={`${leader.github_picture}`} />
             ) : (
               <AccountCircle style={iconStyle} />
             )}

@@ -50,7 +50,7 @@ const TopicForm1 = props => {
 
   const handleSubmit = async event => {
     const fields = [name, number, description];
-    const mathods = [setName, setNumber, setDescription];
+    const mathods = [setName, setNumber, setDescription,];
     event.preventDefault();
     if (fields.every(e => !e.error && e.value)) {
       const project = {
@@ -127,7 +127,7 @@ const TopicForm1 = props => {
             onDelete={(chip, index) => handleDeleteChip(chip, index)}
             style={{ gridArea: "chips" }}
             label="Tags"
-            // variant="outlined"
+            variant="outlined"
           />
           <ColorPicker
             gridArea={"colors"}

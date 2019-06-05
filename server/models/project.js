@@ -72,6 +72,10 @@ module.exports = function(sequelize, DataTypes) {
 		theme_color: {
 			type: DataTypes.CHAR(11),
 			allowNull: true
+		},
+		verified: {
+			type: DataTypes.INTEGER(4).UNSIGNED,
+			allowNull: true
 		}
 	}, {
 		tableName: 'project',
