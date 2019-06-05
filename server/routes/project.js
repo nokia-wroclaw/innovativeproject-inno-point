@@ -1,4 +1,7 @@
-const { Project, User } = require("../services/dbConnection");
+const Models = require("../services/dbConnection");
+
+const User = Models.User;
+const Project = Models.Project;
 
 const dbQuerry = require("../services/dbQuerry");
 const MailService = require("../services/MailService");
@@ -7,6 +10,9 @@ const projectRoutes = app => {
   app.get("/projects", (req, res) => {
     Project.findAll().then(result => {
       res.send(JSON.stringify(result));
+    }, reason => {
+      res.state = 500;
+      res.redirect(`${api}/error`);
     })
   });
 
@@ -30,6 +36,9 @@ const projectRoutes = app => {
       .then(result => {
         members = result;
         res.send({ project, members });
+      }, reason => {
+        res.state = 500;
+        res.redirect(`${api}/error`);
       });
   });
 
@@ -75,7 +84,12 @@ const projectRoutes = app => {
           });
         });
 
+        if (result == 1)
+          res.sendStatus("200");
         res.send(result);
+      }, reason => {
+        console.log("routes/project - rejection when adding project");
+        res.sendStatus("500");
       })
   });
 
@@ -109,7 +123,12 @@ const projectRoutes = app => {
     },
       { where: { id: id } })
       .then(result => {
+        if (result == 1)
+          res.sendStatus("200");
         res.send(result);
+      }, reason => {
+        console.log("routes/project - rejection when updating project");
+        res.sendStatus("500");
       })
   });
 
@@ -121,7 +140,12 @@ const projectRoutes = app => {
         where: { id: id }
       })
       .then(result => {
+        if (result == 1)
+          res.sendStatus("200");
         res.send(result);
+      }, reason => {
+        console.log("routes/project - rejection when updating verify status");
+        res.sendStatus("500");
       });
   });
 
@@ -131,7 +155,13 @@ const projectRoutes = app => {
       where: { id: id }
     })
       .then(result => {
+        console.log(result);
+        if (result == 1)
+          res.sendStatus("200");
         res.send(result);
+      }, reason => {
+        console.log("routes/project - rejection when deleting project");
+        res.sendStatus("500");
       })
   });
 };
