@@ -4,15 +4,11 @@ const UserModel = require("../models/user");
 const TeamModel = require("../models/team");
 const ProjectModel = require("../models/project");
 
-const sequelize = new Sequelize(
-  config.database,
-  config.user,
-  config.password,
-  {
-    host: config.host,
-    dialect: "mysql", 
-  }
-);
+const sequelize = new Sequelize(config.database, config.user, config.password, {
+  host: config.host,
+  dialect: "mysql",
+  logging: false
+});
 
 const User = UserModel(sequelize, Sequelize);
 const Team = TeamModel(sequelize, Sequelize);
