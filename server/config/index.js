@@ -1,9 +1,10 @@
 const config = {
   db: {
-    host: "localhost",
-    database: "inno-point",
-    user: "root",
-    password: "",
+    host: "us-cdbr-iron-east-02.cleardb.net",
+    database: "heroku_f337e52df2176b9",
+    port: 3306,
+    user: "b9483965a9a2f5",
+    password: "f77c4e8d",
     socketPath: "",
     waitForConnections: true
   },
