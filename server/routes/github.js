@@ -38,80 +38,94 @@ const gitHubRoutes = app => {
     } else {
       const github = new githubCalls();
       //generating user token with code from github
-      github.gitPostGetUserToken(code).then(token => {
-        //here should be all database operations
+      github.gitPostGetUserToken(code).then(
+        token => {
+          //here should be all database operations
 
-        //getting user information from github || user id , user name, user email, user avatar
-        github.gitGetUserIdAndInfo(token).then(userData => {
-          const {
-            clientId,
-            clientName,
-            clientEmail,
-            clientAvatar,
-            bio,
-            hireable,
-            public_repos
-          } = userData;
+          //getting user information from github || user id , user name, user email, user avatar
+          github.gitGetUserIdAndInfo(token).then(
+            userData => {
+              const {
+                clientId,
+                clientName,
+                clientEmail,
+                clientAvatar,
+                bio,
+                hireable,
+                public_repos
+              } = userData;
 
-          User.findAll({
-            where: { id: clientId }
-          })
-            .then(result => {
-              if (result.length === 0) {
-                User.bulkCreate([
-                  {
-                    id: clientId,
-                    name: clientName,
-                    github_picture: clientAvatar,
-                    email: clientEmail
+              let createdNewAccount = false;
+
+              User.findAll({
+                where: { id: clientId }
+              })
+                .then(result => {
+                  if (result.length === 0) {
+                    User.bulkCreate([
+                      {
+                        id: clientId,
+                        name: clientName,
+                        github_picture: clientAvatar,
+                        email: clientEmail
+                      }
+                    ]);
+                    console.log("created new account");
+                    createdNewAccount = true;
+                  } else {
+                    console.log("didn't create new account");
+                    createdNewAccount = false;
                   }
-                ]);
-              } else {
-                User.update(
-                  {
-                    name: clientName,
-                    github_picture: clientAvatar,
-                    email: clientEmail
+                })
+                .then(
+                  () => {
+                    if (createdNewAccount == true)
+                      res.redirect(
+                        `${appUrl}/dashboard/first_loggin?access_token=${token}&id=${clientId}&name=${
+                          userData.clientName
+                        }&email=${userData.clientEmail}`
+                      );
+                    else
+                      res.redirect(
+                        `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
+                      );
                   },
-                  {
-                    where: { id: clientId }
+                  reason => {
+                    res.state = 500;
+                    res.redirect(`${api}/error`);
                   }
                 );
-              }
-            })
-            .then(() => {
-              res.redirect(
-                `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
-              );
-            }, reason => {
+            },
+            reason => {
               res.state = 500;
               res.redirect(`${api}/error`);
-            });
-        }, reason => {
+            }
+          );
+        },
+        reason => {
           res.state = 500;
           res.redirect(`${api}/error`);
-        });
-      }, reason => {
-        res.state = 500;
-        res.redirect(`${api}/error`);
-      });
+        }
+      );
     }
   });
 
-  app.get("/", (req, res) => { });
-
+  app.get("/", (req, res) => {});
 
   app.post("/github/createRepo", (req, res) => {
     const data = {
       title: req.body.title,
       description: req.body.description
     };
-    github.gitPostCreateNewRepository(data).then(repoData => {
-      res.send("repo created" + repoData);
-    }, reason => {
-      res.state = 500;
-      res.send("Error");
-    });
+    github.gitPostCreateNewRepository(data).then(
+      repoData => {
+        res.send("repo created" + repoData);
+      },
+      reason => {
+        res.state = 500;
+        res.send("Error");
+      }
+    );
   });
 };
 
