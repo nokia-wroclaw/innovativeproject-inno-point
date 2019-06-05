@@ -8,7 +8,8 @@ const user = {
   surname: null,
   isAuthenticated: false,
   picture: null,
-  email: null
+  email: null,
+  token: null
 };
 
 const usersReducer = createReducer(user, {
@@ -24,7 +25,8 @@ const usersReducer = createReducer(user, {
       surname,
       github_picture,
       email,
-      team_id
+      team_id,
+      token
     } = action.payload;
     return produce(state, draft => {
       draft.isFetching = false;
@@ -34,6 +36,7 @@ const usersReducer = createReducer(user, {
       draft.github_picture = github_picture;
       draft.email = email;
       draft.team_id = team_id;
+      draft.token = token;
     });
   },
   [AT.USER_READ_FAILURE]: (state, action) => {
