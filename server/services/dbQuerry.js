@@ -1,3 +1,9 @@
+const Models = require("../services/dbConnection");
+const User = Models.User;
+const Team = Models.Team;
+const Project = Models.Project;
+
+
 class DBQuerry {
   constructor() {}
 
@@ -6,6 +12,8 @@ class DBQuerry {
       resolve("inno.project.test@gmail.com");
     });
   }
+
+  async getRoleByToken
 }
 
 module.exports = DBQuerry;

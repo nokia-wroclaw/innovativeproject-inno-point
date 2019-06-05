@@ -3,7 +3,8 @@ const role = {
   MENTOR: "MENTOR",
   LEADER: "LEADER",
   ADMIN: "ADMIN",
-  ACADEMIC: "ACADEMIC"
+  ACADEMIC: "ACADEMIC",
+  ERROR: "ERROR"
 };
 
 module.exports = role;

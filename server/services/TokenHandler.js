@@ -1,3 +1,5 @@
+const Models = require("../services/dbConnection");
+const User = Models.User;
 const role = require("../utils/role");
 
 class TokenHandler {
@@ -12,7 +14,7 @@ class TokenHandler {
         return "5555555555555555555555555555555555555555";
       }
       case role.DEVELOPER: {
-        console.log("generating token for dev");
+        //      console.log("generating token for dev");
         return "2222222222222222222222222222222222222222";
       }
       case role.LEADER: {
@@ -27,8 +29,21 @@ class TokenHandler {
     }
   }
 
-  test() {
-    return "2222222222222222222222222222222222222222";
+  getRoleFromToken(clientToken) {
+    User.findAll({
+      attributes: ["role"],
+      where: { token: clientToken },
+      raw: true,
+      limit: 1
+    }).then(result => {
+      if (result === 0) {
+        return ROLE.ERROR;
+      } else {
+        let databaseUserRole = JSON.parse(JSON.stringify(result[0])).role;
+        //  console.log(result);
+        return databaseUserRole;
+      }
+    });
   }
 }
 

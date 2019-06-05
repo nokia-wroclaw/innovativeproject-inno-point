@@ -59,8 +59,8 @@ const gitHubRoutes = app => {
               } = userData;
 
               let createdNewAccount = false;
-
               let databaseUserRole;
+              let generatedToken;
 
               User.findAll({
                 // attributes: ["role"],
@@ -79,21 +79,16 @@ const gitHubRoutes = app => {
                         role: ROLE.DEVELOPER
                       }
                     ]);
-                    console.log("created new account");
                     databaseUserRole = ROLE.DEVELOPER;
                     createdNewAccount = true;
-                    //                   console.log(User.role);
                   } else {
-                    console.log("didn't create new account");
-
                     databaseUserRole = JSON.parse(JSON.stringify(user[0])).role;
 
                     createdNewAccount = false;
                   }
                 })
 
-                .then(result => {
-                  console.log(tokenHandler.generateToken(databaseUserRole));
+                .then(() => {
                   User.update(
                     {
                       token: tokenHandler.generateToken(databaseUserRole)
@@ -105,17 +100,24 @@ const gitHubRoutes = app => {
                 })
 
                 .then(
-                  () => {
+                  result => {
                     if (createdNewAccount == true)
                       res.redirect(
                         `${appUrl}/dashboard/first_loggin?access_token=${token}&id=${clientId}&name=${
                           userData.clientName
-                        }&email=${userData.clientEmail}`
+                        }&email=${
+                          userData.clientEmail
+                        }&api_token=${tokenHandler.generateToken(
+                          databaseUserRole
+                        )}`
                       );
-                    else
+                    else {
                       res.redirect(
-                        `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
+                        `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}&api_token=${tokenHandler.generateToken(
+                          databaseUserRole
+                        )}`
                       );
+                    }
                   },
                   reason => {
                     res.state = 500;
