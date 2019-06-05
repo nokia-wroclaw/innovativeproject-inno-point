@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { configureStore, getDefaultMiddleware } from "redux-starter-kit";
-import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
 
 import { SnackbarProvider } from "notistack";
