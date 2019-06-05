@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { getProjectById } from "../../../store/selectors";
 import { teamReadRequest, usersReadRequest } from "../../../actions";
-
+import LinkButton from "../../../components/LinkButton";
 import {
   MembersProjectBlock,
   ProjectMainBlock,
@@ -33,32 +33,7 @@ const Team = props => {
     tags,
     verified
   } = project;
-  return (
-    <MainContainer>
-      <ProjectMainBlock project={project} />
-      {/* {members.length > 0 && (
-        <MembersProjectBlock members={members} theme_color={theme_color} />
-      )} */}
-      <div
-        style={{
-          display: "flex"
-        }}
-      >
-        {goals && <GoalsBlock project={project} />}
-        {scopes && <ScopesBlock project={project} />}
-      </div>
-      <div
-        style={{
-          display: "flex"
-        }}
-      >
-        {technology && <TechnologyBlock project={project} />}
-        {tags && <TagsBlock project={project} />}
-      </div>
-      {!verified && <VerifyProjectBlock id={id} />}
-      <DeleteProjectBlock id={id} />
-    </MainContainer>
-  );
+  return <div>Current team</div>;
 };
 
 const mapStateToProps = (state, ownProps) => {

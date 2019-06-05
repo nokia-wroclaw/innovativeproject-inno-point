@@ -3,8 +3,8 @@ const { Team } = require("../services/dbConnection");
 const teamRoutes = app => {
   app.get("/teams", (req, res) => {
     Team.findAll().then(result => {
-        res.send(JSON.stringify(result));
-      })
+      res.send(JSON.stringify(result));
+    })
   });
 
   app.get("/teams/:id", (req, res) => {
@@ -21,11 +21,11 @@ const teamRoutes = app => {
     const { leader_id } = req.body;
     Team.findAll(
       { attributes: ['id'] },
-      { order: [[ 'id', 'DESC' ]] },
+      { order: [['id', 'DESC']] },
       { limit: 1 })
       .then(result => {
         const id = result.row ? parseInt(result.row[0].id) + 1 : 0;
-        return Team.bulkCreate([{ id: id, leader_id: leader_id}])
+        return Team.bulkCreate([{ id: id, leader_id: leader_id }])
       })
       .then(result => {
         res.send(result);

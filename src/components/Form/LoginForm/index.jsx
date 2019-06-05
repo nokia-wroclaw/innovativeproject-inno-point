@@ -95,7 +95,7 @@ const LoginForm = props => {
       <div className="Panel">
         <div className="Title">InnoPoint</div>
         <div className="Info">
-          Welcom back! Log in to your account to view today's projects
+          Welcome back! Log in to your account to view today's projects
         </div>
         <div className="Icons">
           <a>

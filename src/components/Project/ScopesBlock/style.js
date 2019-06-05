@@ -32,6 +32,7 @@ export const Container = styled.div`
     }
 
     div.Scope {
+      cursor: pointer;
       margin: 5px;
       display: flex;
 

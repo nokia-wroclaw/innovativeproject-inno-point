@@ -13,7 +13,6 @@ export const Container = styled.div`
   height: 120px;
   display: grid;
   grid-template: "table";
-  width: calc(100% - var(--projectMargin));
   border-radius: 8px;
   box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
   transition: all 0.1s ease-in-out;

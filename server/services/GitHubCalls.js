@@ -65,7 +65,7 @@ class GitHubCalls {
     var unGuessableState = crypto.createHash("sha256");
     unGuessableState.update(Math.random().toString());
 
-    console.log("hash: " + unGuessableState.digest());
+    //    console.log("hash: " + unGuessableState.digest());
 
     let optionsget = {
       host: "github.com",
@@ -145,15 +145,13 @@ class GitHubCalls {
   }
 
   gitPostGetUserToken(code) {
-    return new Promise((resolve, rejest) => {
+    return new Promise((resolve, reject) => {
       request.post(
         `${gitConfig.github_url_token}?client_id=${
         gitConfig.client_id
         }&client_secret=${gitConfig.client_secret}&code=${code}`,
         (error, response, body) => {
-          // console.log(body + "\n\n\n");
           const jsonWithToken = queryString.decode(body);
-          // console.log(json.access_token);
 
           if (error) {
             reject(err);
@@ -166,7 +164,7 @@ class GitHubCalls {
 
   gitPostCreateNewRepository(data) {
 
-    console.log(data.title + " " + data.description);
+    //    console.log(data.title + " " + data.description);
 
 
     const jsonObject = JSON.stringify({
@@ -193,11 +191,11 @@ class GitHubCalls {
         'Content-Length': Buffer.byteLength(jsonObject, 'utf8')
       }
     };
-    console.log(optionsPost);
+    //    console.log(optionsPost);
 
     return new Promise((resolve, reject) => {
       let reqPost = https.request(optionsPost, function (res) {
-        console.log("statusCode: ", res.statusCode);
+        //        console.log("statusCode: ", res.statusCode);
 
         let rawData = "";
         res.on("data", chunk => {
@@ -210,7 +208,7 @@ class GitHubCalls {
             //   repo_url: parsedData.html_url,
             //   repo_time_creation: created_at
             // };
-            console.log(parsedData);
+            //            console.log(parsedData);
             resolve(parsedData);
           } catch (e) {
             console.error(e.message);

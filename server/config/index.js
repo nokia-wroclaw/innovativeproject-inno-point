@@ -2,7 +2,6 @@ const config = {
   db: {
     host: "localhost",
     database: "inno-point",
-    port: 3306,
     user: "root",
     password: "",
     socketPath: "",

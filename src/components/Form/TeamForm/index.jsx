@@ -5,21 +5,9 @@ import styled from "styled-components/macro";
 import TextField from "@material-ui/core/TextField";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import { LockOpen, Lock } from "@material-ui/icons";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-
-import FolderIcon from "@material-ui/icons/Folder";
-import DeleteIcon from "@material-ui/icons/Delete";
 
 import { Form, Container, StyledSpinner, StyledStatusOfTeam } from "./style";
 import Button from "../../Button";
-import ColorPicker from "../../ColorPicker";
-
 import { createTeam } from "../../../api/teams";
 
 import { textFieldValidator } from "../../../utils/validators";
@@ -48,14 +36,6 @@ const TopicForm1 = props => {
     value,
     error: validator ? validator(value) : false
   });
-
-  function generate(element) {
-    return [0, 1, 2].map(value =>
-      React.cloneElement(element, {
-        key: value
-      })
-    );
-  }
 
   const handleSubmit = async event => {
     const fields = [number];
@@ -117,30 +97,6 @@ const TopicForm1 = props => {
               icon={<Lock />}
             />
           </StyledStatusOfTeam>
-          {/* <List
-            dense={dense}
-            css={`
-              grid-area: list;
-              border: 1px solid rgba(0, 0, 0, 0.23);
-              border-radius: 8px;
-            `}
-          >
-            {generate(
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>
-                    <FolderIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Single-line item" />
-                <ListItemSecondaryAction>
-                  <IconButton aria-label="Delete">
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            )}
-          </List> */}
           {waiting ? (
             <StyledSpinner
               size={30}

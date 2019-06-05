@@ -40,6 +40,7 @@ export const Container = styled.div`
       color: gray;
       padding-right: 30%;
       font-size: 20px;
+      cursor: pointer;
     }
 
     a {
