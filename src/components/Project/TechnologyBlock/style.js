@@ -31,14 +31,15 @@ export const Container = styled.div`
       border-bottom: solid 1px hsl(0, 0%, 90%);
       font-size: 25px;
     }
-
-    div.TechContainer {
-      /* display: grid;
-      grid-gap: 10px;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: 50px; */
-    }
   }
+`;
+
+export const TechContainer = styled.span`
+  cursor: pointer;
+  /* display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 50px; */
 `;
 
 export const Technology = styled.span`

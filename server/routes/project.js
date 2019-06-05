@@ -1,9 +1,18 @@
-const { Project, User } = require("../services/dbConnection");
+const Models = require("../services/dbConnection");
+
+const User = Models.User;
+const Project = Models.Project;
+
+const dbQuerry = require("../services/dbQuerry");
+const MailService = require("../services/MailService");
 
 const projectRoutes = app => {
   app.get("/projects", (req, res) => {
     Project.findAll().then(result => {
       res.send(JSON.stringify(result));
+    }, reason => {
+      res.state = 500;
+      res.redirect(`${api}/error`);
     })
   });
 
@@ -13,18 +22,23 @@ const projectRoutes = app => {
     Project.findAll({
       where: {
         id: id
-      }})
+      }
+    })
       .then(result => {
         project = result;
         id = project.team_id;
       });
-      User.findAll({
-        where: {
-          team_id: id
-      }})
+    User.findAll({
+      where: {
+        team_id: id
+      }
+    })
       .then(result => {
         members = result;
-        res.send({ project, members});
+        res.send({ project, members });
+      }, reason => {
+        res.state = 500;
+        res.redirect(`${api}/error`);
       });
   });
 
@@ -40,23 +54,42 @@ const projectRoutes = app => {
       tags,
       theme_color
     } = req.body.project;
-    console.log(req.body.project);
+    //    console.log(req.body.project);
 
-    Project.findAll({ 
+    Project.findAll({
       attributes: ['id'],
       order: [['id', 'DESC']],
       limit: 1
-      })
+    })
       .then(result => {
         const id = result.row ? parseInt(result.row[0].id) + 1 : 0;
         return Project.bulkCreate([{
           id: id, name: name, short_description: short_description, goals: goals, scopes: scopes,
           requirements: requirements, number_of_members: number_of_members,
           technology: technology, tags: tags, theme_color: theme_color
-        }])  
+        }])
       })
       .then(result => {
+        const mailService = new MailService();
+
+        dbQuerry.getModeratorEmails().then(moderatorsEmails => {
+          const data = {
+            projectName: name,
+            projectId: result.insertId,
+            recipientEmails: moderatorsEmails
+          };
+
+          mailService.requestTopicReview(data).then(() => {
+            //            console.log("mail sent from backend");
+          });
+        });
+
+        if (result == 1)
+          res.sendStatus("200");
         res.send(result);
+      }, reason => {
+        console.log("routes/project - rejection when adding project");
+        res.sendStatus("500");
       })
   });
 
@@ -88,9 +121,14 @@ const projectRoutes = app => {
       academic_contact_id: academic_contact_id,
       tags: tags
     },
-    { where: { id: id }})
+      { where: { id: id } })
       .then(result => {
+        if (result == 1)
+          res.sendStatus("200");
         res.send(result);
+      }, reason => {
+        console.log("routes/project - rejection when updating project");
+        res.sendStatus("500");
       })
   });
 
@@ -98,12 +136,17 @@ const projectRoutes = app => {
     const id = parseInt(req.params.id);
     Project.update({
       verified: 1
-    },{
-      where: { id: id }
-    })
-    .then(result => {
+    }, {
+        where: { id: id }
+      })
+      .then(result => {
+        if (result == 1)
+          res.sendStatus("200");
         res.send(result);
-    });
+      }, reason => {
+        console.log("routes/project - rejection when updating verify status");
+        res.sendStatus("500");
+      });
   });
 
   app.delete("/projects/:id", (req, res) => {
@@ -112,7 +155,13 @@ const projectRoutes = app => {
       where: { id: id }
     })
       .then(result => {
+        console.log(result);
+        if (result == 1)
+          res.sendStatus("200");
         res.send(result);
+      }, reason => {
+        console.log("routes/project - rejection when deleting project");
+        res.sendStatus("500");
       })
   });
 };

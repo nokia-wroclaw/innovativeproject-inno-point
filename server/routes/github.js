@@ -5,7 +5,8 @@ const config = require("../config/index");
 const { getCode, getState, getToken } = require("../utils/selectors");
 const crypto = require("crypto");
 
-const User = require("../services/dbConnection");
+const Models = require("../services/dbConnection");
+const User = Models.User;
 
 const {
   client_id,
@@ -19,6 +20,8 @@ const {
 const { api, appUrl } = config;
 const state = "randomState";
 
+const github = new githubCalls();
+
 const gitHubRoutes = app => {
   app.get("/auth", (req, res) => {
     res.redirect(
@@ -30,6 +33,7 @@ const gitHubRoutes = app => {
     const code = getCode(req.url);
     const req_state = getState(req.url);
     if (req_state !== state) {
+      res.state = 500;
       res.redirect(`${api}/error`);
     } else {
       const github = new githubCalls();
@@ -48,36 +52,67 @@ const gitHubRoutes = app => {
             hireable,
             public_repos
           } = userData;
-          
+
           User.findAll({
-            where: { id: clientId}
+            where: { id: clientId }
           })
-          .then(result => {
-            if (result.length === 0) {
-              User.bulkCreate([{
-                id: clientId, name: clientName, 
-                github_picture: clientAvatar, email: clientEmail
-              }]);
-            } else {
-              User.update({
-                name: clientName, 
-                github_picture: clientAvatar, email: clientEmail
-              },{
-                where: { id: clientId}
-              });
-            }
-          })
-          .then(() => {
-            res.redirect(
-              `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
-            )
-          });
+            .then(result => {
+              if (result.length === 0) {
+                User.bulkCreate([
+                  {
+                    id: clientId,
+                    name: clientName,
+                    github_picture: clientAvatar,
+                    email: clientEmail
+                  }
+                ]);
+              } else {
+                User.update(
+                  {
+                    name: clientName,
+                    github_picture: clientAvatar,
+                    email: clientEmail
+                  },
+                  {
+                    where: { id: clientId }
+                  }
+                );
+              }
+            })
+            .then(() => {
+              res.redirect(
+                `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
+              );
+            }, reason => {
+              res.state = 500;
+              res.redirect(`${api}/error`);
+            });
+        }, reason => {
+          res.state = 500;
+          res.redirect(`${api}/error`);
         });
+      }, reason => {
+        res.state = 500;
+        res.redirect(`${api}/error`);
       });
     }
   });
 
-  app.get("/", (req, res) => {});
+  app.get("/", (req, res) => { });
+
+
+  app.post("/github/createRepo", (req, res) => {
+    const data = {
+      title: req.body.title,
+      description: req.body.description
+    };
+    github.gitPostCreateNewRepository(data).then(repoData => {
+      res.send("repo created" + repoData);
+    }, reason => {
+      res.state = 500;
+      res.send("Error");
+    });
+  });
 };
 
 module.exports = gitHubRoutes;

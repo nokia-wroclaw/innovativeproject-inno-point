@@ -42,6 +42,7 @@ export const Container = styled.div`
 `;
 
 export const Technology = styled.span`
+  cursor: pointer;
   font-size: 22px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: ${({ theme_color }) => (theme_color ? theme_color : "black")};

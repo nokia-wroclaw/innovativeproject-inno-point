@@ -4,8 +4,10 @@ import { withSnackbar } from "notistack";
 
 import { Container } from "./style";
 import { Button as DeleteButton } from "../..";
+import { Button as EditButton } from "../..";
 
 import { verifyProject } from "../../../api/projects";
+import { TeamForm } from "../../../components";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -50,7 +52,7 @@ export default withSnackbar(
             size="small"
             color="blue"
             gridArea="button"
-            style={{ justifySelf: "end", alignSelf: "end" }}
+            style={{ justifySelf: "right", alignSelf: "end" }}
             onClick={handleClickOpen}
           />
           <Dialog

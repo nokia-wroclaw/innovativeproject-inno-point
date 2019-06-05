@@ -13,13 +13,22 @@ import {
   ScopesBlock,
   TechnologyBlock,
   TagsBlock,
-  VerifyProjectBlock
+  VerifyProjectBlock,
+  Button
 } from "../../../components";
 
+import { withRouter } from "react-router-dom";
+
 import { MainContainer, StyledSpinner } from "./style";
+import { Link } from "@material-ui/core";
+
+import LinkButton from "../../../components/LinkButton";
 
 const Project = props => {
-  useEffect(() => {}, []);
+  const [update, setUpdate] = useState(false);
+  useEffect(() => {
+    props.readProjects();
+  }, [update]);
 
   const { project, members } = props;
   if (!project || Object.keys(project).length === 0) {
@@ -36,17 +45,44 @@ const Project = props => {
   } = project;
   return (
     <MainContainer>
-      <ProjectMainBlock project={project} gridArea="main" />
-      {/* {members.length > 0 && (
-        <MembersProjectBlock members={members} theme_color={theme_color} />
-      )} */}
-
-      {goals && <GoalsBlock project={project} gridArea="goals" />}
-      {scopes && <ScopesBlock project={project} gridArea="scopes" />}
-
-      {technology && <TechnologyBlock project={project} gridArea="techno" />}
-      {tags && <TagsBlock project={project} gridArea="tags" />}
-
+      <LinkButton to="/dashboard/projects" />
+      <ProjectMainBlock
+        project={project}
+        gridArea="main"
+        update={update}
+        setUpdate={setUpdate}
+      />
+      {members && members.length > 0 && (
+        <MembersProjectBlock
+          members={members}
+          theme_color={theme_color}
+          gridArea="members"
+        />
+      )}
+      <GoalsBlock
+        project={project}
+        gridArea="goals"
+        update={update}
+        setUpdate={setUpdate}
+      />
+      <ScopesBlock
+        project={project}
+        gridArea="scopes"
+        update={update}
+        setUpdate={setUpdate}
+      />
+      <TechnologyBlock
+        project={project}
+        gridArea="techno"
+        update={update}
+        setUpdate={setUpdate}
+      />
+      <TagsBlock
+        project={project}
+        gridArea="tags"
+        update={update}
+        setUpdate={setUpdate}
+      />
       {!verified && <VerifyProjectBlock id={id} gridArea="verify" />}
       <DeleteProjectBlock id={id} gridArea="delete" />
     </MainContainer>
@@ -56,8 +92,12 @@ const Project = props => {
 const mapStateToProps = (state, ownProps) => {
   const id = ownProps.match.params.id;
   const currentProject = getProjectById(state, id);
+  const teamId = currentProject.team_id;
+  const users = state.users;
+  const members = users.items.filter(user => user.team_id === teamId);
   return {
-    project: currentProject
+    project: currentProject,
+    members
   };
 };
 

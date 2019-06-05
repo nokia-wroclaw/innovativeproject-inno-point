@@ -32,7 +32,8 @@ export const Container = styled.div`
       font-size: 25px;
     }
 
-    div.Goal {
+    > div.Goal {
+      cursor: pointer;
       margin: 5px;
       display: flex;
 

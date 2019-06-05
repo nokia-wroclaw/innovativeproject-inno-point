@@ -6,15 +6,15 @@ import { LockOpen, Lock } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 export default ({ team, users, project, index }) => {
-  const leader = users.find(user => user.id === team.leader_id);
+  const leader = users.find(user => user.id === team.leader_id) || {};
   return (
     <Link to={`/dashboard/teams/${team.id}`}>
       <Element key={index} delay={index}>
         <div className="Picture" />
         <div className="Main">
           <div className="Title">
-            {leader.github_picture ? (
-              <Picture src={leader.github_picture} />
+            { leader ? (
+              <Picture src={`${leader.github_picture}`} />
             ) : (
               <AccountCircle style={iconStyle} />
             )}

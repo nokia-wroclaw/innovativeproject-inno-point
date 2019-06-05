@@ -10,8 +10,8 @@ const createProject = project =>
     project
   });
 
-const updateProject = project =>
-  createApiRequest(PUT, "/projects", {
+const updateProject = (id, project) =>
+  createApiRequest(PUT, `/projects/${id}`, {
     project
   });
 

@@ -50,14 +50,14 @@ const TopicForm1 = props => {
 
   const handleSubmit = async event => {
     const fields = [name, number, description];
-    const mathods = [setName, setNumber, setDescription];
+    const mathods = [setName, setNumber, setDescription,];
     event.preventDefault();
     if (fields.every(e => !e.error && e.value)) {
       const project = {
         name: name.value,
         number_of_members: number.value,
         short_description: description.value,
-        tags: tags.value,
+        tags: tags.join(","),
         theme_color: themeColor.value
       };
       setWaiting(true);
@@ -68,11 +68,6 @@ const TopicForm1 = props => {
         props.enqueueSnackbar("Topic has been sent to verify!", {
           variant: "info"
         });
-        // setTimeout(() => {
-        //   props.enqueueSnackbar("Topic has been approve!", {
-        //     variant: "success"
-        //   });
-        // }, 500);
       });
     } else {
       mathods.map((e, i) =>
@@ -127,7 +122,7 @@ const TopicForm1 = props => {
             onDelete={(chip, index) => handleDeleteChip(chip, index)}
             style={{ gridArea: "chips" }}
             label="Tags"
-            // variant="outlined"
+            variant="outlined"
           />
           <ColorPicker
             gridArea={"colors"}

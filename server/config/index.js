@@ -2,7 +2,6 @@ const config = {
   db: {
     host: "localhost",
     database: "inno-point",
-    port: 3306,
     user: "root",
     password: "",
     socketPath: "",
@@ -11,8 +10,10 @@ const config = {
   github: {
     github_url_authorize: "https://github.com/login/oauth/authorize",
     github_url_token: "https://github.com/login/oauth/access_token",
+    github_url_repos: "https://api.github.com/user/repos",
     client_id: "cb8b7f9b4e0a03ead294",
     client_secret: "6689a1dc924d845a4296030a710eaeaadc1c60e3",
+    app_token: "136441686325559577c760a7da349910f2ff3a1c",
     scope: "user",
     allow_signup: "true"
   },

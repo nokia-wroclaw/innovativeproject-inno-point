@@ -17,8 +17,6 @@ class MailService {
   constructor() {}
 
   async requestMentorStatus(data) {
-    console.log("requestMentorStatusParams: " + JSON.stringify(data));
-
     var filePath = path.join(
       __dirname,
       "../email_templates/requestMentorStatus.html"
@@ -43,13 +41,9 @@ class MailService {
     };
 
     let info = await transporter.sendMail(mailOptions);
-
-    console.log("Message sent: %s", info.messageId);
   }
 
   async requestTopicReview(data) {
-    console.log("requestTopicParams: " + JSON.stringify(data));
-
     var filePath = path.join(
       __dirname,
       "../email_templates/requestTopicReview.html"
@@ -74,8 +68,6 @@ class MailService {
     };
 
     let info = await transporter.sendMail(mailOptions);
-
-    console.log("Message sent: %s", info.messageId);
   }
 }
 
