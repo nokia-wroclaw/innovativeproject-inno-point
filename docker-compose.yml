@@ -8,7 +8,8 @@ services:
     ports:
       - 3030:3030
     networks:
-      - webappnetwork
+      - innopoint
+
   app:
     build: "."
     volumes:
@@ -18,28 +19,30 @@ services:
     depends_on:
       - db
     networks: #odkomentować to!!!!!
-      - webappnetwork
+      - innopoint
+
   db:
     image: mysql
-    # command: ["rm", "-r", "/var/lib/mysql/lost+found"]
+    #command: ["--ignore-db-dir=lost+found"]
     restart: always
-    command: --default-authentication-plugin=mysql_native_password
+    # command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_DATABASE: "inno-point"
       MYSQL_USER: "root"
-      MYSQL_PASSWORD: ""
-      MYSQL_ROOT_PASSWORD: "inno-point"
-      container_name: mysql
+      # MYSQL_PASSWORD: ""
+      MYSQL_ROOT_PASSWORD: "secret"
+      # MYSQL_HOST: "mysql"
+      # container_name: mysql
     ports:
-      - 3306:3306
-    expose:
-      - "3306"
+      - "3306:3306"
+    # expose:
+    # - "3306"
     volumes:
-      - /var/lib/mysql:/var/lib/mysql
+      - ./server:/var/lib/mysql
     networks:
-      - webappnetwork
+      - innopoint
 networks:
-  webappnetwork:
+  innopoint:
     driver: bridge
 #załadować wszystko do docker huba
 # nie łączy się z db albo przez porty albo przez hasło

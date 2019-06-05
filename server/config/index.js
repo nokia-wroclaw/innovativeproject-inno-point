@@ -1,7 +1,7 @@
 const config = {
   db: {
-    host: "localhost",
-    database: "inno-point",
+    host: "innopoint",
+    database: "inno_point",
     port: 3306,
     user: "root",
     password: "",
