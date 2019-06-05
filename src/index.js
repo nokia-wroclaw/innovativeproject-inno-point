@@ -8,8 +8,11 @@ import createSagaMiddleware from "redux-saga";
 import { SnackbarProvider } from "notistack";
 
 import { Welcome, Dashboard } from "./views";
+import PrivateRoute from "./components/Private";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
+
+import config from "./config";
 
 import reducers from "./reducers";
 import mySaga from "./sagas";
@@ -27,7 +30,7 @@ const App = () => {
       <Router>
         <Fragment>
           <Route exact path="/" component={Welcome} />
-          <Route path="/dashboard" component={Dashboard} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
         </Fragment>
       </Router>
     </Provider>
