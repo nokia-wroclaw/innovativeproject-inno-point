@@ -5,7 +5,8 @@ const config = require("../config/index");
 const { getCode, getState, getToken } = require("../utils/selectors");
 const crypto = require("crypto");
 
-const User = require("../services/dbConnection");
+const Models = require("../services/dbConnection");
+const User = Models.User;
 
 const {
   client_id,
@@ -37,6 +38,7 @@ const gitHubRoutes = app => {
       github.gitPostGetUserToken(code).then(token => {
         //here should be all database operations
 
+        console.log("does work");
         //getting user information from github || user id , user name, user email, user avatar
         github.gitGetUserIdAndInfo(token).then(userData => {
           const {
@@ -48,36 +50,36 @@ const gitHubRoutes = app => {
             hireable,
             public_repos
           } = userData;
-          
+
           User.findAll({
-            where: { id: clientId}
+            where: { id: clientId }
           })
-          .then(result => {
-            if (result.length === 0) {
-              User.bulkCreate([{
-                id: clientId, name: clientName, 
-                github_picture: clientAvatar, email: clientEmail
-              }]);
-            } else {
-              User.update({
-                name: clientName, 
-                github_picture: clientAvatar, email: clientEmail
-              },{
-                where: { id: clientId}
-              });
-            }
-          })
-          .then(() => {
-            res.redirect(
-              `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
-            )
-          });
+            .then(result => {
+              if (result.length === 0) {
+                User.bulkCreate([{
+                  id: clientId, name: clientName,
+                  github_picture: clientAvatar, email: clientEmail
+                }]);
+              } else {
+                User.update({
+                  name: clientName,
+                  github_picture: clientAvatar, email: clientEmail
+                }, {
+                    where: { id: clientId }
+                  });
+              }
+            })
+            .then(() => {
+              res.redirect(
+                `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
+              )
+            });
         });
       });
     }
   });
 
-  app.get("/", (req, res) => {});
+  app.get("/", (req, res) => { });
 };
 
 module.exports = gitHubRoutes;
