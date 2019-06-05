@@ -26,12 +26,14 @@ const Dashboard = props => {
   const search = props.location.search;
   const id = search.substr(search.indexOf("id") + 3, search.length);
 
+  const { readProjects, readTeams, readUsers, readUser } = props;
+
   useEffect(() => {
-    props.readProjects();
-    props.readTeams();
-    props.readUsers();
+    readProjects();
+    readTeams();
+    readUsers();
     if (id) {
-      props.readUser(id);
+      readUser(id);
     }
   }, []);
 
