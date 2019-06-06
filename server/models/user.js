@@ -39,10 +39,6 @@ module.exports = function(sequelize, DataTypes) {
       github_picture: {
         type: DataTypes.CHAR(100),
         allowNull: true
-      },
-      token: {
-        type: DataTypes.CHAR(30),
-        allowNull: true
       }
     },
     {
