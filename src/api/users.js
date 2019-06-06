@@ -1,10 +1,13 @@
 import { GET, PUT, POST, DELETE } from "../utils/constants";
 import createApiRequest from "../utils/createApiRequest";
 
-export const readUsers = () => createApiRequest(GET, "/users");
+export const readUsers = () =>
+  createApiRequest(PUT, "/users", { token: localStorage.getItem("token") });
 
-export const readUser = id => {
-  return createApiRequest(GET, `/users/${id}`);
+export const readUser = () => {
+  return createApiRequest(PUT, "/user", {
+    token: localStorage.getItem("token")
+  });
 };
 
 export const createUsers = user =>

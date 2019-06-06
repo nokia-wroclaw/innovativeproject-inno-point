@@ -19,10 +19,9 @@ function* fetchUsers() {
   }
 }
 
-function* fetchUser({ payload: { id } }) {
+function* fetchUser() {
   try {
-    console.log(id);
-    const { data } = yield call(api.readUser, id);
+    const { data } = yield call(api.readUser);
     yield put(userReadSuccess(data[0]));
   } catch (e) {
     console.log(e);

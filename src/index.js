@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -22,7 +22,7 @@ const store = configureStore({
 });
 sagaMiddleware.run(mySaga);
 
-const App = () => {
+const App = props => {
   return (
     <Provider store={store}>
       <Router>

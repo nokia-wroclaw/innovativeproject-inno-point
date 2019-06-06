@@ -1,7 +1,13 @@
 import { GET, PUT, POST, DELETE } from "../utils/constants";
 import createApiRequest from "../utils/createApiRequest";
+import axios from "axios";
+import config from "../config";
 
-const readProjects = () => createApiRequest(GET, "/projects");
+const readProjects = () => {
+  return axios.put(`${config.api}/projects`, {
+    token: localStorage.getItem("token")
+  });
+};
 
 const readProjectsById = id => createApiRequest(GET, `/projects/${id}`);
 

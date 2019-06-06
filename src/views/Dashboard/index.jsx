@@ -31,12 +31,15 @@ const Dashboard = props => {
   const { readProjects, readTeams, readUsers, readUser } = props;
 
   useEffect(() => {
+    if (params.token) {
+      localStorage.setItem("token", params.token);
+    } else if (!localStorage.getItem("token")) {
+      props.history.push("/");
+    }
     readProjects();
     readTeams();
     readUsers();
-    if (params.id) {
-      readUser(params.id);
-    }
+    readUser();
   }, []);
 
   return (
@@ -61,7 +64,7 @@ const mapDispatchToProps = dispatch => ({
   readProjects: () => dispatch(projectsReadRequest()),
   readTeams: () => dispatch(teamsReadRequest()),
   readUsers: () => dispatch(usersReadRequest()),
-  readUser: id => dispatch(userReadRequest({ id }))
+  readUser: () => dispatch(userReadRequest())
 });
 
 export default connect(
