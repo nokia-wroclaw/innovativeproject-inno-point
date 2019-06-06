@@ -55,7 +55,7 @@ const gitHubRoutes = app => {
 
           let createdNewAccount = false;
 
-          jwt.sign({ userData }, "secretkey", (err, token) => {
+          jwt.sign({ id: clientId }, config.jwt.secretkey, (err, token) => {
             User.findAll({
               where: { id: clientId }
             })
@@ -67,19 +67,20 @@ const gitHubRoutes = app => {
                       name: clientName,
                       github_picture: clientAvatar,
                       email: clientEmail,
-                      token: token
+                      token
                     }
                   ]);
-                  console.log("created new account");
+
+                  console.log("\x1b[32mNew account in database.\x1b[0m");
                   createdNewAccount = true;
                 } else {
                   User.update(
                     {
-                      token: token
+                      token
                     },
                     { where: { id: clientId } }
                   );
-                  console.log("didn't create new account");
+                  console.log("\x1b[33mJust an old user.\x1b[0m");
                   createdNewAccount = false;
                 }
               })
