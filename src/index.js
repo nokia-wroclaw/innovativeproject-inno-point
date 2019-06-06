@@ -29,7 +29,7 @@ const App = () => {
         <Fragment>
           <Route exact path="/" component={Welcome} />
           <Route path="/first_login" component={FirstForm} />
-          <PrivateRoute path="/dashboard" component={Dashboard} />
+          <Route path="/dashboard" component={Dashboard} />
         </Fragment>
       </Router>
     </Provider>

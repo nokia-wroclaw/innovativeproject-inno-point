@@ -8,7 +8,7 @@ import {
   SupervisedUserCircle,
   Announcement,
   AccountCircle,
-  Settings
+  ExitToApp
 } from "@material-ui/icons";
 
 export default withRouter(props => {
@@ -39,9 +39,9 @@ export default withRouter(props => {
         <AccountCircle style={iconStyle} />
         <span>Profile</span>
       </StyledLink>
-      <StyledLink to="/dashboard/settings" pathname={pathname}>
-        <Settings style={iconStyle} />
-        <span>Settings</span>
+      <StyledLink to="/" pathname={pathname}>
+        <ExitToApp style={iconStyle} />
+        <span>Log out</span>
       </StyledLink>
     </Container>
   );

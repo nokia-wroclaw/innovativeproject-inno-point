@@ -23,8 +23,10 @@ import Manager from "./Manager";
 import { Container } from "./style";
 
 const Dashboard = props => {
-  const search = props.location.search;
-  const id = search.substr(search.indexOf("id") + 3, search.length);
+  const urlParams = new URLSearchParams(window.location.search);
+  const params = {
+    token: urlParams.get("token")
+  };
 
   const { readProjects, readTeams, readUsers, readUser } = props;
 
@@ -32,8 +34,8 @@ const Dashboard = props => {
     readProjects();
     readTeams();
     readUsers();
-    if (id) {
-      readUser(id);
+    if (params.id) {
+      readUser(params.id);
     }
   }, []);
 

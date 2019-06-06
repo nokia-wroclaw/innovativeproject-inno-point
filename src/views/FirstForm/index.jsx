@@ -10,7 +10,7 @@ import { css } from "emotion";
 import axios from "axios";
 import config from "../../config";
 import { withSnackbar } from "notistack";
-
+import { withRouter } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
 const show = keyframes`
@@ -58,107 +58,133 @@ const containerStyle = css`
   }
 `;
 
-export default withSnackbar(props => {
-  const search = props.location.search;
-  const id = search.substr(search.indexOf("id") + 3, search.length);
+export default withSnackbar(
+  withRouter(props => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const params = {
+      // id: urlParams.get(":id"),
+      name: urlParams.get("name"),
+      email: urlParams.get("email"),
+      token: urlParams.get("token")
+    };
 
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [email2, setEmail2] = useState("");
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+    const [name, setName] = useState(params.name || "");
+    const [surname, setSurname] = useState("");
+    const [email, setEmail] = useState(params.email || "");
+    const [email2, setEmail2] = useState(params.email || "");
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-  const onSubmit = async event => {
-    event.preventDefault();
-    const check =
-      textFieldValidator(name) ||
-      textFieldValidator(surname) ||
-      emailFieldValidator(email) ||
-      emailFieldValidator(email2) ||
-      email !== email2;
+    const onSubmit = async event => {
+      event.preventDefault();
+      const check =
+        textFieldValidator(name) ||
+        textFieldValidator(surname) ||
+        emailFieldValidator(email) ||
+        emailFieldValidator(email2) ||
+        email !== email2;
 
-    setError(check);
-    if (!check) {
-      setLoading(true);
-      props.enqueueSnackbar("We try to complite your profile!", {
-        variant: "info"
-      });
-      // axios.put();
-    }
-  };
+      setError(check);
+      if (!check) {
+        setLoading(true);
+        props.enqueueSnackbar("We try to complite your profile.", {
+          variant: "info"
+        });
+        axios
+          .put(`${config.api}/user`, {
+            token: params.token,
+            name,
+            surname,
+            email
+          })
+          .then(() => {
+            props.enqueueSnackbar("Profile updated!", {
+              variant: "success"
+            });
+            setLoading(false);
+            props.history.push("/dashboard/projects");
+          })
+          .catch(() => {
+            props.enqueueSnackbar("Something goes wrong :(", {
+              variant: "error"
+            });
+            setLoading(false);
+          });
+      }
+    };
 
-  return (
-    <div className={containerStyle}>
-      <Form gridArea={props.gridArea} onSubmit={onSubmit}>
-        <div
-          className={css`
-            width: 100%;
-            grid-area: label;
-            font-weight: bold;
-            padding: 10px;
-            font-size: 20px;
-            border-bottom: solid 2px #003877;
-          `}
-        >
-          Fill in the profile data
-        </div>
-        <TextField
-          label="name"
-          type="text"
-          value={name}
-          onChange={e => setName(e.target.value)}
-          error={error}
-          className={css`
-            grid-area: name;
-            width: 200px;
-          `}
-        />
-        <TextField
-          label="surname"
-          type="text"
-          value={surname}
-          onChange={e => setSurname(e.target.value)}
-          error={error}
-          className={css`
-            grid-area: surname;
-            width: 200px;
-          `}
-        />
-        <TextField
-          label="email"
-          type="text"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          error={error}
-          className={css`
-            grid-area: email;
-            width: 410px;
-          `}
-        />
-        <TextField
-          label="retype email"
-          type="text"
-          value={email2}
-          onChange={e => setEmail2(e.target.value)}
-          error={error}
-          className={css`
-            grid-area: email2;
-            width: 410px;
-          `}
-        />
-        {loading ? (
-          <Spinner gridArea="button" alignSelf="end" size={50} />
-        ) : (
-          <Button
-            color={true}
-            size="large"
-            label="Complite "
-            alignSelf="end"
-            gridArea="button"
+    return (
+      <div className={containerStyle}>
+        <Form gridArea={props.gridArea} onSubmit={onSubmit}>
+          <div
+            className={css`
+              width: 100%;
+              grid-area: label;
+              font-weight: bold;
+              padding: 10px;
+              font-size: 20px;
+              border-bottom: solid 2px #003877;
+            `}
+          >
+            Fill in the profile data
+          </div>
+          <TextField
+            label="name"
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            error={error}
+            className={css`
+              grid-area: name;
+              width: 200px;
+            `}
           />
-        )}
-      </Form>
-    </div>
-  );
-});
+          <TextField
+            label="surname"
+            type="text"
+            value={surname}
+            onChange={e => setSurname(e.target.value)}
+            error={error}
+            className={css`
+              grid-area: surname;
+              width: 200px;
+            `}
+          />
+          <TextField
+            label="email"
+            type="text"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            error={error}
+            className={css`
+              grid-area: email;
+              width: 410px;
+            `}
+          />
+          <TextField
+            label="retype email"
+            type="text"
+            value={email2}
+            onChange={e => setEmail2(e.target.value)}
+            error={error}
+            className={css`
+              grid-area: email2;
+              width: 410px;
+            `}
+          />
+          {loading ? (
+            <Spinner gridArea="button" alignSelf="end" size={50} />
+          ) : (
+            <Button
+              color={true}
+              size="large"
+              label="Complite "
+              alignSelf="end"
+              gridArea="button"
+            />
+          )}
+        </Form>
+      </div>
+    );
+  })
+);

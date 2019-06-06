@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { createGlobalStyle } from "styled-components";
+import { withRouter } from "react-router-dom";
 import config from "../../../config";
 
 import { Form, Container } from "./style";
@@ -17,16 +18,17 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const LoginForm = props => {
+const LoginForm = withRouter(props => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
 
   const onLogin = async event => {
     event.preventDefault();
-    const check = textFieldValidator(login) || textFieldValidator(password);
-    setError(check);
-    props.setLoading(!check);
+    // const check = textFieldValidator(login) || textFieldValidator(password);
+    // setError(check);
+    // props.setLoading(!check);
+    props.history.push("/dashboard/projects");
   };
 
   const onLoginWithGitHub = event => {
@@ -65,7 +67,7 @@ const LoginForm = props => {
               label="Log In"
               alignSelf="end"
               gridArea="button"
-              onClick={event => event.preventDefault()}
+              onClick={onLogin}
             />
             <Button
               size="large"
@@ -111,6 +113,6 @@ const LoginForm = props => {
       </div>
     </Container>
   );
-};
+});
 
 export { LoginForm };
