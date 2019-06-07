@@ -58,137 +58,61 @@ const gitHubRoutes = app => {
 
           let createdNewAccount = false;
 
-          tokenHandler.genToken();
+          let generatedToken = tokenHandler.genToken();
 
-          jwt.sign({ id: clientId }, config.jwt.secretkey, (err, token) => {
-            User.findAll({
-              where: { id: clientId }
+          // jwt.sign({ id: clientId }, config.jwt.secretkey, (err, token) => {
+          User.findAll({
+            where: { id: clientId }
+          })
+            .then(result => {
+              if (result.length === 0) {
+                User.bulkCreate([
+                  {
+                    id: clientId,
+                    name: clientName,
+                    role: ROLE.DEVELOPER,
+                    github_picture: clientAvatar,
+                    email: clientEmail,
+                    token: generatedToken
+                  }
+                ]);
+
+                console.log("\x1b[32mNew account in database.\x1b[0m");
+                createdNewAccount = true;
+              } else {
+                console.log("generated token " + generatedToken);
+                User.update(
+                  {
+                    token: generatedToken
+                  },
+                  { where: { id: clientId } }
+                );
+                console.log("\x1b[33mJust an old user.\x1b[0m");
+                createdNewAccount = false;
+              }
             })
-              .then(result => {
-                if (result.length === 0) {
-                  User.bulkCreate([
-                    {
-                      id: clientId,
-                      name: clientName,
-                      github_picture: clientAvatar,
-                      email: clientEmail,
-                      token
-                    }
-                  ]);
-
-                  console.log("\x1b[32mNew account in database.\x1b[0m");
-                  createdNewAccount = true;
-                } else {
-                  User.update(
-                    {
-                      token
-                    },
-                    { where: { id: clientId } }
-                  );
-                  console.log("\x1b[33mJust an old user.\x1b[0m");
-                  createdNewAccount = false;
-                }
-              })
-              .then(() => {
-                if (createdNewAccount == true) {
-                  res.cookie("token", token);
-                  res.redirect(
-                    `${appUrl}/first_login?&name=${userData.clientName}&email=${
-                      userData.clientEmail
-                    }&token=${token}`
-                  );
-                } else {
-                  res.cookie("token", token);
-                  res.redirect(`${appUrl}/dashboard/projects?token=${token}`);
-                }
-              })
-              .catch(error => {
-                console.log(error);
-                res.redirect("/error");
-              });
-          });
+            .then(() => {
+              if (createdNewAccount == true) {
+                res.cookie("token", generatedToken);
+                res.redirect(
+                  `${appUrl}/first_login?&name=${userData.clientName}&email=${
+                    userData.clientEmail
+                  }&token=${token}`
+                );
+              } else {
+                res.cookie("token", generatedToken);
+                res.redirect(
+                  `${appUrl}/dashboard/projects?token=${generatedToken}`
+                );
+              }
+            })
+            .catch(error => {
+              console.log(error);
+              res.redirect("/error");
+            });
+          //   });
         });
       });
-      // =======
-      //               let createdNewAccount = false;
-      //               let databaseUserRole;
-      //               let generatedToken;
-
-      //               User.findAll({
-      //                 // attributes: ["role"],
-      //                 where: { id: clientId },
-      //                 raw: true
-      //               })
-
-      //                 .then(user => {
-      //                   if (user.length === 0) {
-      //                     User.bulkCreate([
-      //                       {
-      //                         id: clientId,
-      //                         name: clientName,
-      //                         github_picture: clientAvatar,
-      //                         email: clientEmail,
-      //                         role: ROLE.DEVELOPER
-      //                       }
-      //                     ]);
-      //                     databaseUserRole = ROLE.DEVELOPER;
-      //                     createdNewAccount = true;
-      //                   } else {
-      //                     databaseUserRole = JSON.parse(JSON.stringify(user[0])).role;
-
-      //                     createdNewAccount = false;
-      //                   }
-      //                 })
-
-      //                 .then(() => {
-      //                   User.update(
-      //                     {
-      //                       token: tokenHandler.generateToken(databaseUserRole)
-      //                     },
-      //                     {
-      //                       where: { id: clientId }
-      //                     }
-      //                   );
-      //                 })
-
-      //                 .then(
-      //                   result => {
-      //                     if (createdNewAccount == true)
-      //                       res.redirect(
-      //                         `${appUrl}/dashboard/first_loggin?access_token=${token}&id=${clientId}&name=${
-      //                           userData.clientName
-      //                         }&email=${
-      //                           userData.clientEmail
-      //                         }&api_token=${tokenHandler.generateToken(
-      //                           databaseUserRole
-      //                         )}`
-      //                       );
-      //                     else {
-      //                       res.redirect(
-      //                         `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}&api_token=${tokenHandler.generateToken(
-      //                           databaseUserRole
-      //                         )}`
-      //                       );
-      //                     }
-      //                   },
-      //                   reason => {
-      //                     res.state = 500;
-      //                     res.redirect(`${api}/error`);
-      //                   }
-      //                 );
-      //             },
-      //             reason => {
-      //               res.state = 500;
-      //               res.redirect(`${api}/error`);
-      //             }
-      //           );
-      //         },
-      //         reason => {
-      //           res.state = 500;
-      //           res.redirect(`${api}/error`);
-      //         }
-      //       );
-      // >>>>>>> securityToken
     }
   });
 

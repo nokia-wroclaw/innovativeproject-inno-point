@@ -1,23 +1,27 @@
 const { User } = require("../services/dbConnection");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
+const ROLE = require("../utils/role");
+
+const TokenHandler = require("../services/TokenHandler");
+const tokenHandler = new TokenHandler();
 
 const userRoutes = app => {
-  app.put("/user", (req, res) => {
-    const { token } = req.body;
-    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        const { id } = authData;
-        User.findAll({
-          where: { id }
-        }).then(result => {
-          res.send(result);
-        });
-      }
-    });
-  });
+  // app.put("/user", (req, res) => {
+  //   const { token } = req.body;
+  //   jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+  //     if (err) {
+  //       res.sendStatus(403);
+  //     } else {
+  //       const { id } = authData;
+  //       User.findAll({
+  //         where: { id }
+  //       }).then(result => {
+  //         res.send(result);
+  //       });
+  //     }
+  //   });
+  // });
 
   app.put("/users", (req, res) => {
     const { token } = req.body;
@@ -62,36 +66,49 @@ const userRoutes = app => {
         res.send(result);
       });
   });
-  /*
+
   app.put("/user", (req, res) => {
     const { token, name, surname, email } = req.body;
-    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        const { id } = authData;
-        User.findAll({
-          where: { id }
-        }).then(result => {
-          if (result.length > 0) {
-            User.update(
-              {
-                name,
-                surname,
-                email
-              },
-              { where: { id } }
-            ).then(result => {
-              res.send(result);
-            });
-          } else {
-            res.status(500).send(result);
-          }
-        });
+    // jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+    //   if (err) {
+    //     res.sendStatus(403);
+    //   } else {
+
+    // console.log(req);
+    console.log(req.body);
+    console.log("secret token: " + req.body.token);
+    tokenHandler.validate(req.body.token).then(
+      validatedData => {
+        if (validatedData.role === ROLE.ERROR) {
+          res.status(403);
+        } else {
+          const clientId = validatedData.id;
+          User.findAll({
+            where: { id: clientId }
+          }).then(result => {
+            if (result.length > 0) {
+              User.update(
+                {
+                  name,
+                  surname,
+                  email
+                },
+                { where: { id: clientId }, constraints: false }
+              ).then(result => {
+                res.send(result);
+              });
+            } else {
+              res.status(500).send(result);
+            }
+          });
+        }
+      },
+      reason => {
+        res.status(403);
       }
-    });
+    );
   });
-*/
+
   app.put("/users/:id", (req, res) => {
     const id = parseInt(req.params.id);
     const { name, surname, team_id } = req.body;
