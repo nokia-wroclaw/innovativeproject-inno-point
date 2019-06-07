@@ -124,6 +124,22 @@ const gitHubRoutes = app => {
       }
     );
   });
+
+  app.get("/github/getStatistics", (req, res) => {
+    const data = {
+      title: req.body.title
+    };
+    console.log(data);
+    github.gitGetRepoAdditionsDeletions(data).then(
+      repoStats => {
+        res.send("repo stats" + repoStats);
+      },
+      reason => {
+        res.state = 500;
+        res.send("Error");
+      }
+    );
+  });
 };
 
 module.exports = gitHubRoutes;
