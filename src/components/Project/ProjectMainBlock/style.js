@@ -29,6 +29,7 @@ export const Container = styled.div`
     grid-gap: 20px;
     padding: 20px;
     padding-bottom: 60px;
+    border-radius: 8px;
 
     div.Name {
       letter-spacing: 3px;
@@ -41,6 +42,16 @@ export const Container = styled.div`
       padding-right: 30%;
       font-size: 20px;
       cursor: pointer;
+
+      > span {
+        height: 25px;
+        padding-right: 5px;
+        font-size: 25px;
+        line-height: 25px;
+        margin-right: 5px;
+        border-right: 1px solid black;
+        color: black;
+      }
     }
 
     a {

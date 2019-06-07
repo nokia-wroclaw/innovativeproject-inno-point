@@ -23,18 +23,23 @@ import Manager from "./Manager";
 import { Container } from "./style";
 
 const Dashboard = props => {
-  const search = props.location.search;
-  const id = search.substr(search.indexOf("id") + 3, search.length);
+  const urlParams = new URLSearchParams(window.location.search);
+  const params = {
+    token: urlParams.get("token")
+  };
 
   const { readProjects, readTeams, readUsers, readUser } = props;
 
   useEffect(() => {
+    if (params.token) {
+      localStorage.setItem("token", params.token);
+    } else if (!localStorage.getItem("token")) {
+      props.history.push("/");
+    }
     readProjects();
     readTeams();
     readUsers();
-    if (id) {
-      readUser(id);
-    }
+    readUser();
   }, []);
 
   return (
@@ -59,7 +64,7 @@ const mapDispatchToProps = dispatch => ({
   readProjects: () => dispatch(projectsReadRequest()),
   readTeams: () => dispatch(teamsReadRequest()),
   readUsers: () => dispatch(usersReadRequest()),
-  readUser: id => dispatch(userReadRequest({ id }))
+  readUser: () => dispatch(userReadRequest())
 });
 
 export default connect(

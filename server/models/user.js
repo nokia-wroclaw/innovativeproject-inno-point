@@ -41,7 +41,7 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: true
       },
       token: {
-        type: DataTypes.CHAR(30),
+        type: DataTypes.CHAR(255),
         allowNull: true
       }
     },

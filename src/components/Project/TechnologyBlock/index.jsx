@@ -94,8 +94,8 @@ export default ({ project, gridArea, update, setUpdate }) => {
                 </Technology>
               ))
             ) : (
-              <Technology theme_color={theme_color} key={0}>
-                undefined
+              <Technology theme_color={"gray"} key={0}>
+                Add +
               </Technology>
             )}
           </TechContainer>

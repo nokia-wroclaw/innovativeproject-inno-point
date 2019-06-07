@@ -24,6 +24,8 @@ export const StyledButton = styled.button`
           return "black";
         case "gray":
           return "gray";
+        case "white":
+          return "hsl(0, 50%, 90%)";
         default:
           return "var(--gradientLeft1)";
       }

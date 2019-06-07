@@ -1,4 +1,7 @@
 const config = {
+  jwt: {
+    secretkey: "jhgf1234lkjwqer987fsa"
+  },
   db: {
     host: "us-cdbr-iron-east-02.cleardb.net",
     database: "heroku_f337e52df2176b9",

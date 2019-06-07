@@ -82,13 +82,18 @@ export default ({ project, gridArea, update, setUpdate }) => {
               />
             </div>
           </Fragment>
-        ) : (
+        ) : goals ? (
           goals.split(",").map((goal, index) => (
             <div className="Goal" key={index} onClick={() => setEdit(true)}>
               <span className="Index">{index + 1}</span>
               <span className="Title"> {goal}</span>
             </div>
           ))
+        ) : (
+          <div className="Goal" onClick={() => setEdit(true)}>
+            <span className="Index">+</span>
+            <span className="Title">Click and add new goal</span>
+          </div>
         )}
       </div>
     </Container>

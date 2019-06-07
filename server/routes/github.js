@@ -4,6 +4,7 @@ const config = require("../config/index");
 
 const { getCode, getState, getToken } = require("../utils/selectors");
 const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 
 const Models = require("../services/dbConnection");
 const User = Models.User;
@@ -38,75 +39,71 @@ const gitHubRoutes = app => {
     } else {
       const github = new githubCalls();
       //generating user token with code from github
-      github.gitPostGetUserToken(code).then(
-        token => {
-          //here should be all database operations
+      github.gitPostGetUserToken(code).then(token => {
+        //here should be all database operations
+        //getting user information from github || user id , user name, user email, user avatar
+        github.gitGetUserIdAndInfo(token).then(userData => {
+          const {
+            clientId,
+            clientName,
+            clientEmail,
+            clientAvatar,
+            bio,
+            hireable,
+            public_repos
+          } = userData;
 
-          //getting user information from github || user id , user name, user email, user avatar
-          github.gitGetUserIdAndInfo(token).then(
-            userData => {
-              const {
-                clientId,
-                clientName,
-                clientEmail,
-                clientAvatar,
-                bio,
-                hireable,
-                public_repos
-              } = userData;
+          let createdNewAccount = false;
 
-              let createdNewAccount = false;
+          jwt.sign({ id: clientId }, config.jwt.secretkey, (err, token) => {
+            User.findAll({
+              where: { id: clientId }
+            })
+              .then(result => {
+                if (result.length === 0) {
+                  User.bulkCreate([
+                    {
+                      id: clientId,
+                      name: clientName,
+                      github_picture: clientAvatar,
+                      email: clientEmail,
+                      token
+                    }
+                  ]);
 
-              User.findAll({
-                where: { id: clientId }
+                  console.log("\x1b[32mNew account in database.\x1b[0m");
+                  createdNewAccount = true;
+                } else {
+                  User.update(
+                    {
+                      token
+                    },
+                    { where: { id: clientId } }
+                  );
+                  console.log("\x1b[33mJust an old user.\x1b[0m");
+                  createdNewAccount = false;
+                }
               })
-                .then(result => {
-                  if (result.length === 0) {
-                    User.bulkCreate([
-                      {
-                        id: clientId,
-                        name: clientName,
-                        github_picture: clientAvatar,
-                        email: clientEmail
-                      }
-                    ]);
-                    console.log("created new account");
-                    createdNewAccount = true;
-                  } else {
-                    console.log("didn't create new account");
-                    createdNewAccount = false;
-                  }
-                })
-                .then(
-                  () => {
-                    if (createdNewAccount == true)
-                      res.redirect(
-                        `${appUrl}/dashboard/first_loggin?access_token=${token}&id=${clientId}&name=${
-                          userData.clientName
-                        }&email=${userData.clientEmail}`
-                      );
-                    else
-                      res.redirect(
-                        `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}`
-                      );
-                  },
-                  reason => {
-                    res.state = 500;
-                    res.redirect(`${api}/error`);
-                  }
-                );
-            },
-            reason => {
-              res.state = 500;
-              res.redirect(`${api}/error`);
-            }
-          );
-        },
-        reason => {
-          res.state = 500;
-          res.redirect(`${api}/error`);
-        }
-      );
+              .then(() => {
+                if (createdNewAccount == true) {
+                  res.cookie("token", token);
+                  res.redirect(
+                    `${appUrl}/first_login?&name=${userData.clientName}&email=${
+                      userData.clientEmail
+                    }&token=${token}`
+                  );
+                } else {
+                  res.cookie("token", token);
+                  res.redirect(`${appUrl}/dashboard/projects?token=${token}`);
+                }
+              })
+              .catch(error => {
+                console.log(error);
+                res.redirect("/error");
+              });
+          });
+        });
+      });
     }
   });
 

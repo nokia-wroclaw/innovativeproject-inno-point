@@ -9,7 +9,7 @@ const user = {
   isAuthenticated: false,
   picture: null,
   email: null,
-  token: null
+  token: localStorage.getItem("token") || null
 };
 
 const usersReducer = createReducer(user, {

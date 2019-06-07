@@ -1,5 +1,7 @@
-const Models = require("../services/dbConnection");
+const jwt = require("jsonwebtoken");
+const config = require("../config");
 
+const Models = require("../services/dbConnection");
 const User = Models.User;
 const Project = Models.Project;
 
@@ -7,13 +9,17 @@ const dbQuerry = require("../services/dbQuerry");
 const MailService = require("../services/MailService");
 
 const projectRoutes = app => {
-  app.get("/projects", (req, res) => {
-    Project.findAll().then(result => {
-      res.send(JSON.stringify(result));
-    }, reason => {
-      res.state = 500;
-      res.redirect(`${api}/error`);
-    })
+  app.put("/projects", (req, res) => {
+    const { token } = req.body;
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        Project.findAll().then(result => {
+          res.send(JSON.stringify(result));
+        });
+      }
+    });
   });
 
   app.get("/projects/:id", (req, res) => {
@@ -23,23 +29,24 @@ const projectRoutes = app => {
       where: {
         id: id
       }
-    })
-      .then(result => {
-        project = result;
-        id = project.team_id;
-      });
+    }).then(result => {
+      project = result;
+      id = project.team_id;
+    });
     User.findAll({
       where: {
         team_id: id
       }
-    })
-      .then(result => {
+    }).then(
+      result => {
         members = result;
         res.send({ project, members });
-      }, reason => {
+      },
+      reason => {
         res.state = 500;
         res.redirect(`${api}/error`);
-      });
+      }
+    );
   });
 
   app.post("/projects", (req, res) => {
@@ -54,43 +61,48 @@ const projectRoutes = app => {
       tags,
       theme_color
     } = req.body.project;
-    //    console.log(req.body.project);
 
     Project.findAll({
-      attributes: ['id'],
-      order: [['id', 'DESC']],
+      attributes: ["id"],
+      order: [["id", "DESC"]],
       limit: 1
     })
       .then(result => {
         const id = result.row ? parseInt(result.row[0].id) + 1 : 0;
-        return Project.bulkCreate([{
-          id: id, name: name, short_description: short_description, goals: goals, scopes: scopes,
-          requirements: requirements, number_of_members: number_of_members,
-          technology: technology, tags: tags, theme_color: theme_color
-        }])
+        return Project.bulkCreate([
+          {
+            id: id,
+            name: name,
+            short_description: short_description,
+            goals: goals,
+            scopes: scopes,
+            requirements: requirements,
+            number_of_members: number_of_members,
+            technology: technology,
+            tags: tags,
+            theme_color: theme_color
+          }
+        ]);
       })
-      .then(result => {
-        const mailService = new MailService();
-
-        dbQuerry.getModeratorEmails().then(moderatorsEmails => {
-          const data = {
-            projectName: name,
-            projectId: result.insertId,
-            recipientEmails: moderatorsEmails
-          };
-
-          mailService.requestTopicReview(data).then(() => {
-            //            console.log("mail sent from backend");
+      .then(
+        result => {
+          const mailService = new MailService();
+          dbQuerry.getModeratorEmails().then(moderatorsEmails => {
+            const data = {
+              projectName: name,
+              projectId: result.insertId,
+              recipientEmails: moderatorsEmails
+            };
+            mailService.requestTopicReview(data).then(() => {});
           });
-        });
-
-        if (result == 1)
-          res.sendStatus("200");
-        res.send(result);
-      }, reason => {
-        console.log("routes/project - rejection when adding project");
-        res.sendStatus("500");
-      })
+          if (result == 1) res.sendStatus("200");
+          res.send(result);
+        },
+        reason => {
+          console.log("routes/project - rejection when adding project");
+          res.sendStatus("500");
+        }
+      );
   });
 
   app.put("/projects/:id", (req, res) => {
@@ -107,62 +119,69 @@ const projectRoutes = app => {
       technology,
       academic_contact_id,
       tags
-    } = req.body;
-    Project.update({
-      name: name,
-      short_description: short_description,
-      team_id: team_id,
-      goals: goals,
-      scopes: scopes,
-      requirements: requirements,
-      mentor_id: mentor_id,
-      number_of_members: number_of_members,
-      technology: technology,
-      academic_contact_id: academic_contact_id,
-      tags: tags
-    },
-      { where: { id: id } })
+    } = req.body.project;
+
+    Project.update(
+      {
+        name,
+        short_description,
+        team_id,
+        goals,
+        scopes,
+        requirements,
+        mentor_id,
+        number_of_members,
+        technology,
+        academic_contact_id,
+        tags
+      },
+      { where: { id } }
+    )
       .then(result => {
-        if (result == 1)
-          res.sendStatus("200");
-        res.send(result);
-      }, reason => {
-        console.log("routes/project - rejection when updating project");
-        res.sendStatus("500");
+        res.status("200").send(result);
       })
+      .catch(error => {
+        console.log(error);
+        res.sendStatus("500");
+      });
   });
 
   app.put("/projects/verify/:id", (req, res) => {
     const id = parseInt(req.params.id);
-    Project.update({
-      verified: 1
-    }, {
+    Project.update(
+      {
+        verified: 1
+      },
+      {
         where: { id: id }
-      })
-      .then(result => {
-        if (result == 1)
-          res.sendStatus("200");
+      }
+    ).then(
+      result => {
+        if (result == 1) res.sendStatus("200");
         res.send(result);
-      }, reason => {
+      },
+      reason => {
         console.log("routes/project - rejection when updating verify status");
         res.sendStatus("500");
-      });
+      }
+    );
   });
 
   app.delete("/projects/:id", (req, res) => {
     const id = parseInt(req.params.id);
     Project.destroy({
       where: { id: id }
-    })
-      .then(result => {
+    }).then(
+      result => {
         console.log(result);
-        if (result == 1)
-          res.sendStatus("200");
+        if (result == 1) res.sendStatus("200");
         res.send(result);
-      }, reason => {
+      },
+      reason => {
         console.log("routes/project - rejection when deleting project");
         res.sendStatus("500");
-      })
+      }
+    );
   });
 };
 

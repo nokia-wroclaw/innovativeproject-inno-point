@@ -30,8 +30,6 @@ import { TeamCard, TeamForm } from "../../../components";
 
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
-import Tooltip from "@material-ui/core/Tooltip";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import { List, GridOn } from "@material-ui/icons";
 import InputBase from "@material-ui/core/InputBase";
