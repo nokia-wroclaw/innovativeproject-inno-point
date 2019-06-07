@@ -32,17 +32,20 @@ module.exports = function(sequelize, DataTypes) {
           key: "id"
         }
       },
-      github_id: {
-        type: DataTypes.INTEGER(50),
+      token: {
+        type: DataTypes.TEXT(40),
         allowNull: true
       },
       github_picture: {
         type: DataTypes.CHAR(100),
         allowNull: true
+<<<<<<< HEAD
       },
       token: {
         type: DataTypes.CHAR(255),
         allowNull: true
+=======
+>>>>>>> securityToken
       }
     },
     {

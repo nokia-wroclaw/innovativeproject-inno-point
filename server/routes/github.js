@@ -1,6 +1,7 @@
 const request = require("request");
 const githubCalls = require("../services/GitHubCalls");
 const config = require("../config/index");
+const TokenHandler = require("../services/TokenHandler");
 
 const { getCode, getState, getToken } = require("../utils/selectors");
 const crypto = require("crypto");
@@ -8,6 +9,7 @@ const jwt = require("jsonwebtoken");
 
 const Models = require("../services/dbConnection");
 const User = Models.User;
+const ROLE = require("../utils/role");
 
 const {
   client_id,
@@ -22,6 +24,7 @@ const { api, appUrl } = config;
 const state = "randomState";
 
 const github = new githubCalls();
+const tokenHandler = new TokenHandler();
 
 const gitHubRoutes = app => {
   app.get("/auth", (req, res) => {
@@ -54,6 +57,8 @@ const gitHubRoutes = app => {
           } = userData;
 
           let createdNewAccount = false;
+
+          tokenHandler.genToken();
 
           jwt.sign({ id: clientId }, config.jwt.secretkey, (err, token) => {
             User.findAll({
@@ -104,6 +109,86 @@ const gitHubRoutes = app => {
           });
         });
       });
+      // =======
+      //               let createdNewAccount = false;
+      //               let databaseUserRole;
+      //               let generatedToken;
+
+      //               User.findAll({
+      //                 // attributes: ["role"],
+      //                 where: { id: clientId },
+      //                 raw: true
+      //               })
+
+      //                 .then(user => {
+      //                   if (user.length === 0) {
+      //                     User.bulkCreate([
+      //                       {
+      //                         id: clientId,
+      //                         name: clientName,
+      //                         github_picture: clientAvatar,
+      //                         email: clientEmail,
+      //                         role: ROLE.DEVELOPER
+      //                       }
+      //                     ]);
+      //                     databaseUserRole = ROLE.DEVELOPER;
+      //                     createdNewAccount = true;
+      //                   } else {
+      //                     databaseUserRole = JSON.parse(JSON.stringify(user[0])).role;
+
+      //                     createdNewAccount = false;
+      //                   }
+      //                 })
+
+      //                 .then(() => {
+      //                   User.update(
+      //                     {
+      //                       token: tokenHandler.generateToken(databaseUserRole)
+      //                     },
+      //                     {
+      //                       where: { id: clientId }
+      //                     }
+      //                   );
+      //                 })
+
+      //                 .then(
+      //                   result => {
+      //                     if (createdNewAccount == true)
+      //                       res.redirect(
+      //                         `${appUrl}/dashboard/first_loggin?access_token=${token}&id=${clientId}&name=${
+      //                           userData.clientName
+      //                         }&email=${
+      //                           userData.clientEmail
+      //                         }&api_token=${tokenHandler.generateToken(
+      //                           databaseUserRole
+      //                         )}`
+      //                       );
+      //                     else {
+      //                       res.redirect(
+      //                         `${appUrl}/dashboard/projects?access_token=${token}&id=${clientId}&api_token=${tokenHandler.generateToken(
+      //                           databaseUserRole
+      //                         )}`
+      //                       );
+      //                     }
+      //                   },
+      //                   reason => {
+      //                     res.state = 500;
+      //                     res.redirect(`${api}/error`);
+      //                   }
+      //                 );
+      //             },
+      //             reason => {
+      //               res.state = 500;
+      //               res.redirect(`${api}/error`);
+      //             }
+      //           );
+      //         },
+      //         reason => {
+      //           res.state = 500;
+      //           res.redirect(`${api}/error`);
+      //         }
+      //       );
+      // >>>>>>> securityToken
     }
   });
 
