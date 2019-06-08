@@ -18,6 +18,7 @@ const createProject = project =>
 
 const updateProject = (id, project) =>
   createApiRequest(PUT, `/projects/${id}`, {
+    token: localStorage.getItem("token"),
     project
   });
 

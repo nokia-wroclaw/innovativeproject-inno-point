@@ -8,6 +8,9 @@ const Project = Models.Project;
 const dbQuerry = require("../services/dbQuerry");
 const MailService = require("../services/MailService");
 
+const ClearanceCheck = require("../utils/cleranceCheck");
+const clearanceCheck = new ClearanceCheck();
+
 const projectRoutes = app => {
   app.put("/projects", (req, res) => {
     const { token } = req.body;
@@ -106,44 +109,65 @@ const projectRoutes = app => {
   });
 
   app.put("/projects/:id", (req, res) => {
-    const id = parseInt(req.params.id);
+    console.log(req.body.project);
+
+    let token = req.body.token;
+    console.log("token  : " + token);
     const {
-      name,
-      short_description,
-      team_id,
-      goals,
-      scopes,
-      requirements,
-      mentor_id,
-      number_of_members,
-      technology,
       academic_contact_id,
-      tags
+      goals,
+      long_description,
+      mentor_id,
+      name,
+      number_of_members,
+      requirements,
+      scopes,
+      short_description,
+      tags,
+      team_id,
+      technology,
+      theme_color
     } = req.body.project;
 
-    Project.update(
-      {
-        name,
-        short_description,
-        team_id,
-        goals,
-        scopes,
-        requirements,
-        mentor_id,
-        number_of_members,
-        technology,
-        academic_contact_id,
-        tags
-      },
-      { where: { id } }
-    )
-      .then(result => {
-        res.status("200").send(result);
-      })
-      .catch(error => {
-        console.log(error);
-        res.sendStatus("500");
-      });
+    const project_id = parseInt(req.params.id);
+
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        clearanceCheck.isDeveloperUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            console.log("project id in function: " + project_id);
+            Project.update(
+              {
+                name,
+                short_description,
+                team_id,
+                goals,
+                scopes,
+                requirements,
+                mentor_id,
+                number_of_members,
+                technology,
+                academic_contact_id,
+                tags
+              },
+              { where: { id: project_id } }
+            )
+              .then(result => {
+                console.log(result);
+                res.status("200").send(result);
+              })
+              .catch(error => {
+                console.log(error);
+                res.sendStatus("500");
+              });
+          }
+        });
+      }
+    });
   });
 
   app.put("/projects/verify/:id", (req, res) => {

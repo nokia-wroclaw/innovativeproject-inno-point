@@ -13,10 +13,15 @@ const userRoutes = app => {
         res.sendStatus(403);
       } else {
         const { id } = authData;
-        User.findAll({
-          where: { id }
-        }).then(result => {
-          res.send(result);
+        clearanceCheck.isDeveloperUp(id).then(result => {
+          if (result == false) res.sets(403);
+          else {
+            User.findAll({
+              where: { id }
+            }).then(result => {
+              res.send(result);
+            });
+          }
         });
       }
     });
@@ -74,7 +79,7 @@ const userRoutes = app => {
       } else {
         const { id } = authData;
         clearanceCheck.isDeveloperUp(id).then(result => {
-          if (result == false) res.sets(403);
+          if (result == false) res.sendStatus(403);
           else {
             User.findAll({
               where: { id }

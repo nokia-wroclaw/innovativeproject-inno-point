@@ -34,6 +34,7 @@ class CleranceCheck {
           resolve(false);
         }
       });
+      resolve(true);
     });
   }
 
