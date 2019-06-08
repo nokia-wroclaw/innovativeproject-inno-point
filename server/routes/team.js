@@ -98,6 +98,48 @@ const teamRoutes = app => {
       res.sendStatus(403);
     }
   });
+
+  app.put("/teams/:id/join", (req, res) => {
+    const id = parseInt(req.params.id);
+    if (req.body.token) {
+      const { token } = req.body;
+      jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+        if (err) {
+          res.sendStatus(403);
+        } else {
+          User.update(
+            { team_id: id },
+            {
+              where: { id: authData.id }
+            }
+          ).then(() => res.sendStatus(200));
+        }
+      });
+    } else {
+      req.sendStatus(403);
+    }
+  });
+
+  app.put("/teams/:id/status", (req, res) => {
+    if (req.body.token) {
+      const id = parseInt(req.params.id);
+      const { token, status } = req.body;
+      jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+        if (err) {
+          res.sendStatus(403);
+        } else {
+          Team.update(
+            { open: status },
+            {
+              where: { id }
+            }
+          ).then(() => res.sendStatus(200));
+        }
+      });
+    } else {
+      req.sendStatus(403);
+    }
+  });
 };
 
 module.exports = teamRoutes;

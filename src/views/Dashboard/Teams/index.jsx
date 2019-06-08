@@ -41,8 +41,6 @@ import Slide from "@material-ui/core/Slide";
 
 import { People } from "@material-ui/icons";
 
-import { css } from "emotion";
-
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
@@ -123,7 +121,7 @@ const Teams = props => {
         <BottomNavigationAction label="List" value="list" icon={<List />} />
       </StyledTypeOfList>
       <StyledTooltip
-        title={"Add project"}
+        title={"Add team"}
         aria-label="Add"
         onClick={() => {
           handleClickOpen();

@@ -1,16 +1,18 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { connect } from "react-redux";
 import {
-  teamReadRequest,
+  teamsReadRequest,
   usersReadRequest,
   projectsReadRequest
 } from "../../../actions";
 import LinkButton from "../../../components/LinkButton";
 import StatusTeamBlock from "../../../components/Team/StatusTeamBlock";
+import JoinTeamBlock from "../../../components/Team/JoinTeamBlock";
 import { DeleteTeamBlock } from "../../../components";
 import styled from "styled-components";
 import { Spinner } from "../../../components";
 import { Person } from "@material-ui/icons";
+import { LockOpen, Lock } from "@material-ui/icons";
 
 import { css, keyframes } from "emotion";
 
@@ -24,7 +26,7 @@ const MainContainer = styled.div`
   padding: 100px;
   display: grid;
   grid-gap: 15px;
-  grid-template: "btn btn" 20px "main main" 150px "members members" "status delete"/ 1fr 1fr;
+  grid-template: "btn btn" 20px "main main" 150px "members members" "status join" ". delete"/ 1fr 1fr;
 `;
 
 const show = keyframes`
@@ -91,7 +93,10 @@ const Team = props => {
   const [update, setUpdate] = useState(false);
   useEffect(() => {
     props.readTeams();
+    props.readUsers();
   }, [update]);
+
+  const makeUpdate = () => setUpdate(!update);
 
   const { team, members, leader, project } = props;
   if (!team || Object.keys(team).length === 0) {
@@ -155,6 +160,38 @@ const Team = props => {
             )}
           </span>
         </div>
+        <div
+          className={css`
+            display: flex;
+            align-items: center;
+          `}
+        >
+          <div
+            className={css`
+              color: hsl(0, 0%, 60%);
+              font-size: 20px;
+              margin-right: 5px;
+              margin-bottom: 5px;
+            `}
+          >
+            Status:
+          </div>
+          <div>
+            {team.open ? (
+              <LockOpen
+                className={css`
+                  color: hsl(0, 0%, 60%);
+                `}
+              />
+            ) : (
+              <Lock
+                className={css`
+                  color: hsl(0, 0%, 60%);
+                `}
+              />
+            )}
+          </div>
+        </div>
       </div>
       {members && members.length > 0 && (
         <Container gridArea={"members"}>
@@ -184,7 +221,13 @@ const Team = props => {
           </div>
         </Container>
       )}
-      <StatusTeamBlock id={id} gridArea="status" />
+      <StatusTeamBlock
+        id={id}
+        gridArea="status"
+        status={team.open === 1 ? "open" : "closed"}
+        makeUpdate={makeUpdate}
+      />
+      <JoinTeamBlock id={id} gridArea="join" makeUpdate={makeUpdate} />
       <div
         className={css`
           width: 100%;
@@ -216,7 +259,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   readProjects: () => dispatch(projectsReadRequest()),
-  readTeams: () => dispatch(teamReadRequest())
+  readTeams: () => dispatch(teamsReadRequest()),
+  readUsers: () => dispatch(usersReadRequest())
 });
 
 export default connect(
