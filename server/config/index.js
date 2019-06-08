@@ -10,6 +10,13 @@ const config = {
     password: "f77c4e8d",
     socketPath: "",
     waitForConnections: true
+    // host: "localhost",
+    // database: "heroku_f337e52df2176b9",
+    // port: 3306,
+    // user: "root",
+    // password: "",
+    // socketPath: "",
+    // waitForConnections: true
   },
   github: {
     github_url_authorize: "https://github.com/login/oauth/authorize",

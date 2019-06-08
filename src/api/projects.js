@@ -13,17 +13,25 @@ const readProjectsById = id => createApiRequest(GET, `/projects/${id}`);
 
 const createProject = project =>
   createApiRequest(POST, "/projects", {
+    token: localStorage.getItem("token"),
     project
   });
 
 const updateProject = (id, project) =>
   createApiRequest(PUT, `/projects/${id}`, {
+    token: localStorage.getItem("token"),
     project
   });
 
-const deleteProject = id => createApiRequest(DELETE, `/projects/${id}`);
+const deleteProject = id =>
+  createApiRequest(DELETE, `/projects/${id}`, {
+    token: localStorage.getItem("token")
+  });
 
-const verifyProject = id => createApiRequest(PUT, `/projects/verify/${id}`);
+const verifyProject = id =>
+  createApiRequest(PUT, `/projects/verify/${id}`, {
+    token: localStorage.getItem("token")
+  });
 
 export {
   readProjects,

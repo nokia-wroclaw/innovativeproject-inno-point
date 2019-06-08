@@ -2,6 +2,9 @@ const { User } = require("../services/dbConnection");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
 
+const ClearanceCheck = require("../utils/cleranceCheck");
+const clearanceCheck = new ClearanceCheck();
+
 const userRoutes = app => {
   app.put("/user", (req, res) => {
     const { token } = req.body;
@@ -10,10 +13,15 @@ const userRoutes = app => {
         res.sendStatus(403);
       } else {
         const { id } = authData;
-        User.findAll({
-          where: { id }
-        }).then(result => {
-          res.send(result);
+        clearanceCheck.isDeveloperUp(id).then(result => {
+          if (result == false) res.sets(403);
+          else {
+            User.findAll({
+              where: { id }
+            }).then(result => {
+              res.send(result);
+            });
+          }
         });
       }
     });
@@ -62,36 +70,41 @@ const userRoutes = app => {
         res.send(result);
       });
   });
-  /*
-  app.put("/user", (req, res) => {
+
+  app.put("/user/updateInfo", (req, res) => {
     const { token, name, surname, email } = req.body;
     jwt.verify(token, config.jwt.secretkey, (err, authData) => {
       if (err) {
         res.sendStatus(403);
       } else {
         const { id } = authData;
-        User.findAll({
-          where: { id }
-        }).then(result => {
-          if (result.length > 0) {
-            User.update(
-              {
-                name,
-                surname,
-                email
-              },
-              { where: { id } }
-            ).then(result => {
-              res.send(result);
+        clearanceCheck.isDeveloperUp(id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            User.findAll({
+              where: { id }
+            }).then(result => {
+              if (result.length > 0) {
+                User.update(
+                  {
+                    name,
+                    surname,
+                    email
+                  },
+                  { where: { id } }
+                ).then(result => {
+                  res.send(result);
+                });
+              } else {
+                res.status(500).send(result);
+              }
             });
-          } else {
-            res.status(500).send(result);
           }
         });
       }
     });
   });
-*/
+
   app.put("/users/:id", (req, res) => {
     const id = parseInt(req.params.id);
     const { name, surname, team_id } = req.body;

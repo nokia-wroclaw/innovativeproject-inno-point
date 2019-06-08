@@ -9,6 +9,8 @@ const jwt = require("jsonwebtoken");
 const Models = require("../services/dbConnection");
 const User = Models.User;
 
+const ROLE = require("../utils/role");
+
 const {
   client_id,
   client_secret,
@@ -67,6 +69,7 @@ const gitHubRoutes = app => {
                       name: clientName,
                       github_picture: clientAvatar,
                       email: clientEmail,
+                      role: ROLE.DEVELOPER,
                       token
                     }
                   ]);
