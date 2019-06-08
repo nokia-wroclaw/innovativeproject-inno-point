@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const initializeRoutes = require("./routes/index");
 const app = express();
 const port = 3030;
@@ -15,6 +16,7 @@ app.use((req, res, next) => {
 app.use(express.static("./"));
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(
   bodyParser.urlencoded({
     extended: true

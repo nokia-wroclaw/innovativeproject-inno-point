@@ -18,7 +18,7 @@ const LinkButton = props => {
       label="Back"
       style={{ justifySelf: "start", alignSelf: "center" }}
       {...rest}
-      color="blue"
+      color="white"
       size="small"
       onClick={event => {
         onClick && onClick(event);

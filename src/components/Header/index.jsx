@@ -39,7 +39,11 @@ export default withRouter(props => {
         <AccountCircle style={iconStyle} />
         <span>Profile</span>
       </StyledLink>
-      <StyledLink to="/" pathname={pathname}>
+      <StyledLink
+        to="/"
+        onClick={() => localStorage.clear()}
+        pathname={pathname}
+      >
         <ExitToApp style={iconStyle} />
         <span>Log out</span>
       </StyledLink>

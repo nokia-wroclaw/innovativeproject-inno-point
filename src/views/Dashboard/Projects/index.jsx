@@ -38,11 +38,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import Dialog from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
 
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
@@ -94,8 +89,6 @@ const Projects = props => {
 
   return (
     <div>
-      {/* <Header /> */}
-
       <TopBar>
         <Label>
           {typeOfProject === "Verified" ? (

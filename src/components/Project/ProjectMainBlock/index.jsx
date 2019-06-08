@@ -88,9 +88,13 @@ export default ({ project, gridArea, update, setUpdate }) => {
               />
             </div>
           </Fragment>
+        ) : long_description ? (
+          <div className="Desc" onClick={() => setEdit(true)}>
+            {long_description}
+          </div>
         ) : (
           <div className="Desc" onClick={() => setEdit(true)}>
-            {long_description ? long_description : "No description"}
+            <span>+</span> Add description to your project
           </div>
         )}
       </div>

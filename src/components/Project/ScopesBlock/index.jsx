@@ -82,13 +82,18 @@ export default ({ project, gridArea, update, setUpdate }) => {
               />
             </div>
           </Fragment>
-        ) : (
+        ) : scopes ? (
           scopes.split(",").map((scope, index) => (
             <div className="Scope" key={index} onClick={() => setEdit(true)}>
               <span className="Index">{index + 1}</span>
               <span className="Title"> {scope}</span>
             </div>
           ))
+        ) : (
+          <div className="Scope" onClick={() => setEdit(true)}>
+            <span className="Index">+</span>
+            <span className="Title">Click and add new scope</span>
+          </div>
         )}
       </div>
     </Container>

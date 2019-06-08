@@ -62,11 +62,18 @@ export default withSnackbar(
   withRouter(props => {
     const urlParams = new URLSearchParams(window.location.search);
     const params = {
-      // id: urlParams.get(":id"),
       name: urlParams.get("name"),
       email: urlParams.get("email"),
       token: urlParams.get("token")
     };
+
+    useEffect(() => {
+      if (!params.token) {
+        props.history.push("/");
+      } else {
+        localStorage.setItem("token", params.token);
+      }
+    }, []);
 
     const [name, setName] = useState(params.name || "");
     const [surname, setSurname] = useState("");
@@ -87,11 +94,11 @@ export default withSnackbar(
       setError(check);
       if (!check) {
         setLoading(true);
-        props.enqueueSnackbar("We try to complite your profile.", {
+        props.enqueueSnackbar("We are completing your profile.", {
           variant: "info"
         });
         axios
-          .put(`${config.api}/user`, {
+          .put(`${config.api}/user/updateInfo`, {
             token: params.token,
             name,
             surname,

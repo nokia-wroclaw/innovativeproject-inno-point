@@ -43,8 +43,9 @@ const TopicForm1 = props => {
     event.preventDefault();
     if (fields.every(e => !e.error && e.value)) {
       const team = {
-        number_of_members: number.value,
-        leader_id: props.user.id,
+        max_number_of_members: number.value,
+        // leader_id: props.user.id,
+        token: localStorage.getItem("token"),
         open: typeOfProject
       };
       setWaiting(true);
@@ -71,7 +72,7 @@ const TopicForm1 = props => {
         <Form onSubmit={handleSubmit} gridArea={props.gridArea}>
           <div className="Title">Team Details</div>
           <TextField
-            label="Number of Students"
+            label="Max number of Students"
             value={number.value}
             onChange={event =>
               setNumber(returnValue(event.target.value, textFieldValidator))

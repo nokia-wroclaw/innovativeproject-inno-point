@@ -17,10 +17,7 @@ import {
   Button
 } from "../../../components";
 
-import { withRouter } from "react-router-dom";
-
 import { MainContainer, StyledSpinner } from "./style";
-import { Link } from "@material-ui/core";
 
 import LinkButton from "../../../components/LinkButton";
 
@@ -45,7 +42,7 @@ const Project = props => {
   } = project;
   return (
     <MainContainer>
-      <LinkButton to="/dashboard/projects" />
+      <LinkButton to="/dashboard/projects" bcg={theme_color} />
       <ProjectMainBlock
         project={project}
         gridArea="main"
@@ -94,7 +91,9 @@ const mapStateToProps = (state, ownProps) => {
   const currentProject = getProjectById(state, id);
   const teamId = currentProject.team_id;
   const users = state.users;
-  const members = users.items.filter(user => user.team_id === teamId);
+  const members = teamId
+    ? users.items.filter(user => user.team_id === teamId)
+    : [];
   return {
     project: currentProject,
     members

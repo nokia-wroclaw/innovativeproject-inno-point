@@ -9,6 +9,8 @@ const jwt = require("jsonwebtoken");
 const Models = require("../services/dbConnection");
 const User = Models.User;
 
+const ROLE = require("../utils/role");
+
 const {
   client_id,
   client_secret,
@@ -67,6 +69,7 @@ const gitHubRoutes = app => {
                       name: clientName,
                       github_picture: clientAvatar,
                       email: clientEmail,
+                      role: ROLE.DEVELOPER,
                       token
                     }
                   ]);
@@ -86,15 +89,15 @@ const gitHubRoutes = app => {
               })
               .then(() => {
                 if (createdNewAccount == true) {
+                  res.cookie("token", token);
                   res.redirect(
                     `${appUrl}/first_login?&name=${userData.clientName}&email=${
                       userData.clientEmail
                     }&token=${token}`
                   );
                 } else {
-                  res.redirect(
-                    `${appUrl}/dashboard/projects?id=${clientId}&token=${token}`
-                  );
+                  res.cookie("token", token);
+                  res.redirect(`${appUrl}/dashboard/projects?token=${token}`);
                 }
               })
               .catch(error => {
