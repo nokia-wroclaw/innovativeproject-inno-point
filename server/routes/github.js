@@ -117,13 +117,14 @@ const gitHubRoutes = app => {
       title: req.body.title,
       description: req.body.description
     };
+
     github.gitPostCreateNewRepository(data).then(
       repoData => {
-        res.send("repo created" + repoData);
+        res.send(repoData);
       },
       reason => {
         res.state = 500;
-        res.send("Error");
+        res.sendStatus(reason);
       }
     );
   });
@@ -132,10 +133,10 @@ const gitHubRoutes = app => {
     const data = {
       title: req.body.title
     };
-    // console.log(data);
+
     github.gitGetRepoAdditionsDeletions(data).then(
       repoStats => {
-        res.send("repo stats  " + repoStats);
+        res.send(repoStats);
       },
       reason => {
         res.state = 500;

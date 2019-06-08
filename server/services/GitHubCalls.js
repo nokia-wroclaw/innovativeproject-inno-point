@@ -47,9 +47,7 @@ class GitHubCalls {
     return new Promise((resolve, reject) => {
       let reqGet = https.request(optionsget, function(res) {
         res.on("data", function(d) {
-          console.info("GET result:\n");
           process.stdout.write(d);
-          console.info("\n\nCall completed");
         });
         resolve(res.statusCode);
       });
@@ -64,8 +62,6 @@ class GitHubCalls {
   gitAuthWithCallback(callback) {
     var unGuessableState = crypto.createHash("sha256");
     unGuessableState.update(Math.random().toString());
-
-    //    console.log("hash: " + unGuessableState.digest());
 
     let optionsget = {
       host: "github.com",
@@ -85,9 +81,7 @@ class GitHubCalls {
 
     let reqGet = https.request(optionsget, function(res) {
       res.on("data", function(d) {
-        console.info("GET result:\n");
         process.stdout.write(d);
-        console.info("\n\nCall completed");
       });
       resolve(res.statusCode);
     });
@@ -129,7 +123,6 @@ class GitHubCalls {
               hireable: parsedData.hireable,
               public_repos: parsedData.public_repos
             };
-            //            console.log(clientInfo);
             resolve(clientInfo);
           } catch (e) {
             console.error(e.message);
@@ -163,8 +156,6 @@ class GitHubCalls {
   }
 
   gitPostCreateNewRepository(data) {
-    //    console.log(data.title + " " + data.description);
-
     const jsonObject = JSON.stringify({
       name: data.title,
       description: data.description,
@@ -188,11 +179,15 @@ class GitHubCalls {
         "Content-Length": Buffer.byteLength(jsonObject, "utf8")
       }
     };
-    //    console.log(optionsPost);
 
     return new Promise((resolve, reject) => {
       let reqPost = https.request(optionsPost, function(res) {
-        //        console.log("statusCode: ", res.statusCode);
+        if (res.statusCode == 401 || res.statusCode == 403) {
+          reject(401);
+        }
+        if (res.statusCode == 442) {
+          reject(442);
+        }
 
         let rawData = "";
         res.on("data", chunk => {
@@ -203,12 +198,12 @@ class GitHubCalls {
             const parsedData = JSON.parse(rawData);
             const repoInfo = {
               repo_url: parsedData.html_url,
-              repo_time_creation: created_at
+              repo_time_creation: parsedData.created_at
             };
-            //            console.log(parsedData);
-            resolve(parsedData);
+            resolve(repoInfo);
           } catch (e) {
             console.error(e.message);
+            reject(500);
           }
         });
       });
@@ -237,7 +232,6 @@ class GitHubCalls {
       }
     };
     //  https://api.github.com/repos/nokia-wroclaw/innovativeproject-inno-point/stats/code_frequency
-    //  console.log(optionsGet);
 
     return new Promise((resolve, reject) => {
       let reqGet = https.request(optionsGet, function(res) {
@@ -247,17 +241,18 @@ class GitHubCalls {
         });
         res.on("end", () => {
           try {
-            //  console.log("statusCode: ", res.statusCode);
-            //  console.log(rawData);
             if (rawData != []) {
               const parsedData = JSON.parse(rawData);
-              console.log(parsedData);
+
               const re = new RegExp("\\].\\[|,|\\[\\[|\\]\\]");
-              console.log(rawData.split(re));
-              // var array = parsedData.split("[");
-              // console.log(array);
-              // console.log(rawData[rawData.length]);
-              resolve(parsedData);
+              let stats = rawData.split(re);
+
+              let gitStats = {
+                addition: stats[stats.length - 3],
+                deletions: stats[stats.length - 2]
+              };
+
+              resolve(gitStats);
             } else {
               resolve(rawData);
             }

@@ -24,7 +24,7 @@ const config = {
     github_url_repos: "https://api.github.com/user/repos",
     client_id: "cb8b7f9b4e0a03ead294",
     client_secret: "6689a1dc924d845a4296030a710eaeaadc1c60e3",
-    app_token: "136441686325559577c760a7da349910f2ff3a1c",
+    app_token: "4090d0541f6ebf2f62da1987e6d306bd3c57d97e",
     scope: "user",
     allow_signup: "true",
     owner: "nokia-wroclaw"
