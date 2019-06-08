@@ -45,23 +45,19 @@ export const Container = styled.header`
 
 export const StyledLink = styled(Link)`
   color: ${props =>
-    props.to === props.pathname ? "white" : "hsl(0, 0%, 70%)"};
+    props.to === props.pathname ? "white" : "hsl(0, 0%, 85%)"};
   text-decoration: none;
   padding: 0 10px;
-  /* border-left: ${props =>
-    props.to === props.pathname
-      ? "1px solid hsl(0, 0%, 70%)"
-      : "1px solid transparent"}; */
   background-color: ${props =>
     props.to === props.pathname ? "rgba(255, 255, 255, 0.1)" : "transparent"};
   display: flex;
   align-items: center;
 
-   @media (max-width: 700px) {
-     > span { 
-       display: none;
-     }
-     justify-content: center;
+  @media (max-width: 700px) {
+    > span {
+      display: none;
+    }
+    justify-content: center;
   }
 
   span {

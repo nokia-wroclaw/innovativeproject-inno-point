@@ -9,7 +9,7 @@ const show = keyframes`
 `;
 
 export const Container = styled.div`
-  width: calc((100% - var(--projectMargin) - 10px) / 2);
+  grid-area: ${({ gridArea }) => gridArea};
   height: 200px;
   display: grid;
   grid-template: "main";
@@ -17,7 +17,6 @@ export const Container = styled.div`
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
   background-color: white;
   transition: all 0.1s ease-in-out;
-  margin-top: var(--blockMargin);
   animation: ${show} 0.3s;
 
   div.Main {

@@ -16,6 +16,25 @@ const show = keyframes`
   }
 `;
 
+export const Label = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+  margin-left: 50px;
+  margin-top: 60px;
+  color: #00336e !important;
+  font-size: 24px;
+  border-radius: 8px;
+  padding: 7px;
+  padding-bottom: 10px;
+
+  > span {
+    margin-left: 5px;
+  }
+
+  transition: all 0.2s ease-in-out;
+`;
+
 export const MainContainer = styled.div`
   display: grid;
 `;

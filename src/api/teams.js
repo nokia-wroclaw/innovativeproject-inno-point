@@ -16,4 +16,18 @@ export const updateTeams = team =>
     team
   });
 
-export const deleteTeams = id => createApiRequest(DELETE, `/teams/${id}`);
+export const deleteTeam = id =>
+  createApiRequest(DELETE, `/teams/${id}`, {
+    token: localStorage.getItem("token")
+  });
+
+export const joinTeam = id =>
+  createApiRequest(PUT, `/teams/${id}/join`, {
+    token: localStorage.getItem("token")
+  });
+
+export const changeTeamStatus = (id, status) =>
+  createApiRequest(PUT, `/teams/${id}/status`, {
+    token: localStorage.getItem("token"),
+    status
+  });

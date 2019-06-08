@@ -11,8 +11,8 @@ const show = keyframes`
 export const Element = styled.div`
   height: 100%;
   display: grid;
-  grid-template: "photo main" / 100px auto;
   cursor: pointer;
+  padding: 5px;
   border-radius: 8px;
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
   animation: ${show} 0.3s;
@@ -33,15 +33,6 @@ export const Element = styled.div`
 
   :active {
     transform: scale(1.02);
-  }
-
-  div.Picture {
-    display: grid;
-    align-items: center;
-    justify-items: center;
-    background: var(--gradientTop1);
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
   }
 
   div.Main {
@@ -176,8 +167,7 @@ export const Tag = styled.span`
 `;
 
 export const Picture = styled.img`
-  width: 35px;
-  opacity: 0.9;
+  width: 40px;
   border-radius: 50px;
 `;
 

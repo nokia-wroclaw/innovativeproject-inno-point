@@ -1,4 +1,11 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const show = keyframes`
+  from {
+    transform: translateY(30px) scale(0.8);
+    opacity: 0.4;
+  }
+`;
 
 export const StyledButton = styled.button`
   grid-area: ${props => props.gridArea};
@@ -39,6 +46,7 @@ export const StyledButton = styled.button`
   letter-spacing: 2px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  animation: ${show} 0.2s;
 
   :hover {
     filter: brightness(1.15);

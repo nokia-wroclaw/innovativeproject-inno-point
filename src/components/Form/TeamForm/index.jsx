@@ -44,7 +44,6 @@ const TopicForm1 = props => {
     if (fields.every(e => !e.error && e.value)) {
       const team = {
         max_number_of_members: number.value,
-        // leader_id: props.user.id,
         token: localStorage.getItem("token"),
         open: typeOfProject
       };
