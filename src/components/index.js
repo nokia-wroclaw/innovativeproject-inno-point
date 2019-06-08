@@ -1,7 +1,7 @@
 import { ProjectMainBlock } from "./Project/index";
 import { ProjectCard } from "./Projects/index";
 import Button from "./Button";
-import { LoginForm, TopicForm, TeamForm } from "./Form";
+import { LoginForm, TopicForm, TeamForm, PostForm } from "./Form";
 import Header from "./Header";
 import MembersProjectBlock from "./Project/MembersProjectBlock";
 import Spinner from "./Spinner";
@@ -33,5 +33,6 @@ export {
   TeamCard,
   TeamForm,
   VerifyProjectBlock,
-  DeleteTeamBlock
+  DeleteTeamBlock,
+  PostForm
 };

@@ -25,6 +25,16 @@ import {
   userReadFailure
 } from "./users";
 
+import {
+  newsCreateRequest,
+  newsReadRequest,
+  newsReadSuccess,
+  newsReadFailure,
+  newsUpdateRequest,
+  newsUpdateSuccess,
+  newsUpdateFailure
+} from "./news";
+
 export {
   projectCreateRequest,
   projectsReadRequest,
@@ -33,6 +43,9 @@ export {
   teamCreateRequest,
   teamsReadRequest,
   teamsReadSuccess,
+  newsUpdateRequest,
+  newsUpdateSuccess,
+  newsUpdateFailure,
   teamsReadFailure,
   teamReadRequest,
   teamReadSuccess,
@@ -43,5 +56,9 @@ export {
   usersReadFailure,
   userReadRequest,
   userReadSuccess,
-  userReadFailure
+  userReadFailure,
+  newsCreateRequest,
+  newsReadRequest,
+  newsReadSuccess,
+  newsReadFailure
 };
