@@ -1,6 +1,11 @@
 const { Team, User } = require("../services/dbConnection");
+const SEQUELIZE = require("../services/dbConnection");
+const sequelize = SEQUELIZE.sequelize;
 const jwt = require("jsonwebtoken");
 const config = require("../config");
+
+const ClearanceCheck = require("../utils/cleranceCheck");
+const clearanceCheck = new ClearanceCheck();
 
 const teamRoutes = app => {
   app.put("/teams", (req, res) => {
@@ -100,19 +105,49 @@ const teamRoutes = app => {
   });
 
   app.put("/teams/:id/join", (req, res) => {
-    const id = parseInt(req.params.id);
+    const team_id = parseInt(req.params.id);
     if (req.body.token) {
-      const { token } = req.body;
-      jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      jwt.verify(req.body.token, config.jwt.secretkey, (err, authData) => {
         if (err) {
           res.sendStatus(403);
         } else {
-          User.update(
-            { team_id: id },
-            {
-              where: { id: authData.id }
+          const user_id = authData.id;
+          clearanceCheck.isDeveloperUp(user_id).then(result => {
+            if (result == false) res.sendStatus(403);
+            else {
+              User.findAll({
+                where: { id: user_id }
+              }).then(result => {
+                if (JSON.stringify(result[0].dataValues.team_id) === "null") {
+                  sequelize
+                    .query(
+                      "SELECT COUNT(max_number_of_members) as current_num_of_members, max_number_of_members FROM user JOIN team ON user.team_id = team.id WHERE team_id='" +
+                        team_id +
+                        "'"
+                    )
+                    .then(([results, metadata]) => {
+                      let current_members = results[0].current_num_of_members;
+                      let max_members = results[0].max_number_of_members;
+
+                      if (current_members < max_members) {
+                        User.update(
+                          { team_id: team_id },
+                          {
+                            where: { id: user_id }
+                          }
+                        ).then(() => res.sendStatus(200));
+                      } else {
+                        console.log("team full");
+                        res.sendStatus(500);
+                      }
+                    });
+                } else {
+                  console.log("you already have a team");
+                  res.sendStatus(500);
+                }
+              });
             }
-          ).then(() => res.sendStatus(200));
+          });
         }
       });
     } else {
