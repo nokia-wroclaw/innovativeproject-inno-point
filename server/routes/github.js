@@ -132,10 +132,10 @@ const gitHubRoutes = app => {
     const data = {
       title: req.body.title
     };
-    console.log(data);
+    // console.log(data);
     github.gitGetRepoAdditionsDeletions(data).then(
       repoStats => {
-        res.send("repo stats" + repoStats);
+        res.send("repo stats  " + repoStats);
       },
       reason => {
         res.state = 500;

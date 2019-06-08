@@ -7,7 +7,7 @@ const ProjectModel = require("../models/project");
 const sequelize = new Sequelize(config.database, config.user, config.password, {
   host: config.host,
   dialect: "mysql",
-  logging: true
+  logging: false
 });
 
 const User = UserModel(sequelize, Sequelize);

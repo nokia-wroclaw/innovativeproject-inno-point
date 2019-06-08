@@ -237,28 +237,38 @@ class GitHubCalls {
       }
     };
     //  https://api.github.com/repos/nokia-wroclaw/innovativeproject-inno-point/stats/code_frequency
-    console.log(optionsGet);
+    //  console.log(optionsGet);
 
     return new Promise((resolve, reject) => {
       let reqGet = https.request(optionsGet, function(res) {
-        console.log("statusCode: ", res.statusCode);
-
         let rawData = "";
         res.on("data", chunk => {
           rawData += chunk;
         });
         res.on("end", () => {
           try {
-            console.log(rawData);
-            const parsedData = JSON.parse(rawData);
-            resolve(parsedData);
+            //  console.log("statusCode: ", res.statusCode);
+            //  console.log(rawData);
+            if (rawData != []) {
+              const parsedData = JSON.parse(rawData);
+              console.log(parsedData);
+              const re = new RegExp("\\].\\[|,|\\[\\[|\\]\\]");
+              console.log(rawData.split(re));
+              // var array = parsedData.split("[");
+              // console.log(array);
+              // console.log(rawData[rawData.length]);
+              resolve(parsedData);
+            } else {
+              resolve(rawData);
+            }
           } catch (e) {
             console.error(e.message);
           }
         });
       });
 
-      reqPost.on("error", function(e) {
+      reqGet.end();
+      reqGet.on("error", function(e) {
         reject(err);
       });
     });
