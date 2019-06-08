@@ -98,7 +98,7 @@ export default withSnackbar(
           variant: "info"
         });
         axios
-          .put(`${config.api}/user`, {
+          .put(`${config.api}/user/updateInfo`, {
             token: params.token,
             name,
             surname,

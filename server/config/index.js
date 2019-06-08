@@ -3,11 +3,18 @@ const config = {
     secretkey: "jhgf1234lkjwqer987fsa"
   },
   db: {
-    host: "us-cdbr-iron-east-02.cleardb.net",
+    // host: "us-cdbr-iron-east-02.cleardb.net",
+    // database: "heroku_f337e52df2176b9",
+    // port: 3306,
+    // user: "b9483965a9a2f5",
+    // password: "f77c4e8d",
+    // socketPath: "",
+    // waitForConnections: true
+    host: "localhost",
     database: "heroku_f337e52df2176b9",
     port: 3306,
-    user: "b9483965a9a2f5",
-    password: "f77c4e8d",
+    user: "root",
+    password: "",
     socketPath: "",
     waitForConnections: true
   },
