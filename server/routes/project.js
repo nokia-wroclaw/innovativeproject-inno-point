@@ -18,8 +18,14 @@ const projectRoutes = app => {
       if (err) {
         res.sendStatus(403);
       } else {
-        Project.findAll().then(result => {
-          res.send(JSON.stringify(result));
+        const user_id = authData.id;
+        clearanceCheck.isDeveloperUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            Project.findAll().then(result => {
+              res.send(JSON.stringify(result));
+            });
+          }
         });
       }
     });
@@ -53,6 +59,7 @@ const projectRoutes = app => {
   });
 
   app.post("/projects", (req, res) => {
+    let token = req.body.token;
     const {
       name,
       short_description,
@@ -65,54 +72,66 @@ const projectRoutes = app => {
       theme_color
     } = req.body.project;
 
-    Project.findAll({
-      attributes: ["id"],
-      order: [["id", "DESC"]],
-      limit: 1
-    })
-      .then(result => {
-        const id = result.row ? parseInt(result.row[0].id) + 1 : 0;
-        return Project.bulkCreate([
-          {
-            id: id,
-            name: name,
-            short_description: short_description,
-            goals: goals,
-            scopes: scopes,
-            requirements: requirements,
-            number_of_members: number_of_members,
-            technology: technology,
-            tags: tags,
-            theme_color: theme_color
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        clearanceCheck.isDeveloperUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            Project.findAll({
+              attributes: ["id"],
+              order: [["id", "DESC"]],
+              limit: 1
+            })
+              .then(result => {
+                const project_id = result.row
+                  ? parseInt(result.row[0].id) + 1
+                  : 0;
+
+                return Project.bulkCreate([
+                  {
+                    id: project_id,
+                    name: name,
+                    short_description: short_description,
+                    goals: goals,
+                    scopes: scopes,
+                    requirements: requirements,
+                    number_of_members: number_of_members,
+                    technology: technology,
+                    tags: tags,
+                    theme_color: theme_color
+                  }
+                ]);
+              })
+              .then(
+                result => {
+                  const mailService = new MailService();
+                  dbQuerry.getModeratorEmails().then(moderatorsEmails => {
+                    const data = {
+                      projectName: name,
+                      projectId: result.insertId,
+                      recipientEmails: moderatorsEmails
+                    };
+                    mailService.requestTopicReview(data).then(() => {});
+                  });
+                  if (result == 1) res.sendStatus("200");
+                  res.send(result);
+                },
+                reason => {
+                  console.log("routes/project - rejection when adding project");
+                  res.sendStatus("500");
+                }
+              );
           }
-        ]);
-      })
-      .then(
-        result => {
-          const mailService = new MailService();
-          dbQuerry.getModeratorEmails().then(moderatorsEmails => {
-            const data = {
-              projectName: name,
-              projectId: result.insertId,
-              recipientEmails: moderatorsEmails
-            };
-            mailService.requestTopicReview(data).then(() => {});
-          });
-          if (result == 1) res.sendStatus("200");
-          res.send(result);
-        },
-        reason => {
-          console.log("routes/project - rejection when adding project");
-          res.sendStatus("500");
-        }
-      );
+        });
+      }
+    });
   });
 
   app.put("/projects/:id", (req, res) => {
-    console.log(req.body.project);
-
     let token = req.body.token;
-    console.log("token  : " + token);
     const {
       academic_contact_id,
       goals,
@@ -139,11 +158,11 @@ const projectRoutes = app => {
         clearanceCheck.isDeveloperUp(user_id).then(result => {
           if (result == false) res.sendStatus(403);
           else {
-            console.log("project id in function: " + project_id);
             Project.update(
               {
                 name,
                 short_description,
+                long_description,
                 team_id,
                 goals,
                 scopes,
@@ -157,8 +176,7 @@ const projectRoutes = app => {
               { where: { id: project_id } }
             )
               .then(result => {
-                console.log(result);
-                res.status("200").send(result);
+                res.status(200).send(result);
               })
               .catch(error => {
                 console.log(error);
@@ -171,41 +189,68 @@ const projectRoutes = app => {
   });
 
   app.put("/projects/verify/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    Project.update(
-      {
-        verified: 1
-      },
-      {
-        where: { id: id }
+    let token = req.body.token;
+    const project_id = parseInt(req.params.id);
+
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        clearanceCheck.isDeveloperUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            Project.update(
+              {
+                verified: 1
+              },
+              {
+                where: { id: project_id }
+              }
+            )
+              .then(result => {
+                if (result == 1) res.sendStatus(200);
+                else res.sendStatus(500);
+              })
+              .catch(error => {
+                console.log(
+                  "routes/project - rejection when updating verify status"
+                );
+                res.sendStatus("500");
+              });
+          }
+        });
       }
-    ).then(
-      result => {
-        if (result == 1) res.sendStatus("200");
-        res.send(result);
-      },
-      reason => {
-        console.log("routes/project - rejection when updating verify status");
-        res.sendStatus("500");
-      }
-    );
+    });
   });
 
   app.delete("/projects/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    Project.destroy({
-      where: { id: id }
-    }).then(
-      result => {
-        console.log(result);
-        if (result == 1) res.sendStatus("200");
-        res.send(result);
-      },
-      reason => {
-        console.log("routes/project - rejection when deleting project");
-        res.sendStatus("500");
+    let token = req.body.token;
+    const project_id = parseInt(req.params.id);
+
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        clearanceCheck.isDeveloperUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            Project.destroy({
+              where: { id: project_id }
+            })
+              .then(result => {
+                if (result == 1) res.sendStatus(200);
+                else res.sendStatus(500);
+              })
+              .catch(error => {
+                console.log("routes/project - rejection when deleting project");
+                res.sendStatus("500");
+              });
+          }
+        });
       }
-    );
+    });
   });
 };
 

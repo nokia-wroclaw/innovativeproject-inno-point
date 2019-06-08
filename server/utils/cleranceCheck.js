@@ -12,7 +12,7 @@ class CleranceCheck {
         where: { id: userId },
         raw: true
       }).then(result => {
-        console.log(JSON.parse(JSON.stringify(result[0])).role);
+        //        console.log(JSON.parse(JSON.stringify(result[0])).role);
         resolve(JSON.parse(JSON.stringify(result[0])).role);
         reject("ERROR");
       });
