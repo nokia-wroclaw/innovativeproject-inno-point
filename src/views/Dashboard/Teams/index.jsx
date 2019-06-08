@@ -17,7 +17,8 @@ import {
   StyledTypeOfList,
   iconAddStyle,
   iconBackStyle,
-  StyledTooltip
+  StyledTooltip,
+  Label
 } from "./style";
 
 import {
@@ -38,19 +39,18 @@ import SearchIcon from "@material-ui/icons/Search";
 import Dialog from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
 
+import { People } from "@material-ui/icons";
+
+import { css } from "emotion";
+
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
 const Teams = props => {
   const [typeOfList, setTypeOfList] = useState("block");
-  const [formDisplaying, setFormDisplaying] = useState(false);
   const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState(false);
-
-  function handleChange(event, newValue) {
-    setTypeOfList(newValue);
-  }
 
   function handleClickOpen() {
     setOpen(true);
@@ -90,6 +90,10 @@ const Teams = props => {
   return (
     <div>
       <TopBar>
+        <Label>
+          <People />
+          <span>Teams</span>
+        </Label>
         <div className="Searchbar">
           <InputBase placeholder="Search…" style={{ width: "100%" }} />
           <SearchIcon />

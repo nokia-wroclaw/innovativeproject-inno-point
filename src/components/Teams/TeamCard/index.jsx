@@ -10,7 +10,6 @@ export default ({ team, users, project, index }) => {
   return (
     <Link to={`/dashboard/teams/${team.id}`}>
       <Element key={index} delay={index}>
-        <div className="Picture" />
         <div className="Main">
           <div className="Title">
             {leader ? (

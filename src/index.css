@@ -44,7 +44,7 @@ input:focus {
   --gradientLeft1: linear-gradient(to left, #004691, #00336e);
   --gradientLeft2: linear-gradient(to left, #df3f23, #a52913);
   --gradientTop1: linear-gradient(to bottom, #004691, #00336e);
-  --gradientHeader: linear-gradient(to top, #002750, #001d3f);
+  --gradientHeader: linear-gradient(to top, #003064, #002249);
   --gradientTest: linear-gradient(
     180deg,
     #352083 0%,

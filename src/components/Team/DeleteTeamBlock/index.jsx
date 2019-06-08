@@ -5,7 +5,7 @@ import { withSnackbar } from "notistack";
 import { Container } from "./style";
 import { Button as DeleteButton } from "../..";
 
-import { deleteProject } from "../../../api/projects";
+import { deleteTeam } from "../../../api/teams";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -31,9 +31,9 @@ export default withSnackbar(
     }
 
     function handleDelete() {
-      deleteProject(id).then(() => {
-        history.push("/dashboard/projects");
-        enqueueSnackbar("Topic has been deleted!", {
+      deleteTeam(id).then(() => {
+        history.push("/dashboard/teams");
+        enqueueSnackbar("Team has been deleted!", {
           variant: "info"
         });
       });
@@ -41,8 +41,8 @@ export default withSnackbar(
     return (
       <Container gridArea={gridArea}>
         <div className="Main">
-          <div className="Label">Delete this project</div>
-          <div className="Info">You can permanently remove this project.</div>
+          <div className="Label">Delete this team</div>
+          <div className="Info">You can permanently remove this team.</div>
           <DeleteButton
             label="Delete"
             size="small"
@@ -60,8 +60,8 @@ export default withSnackbar(
             <DialogTitle>Are you sure?</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                You can remove this project. Once you delete the project, there
-                is no going back. Please be certain.
+                You can remove this team. Once you delete the team, there is no
+                going back. Please be certain.
               </DialogContentText>
             </DialogContent>
             <DialogActions>

@@ -16,16 +16,21 @@ export const Label = styled.div`
   align-items: center;
   margin-right: auto;
   margin-left: 50px;
-  margin-top: 30px;
+  margin-top: 65px;
   font-size: 24px;
   color: hsl(0, 0%, 50%);
-  background-color: white;
-  border: solid 1px hsl(0, 0%, 80%);
+  /* background-color: white; */
+  /* border: solid 1px hsl(0, 0%, 80%); */
   border-radius: 8px;
   padding: 7px;
 
-  > span {
-    margin-left: 5px;
+  > div {
+    display: flex;
+    padding-bottom: 13px;
+  }
+
+  > div > span {
+    margin-left: 10px;
   }
 
   transition: all 0.2s ease-in-out;
@@ -148,7 +153,7 @@ export const StyledTooltip = styled(Tooltip)`
 
 export const StyledTypeOfList = styled(BottomNavigation)`
   width: 170px;
-  right: 300px;
+  right: 115px;
   bottom: 5%;
   position: fixed;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
@@ -159,17 +164,6 @@ export const StyledTypeOfList = styled(BottomNavigation)`
   @media (max-width: 1175px) {
     display: none !important;
   }
-`;
-
-export const StyledTypeOfProjects = styled(BottomNavigation)`
-  width: 170px;
-  right: 115px;
-  bottom: 5%;
-  position: fixed;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
-  font-size: 5px;
-  transition: all 0.2s ease-in-out;
 `;
 
 export const fabAddStyle = {

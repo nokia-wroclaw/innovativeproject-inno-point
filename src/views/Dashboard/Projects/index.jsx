@@ -13,7 +13,6 @@ import {
   StyledTooltip,
   StyledTypeOfList,
   StyledSpinner,
-  StyledTypeOfProjects,
   Header,
   Label
 } from "./style";
@@ -37,6 +36,21 @@ import SearchIcon from "@material-ui/icons/Search";
 
 import Dialog from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
+
+import { css } from "emotion";
+
+const labelStyle = (type, currType) => css`
+  color: ${type === currType ? "#00336e" : "hsl(0, 0%, 75%)"};
+`;
+
+const containerLabelStyle = (type, currType) => css`
+  border-bottom: solid
+    ${type === currType ? "2px transparent" : "3px transparent"};
+  cursor: pointer;
+  margin-left: ${type === "Pending" && "20px"};
+  padding-bottom: 10px;
+  transition: all 0.07s linear;
+`;
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -91,12 +105,24 @@ const Projects = props => {
     <div>
       <TopBar>
         <Label>
-          {typeOfProject === "Verified" ? (
-            <VerifiedUser style={{ color: "#00336e" }} />
-          ) : (
-            <Schedule style={{ color: "#00336e" }} />
-          )}
-          <span>{typeOfProject} Projects</span>
+          <div
+            onClick={() => setTypeOfProject("Verified")}
+            className={containerLabelStyle("Verified", typeOfProject)}
+          >
+            <VerifiedUser className={labelStyle("Verified", typeOfProject)} />
+            <span className={labelStyle("Verified", typeOfProject)}>
+              Verified Projects
+            </span>
+          </div>
+          <div
+            onClick={() => setTypeOfProject("Pending")}
+            className={containerLabelStyle("Pending", typeOfProject)}
+          >
+            <Schedule className={labelStyle("Pending", typeOfProject)} />
+            <span className={labelStyle("Pending", typeOfProject)}>
+              Pending Projects
+            </span>
+          </div>
         </Label>
         <div className="Searchbar">
           <InputBase
@@ -141,21 +167,6 @@ const Projects = props => {
         <BottomNavigationAction label="Block" value="block" icon={<GridOn />} />
         <BottomNavigationAction label="List" value="list" icon={<List />} />
       </StyledTypeOfList>
-      <StyledTypeOfProjects
-        value={typeOfProject}
-        onChange={handleTypeOfProject}
-      >
-        <BottomNavigationAction
-          label="Verified"
-          value="Verified"
-          icon={<VerifiedUser />}
-        />
-        <BottomNavigationAction
-          label="Pending"
-          value="Pending"
-          icon={<Schedule />}
-        />
-      </StyledTypeOfProjects>
       <StyledTooltip
         title={"Add project"}
         aria-label="Add"

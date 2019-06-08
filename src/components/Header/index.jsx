@@ -3,9 +3,9 @@ import { withRouter } from "react-router-dom";
 import { Container, StyledLink } from "./style";
 import { iconStyle } from "./style";
 import {
-  Assessment,
+  Dvr,
   ViewList,
-  SupervisedUserCircle,
+  People,
   Announcement,
   AccountCircle,
   ExitToApp
@@ -19,7 +19,7 @@ export default withRouter(props => {
         <img src="/icons/dashboard.svg" />
       </div>
       <StyledLink to="/dashboard/manager" pathname={pathname}>
-        <Assessment style={iconStyle} />
+        <Dvr style={iconStyle} />
         <span>Manager</span>
       </StyledLink>
       <StyledLink to="/dashboard/projects" pathname={pathname}>
@@ -27,7 +27,7 @@ export default withRouter(props => {
         <span>Projects</span>
       </StyledLink>
       <StyledLink to="/dashboard/teams" pathname={pathname}>
-        <SupervisedUserCircle style={iconStyle} />
+        <People style={iconStyle} />
         <span>Teams</span>
       </StyledLink>
       <StyledLink to="/dashboard/news" pathname={pathname}>

@@ -4,8 +4,10 @@ import { withSnackbar } from "notistack";
 
 import { Container } from "./style";
 import { Button as DeleteButton } from "../..";
+import { Button as EditButton } from "../..";
 
-import { deleteProject } from "../../../api/projects";
+import { verifyProject } from "../../../api/projects";
+import { TeamForm } from "../../../components";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -19,7 +21,7 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 export default withSnackbar(
-  withRouter(({ id, history, enqueueSnackbar, gridArea }) => {
+  withRouter(({ id, history, enqueueSnackbar, gridArea, status }) => {
     const [open, setOpen] = useState(false);
 
     function handleClickOpen() {
@@ -30,10 +32,9 @@ export default withSnackbar(
       setOpen(false);
     }
 
-    function handleDelete() {
-      deleteProject(id).then(() => {
-        history.push("/dashboard/projects");
-        enqueueSnackbar("Topic has been deleted!", {
+    function handleVerify() {
+      verifyProject(id).then(() => {
+        enqueueSnackbar("Team staus has been changed!", {
           variant: "info"
         });
       });
@@ -41,14 +42,14 @@ export default withSnackbar(
     return (
       <Container gridArea={gridArea}>
         <div className="Main">
-          <div className="Label">Delete this project</div>
-          <div className="Info">You can permanently remove this project.</div>
+          <div className="Label">Change this team status</div>
+          <div className="Info">You can change status and let users join.</div>
           <DeleteButton
-            label="Delete"
+            label="Verify"
             size="small"
-            color="red"
+            color="blue"
             gridArea="button"
-            style={{ justifySelf: "end", alignSelf: "end" }}
+            style={{ justifySelf: "right", alignSelf: "end" }}
             onClick={handleClickOpen}
           />
           <Dialog
@@ -60,16 +61,15 @@ export default withSnackbar(
             <DialogTitle>Are you sure?</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                You can remove this project. Once you delete the project, there
-                is no going back. Please be certain.
+                Users will be able to join team
               </DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose} color="primary">
-                Back
+                <span style={{ color: "gray" }}>Back</span>
               </Button>
-              <Button onClick={handleDelete} color="primary">
-                <span style={{ color: "red" }}>Delete</span>
+              <Button onClick={handleVerify} color="primary">
+                {status === "open" ? "Make team closed" : "Make team open"}
               </Button>
             </DialogActions>
           </Dialog>
