@@ -27,7 +27,7 @@ const config = {
     app_token: "4090d0541f6ebf2f62da1987e6d306bd3c57d97e",
     scope: "user",
     allow_signup: "true",
-    owner: "nokia-wroclaw"
+    owner: "KMasluch"
   },
 
   mailer: {
