@@ -26,15 +26,15 @@ const config = {
     client_secret: "6689a1dc924d845a4296030a710eaeaadc1c60e3",
     app_token: "136441686325559577c760a7da349910f2ff3a1c",
     scope: "user",
-    allow_signup: "true"
+    allow_signup: "true",
+    owner: "nokia-wroclaw"
   },
 
   mailer: {
     mailerAccount: "inno.project.test@gmail.com",
     mailerPassword: "17bc8311-f8ce-4bd6-bce6-d796b4ce5863",
     mailerHost: "smtp.elasticemail.com",
-    mailerPort: "2525",
-    request_mentor_status: "../email_templates/request_mentro_status.html"
+    mailerPort: "2525"
   },
 
   api: "http://localhost:3030",
