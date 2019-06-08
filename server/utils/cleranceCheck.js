@@ -73,7 +73,7 @@ class CleranceCheck {
       });
     });
   }
-  static isAcademicUp(userId) {
+  isAcademicUp(userId) {
     return new Promise((resolve, reject) => {
       this.getRole(userId).then(role => {
         if (
@@ -81,6 +81,18 @@ class CleranceCheck {
           role == ROLE.ADMIN ||
           role == ROLE.ACADEMIC
         ) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+    });
+  }
+
+  isLeaderOrAdmin(userId) {
+    return new Promise((resolve, reject) => {
+      this.getRole(userId).then(role => {
+        if (role == ROLE.LEADER || role == ROLE.ADMIN) {
           resolve(true);
         } else {
           resolve(false);

@@ -7,6 +7,8 @@ const config = require("../config");
 const ClearanceCheck = require("../utils/cleranceCheck");
 const clearanceCheck = new ClearanceCheck();
 
+const ROLE = require("../utils/role");
+
 const teamRoutes = app => {
   app.put("/teams", (req, res) => {
     const { token } = req.body;
@@ -73,30 +75,75 @@ const teamRoutes = app => {
   });
 
   app.delete("/teams/:id", (req, res) => {
-    const id = parseInt(req.params.id);
+    const team_id = parseInt(req.params.id);
     if (req.body.token) {
       const { token } = req.body;
       jwt.verify(token, config.jwt.secretkey, (err, authData) => {
         if (err) {
           res.sendStatus(403);
         } else {
-          User.update({ team_id: null }, { where: { team_id: id } })
-            .then(() =>
-              Team.destroy({
-                where: { id }
-              })
-            )
-            .then(
-              result => {
-                console.log(result);
-                if (result == 1) res.sendStatus("200");
-                res.send(result);
-              },
-              () => {
-                console.log("routes/teams - rejection when deleting team");
-                res.sendStatus("500");
+          const user_id = authData.id;
+          clearanceCheck.isLeaderOrAdmin(user_id).then(result => {
+            if (result == false) res.sendStatus(403);
+            else {
+              if (clearanceCheck.getRole(user_id) == ROLE.ADMIN) {
+                Team.findAll({ where: { id: team_id } }).then(result => {
+                  const teamLeaderId = result[0].leader_id;
+                  console.log(teamLeaderId);
+                  User.update(
+                    { team_id: null },
+                    { where: { id: teamLeaderId } }
+                  ).then(() =>
+                    Team.destroy({
+                      where: { id: team_id }
+                    }).then(
+                      result => {
+                        console.log(result);
+                        if (result == 1) res.sendStatus("200");
+                        res.send(result);
+                      },
+                      () => {
+                        console.log(
+                          "routes/teams - rejection when deleting team"
+                        );
+                        res.sendStatus("500");
+                      }
+                    )
+                  );
+                });
+              } else {
+                Team.findAll({ where: { id: team_id } }).then(result => {
+                  if (result[0].leader_id == user_id) {
+                    User.update(
+                      { team_id: null },
+                      { where: { team_id: team_id } }
+                    )
+                      .then(() =>
+                        Team.destroy({
+                          where: { id: team_id }
+                        })
+                      )
+                      .then(
+                        result => {
+                          console.log(result);
+                          if (result == 1) res.sendStatus("200");
+                          res.send(result);
+                        },
+                        () => {
+                          console.log(
+                            "routes/teams - rejection when deleting team"
+                          );
+                          res.sendStatus("500");
+                        }
+                      );
+                  } else {
+                    console.log("Cannot delete other users Team");
+                    res.sendStatus(403);
+                  }
+                });
               }
-            );
+            }
+          });
         }
       });
     } else {
