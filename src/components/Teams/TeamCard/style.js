@@ -96,6 +96,7 @@ export const Element = styled.div`
     div.Members {
       grid-area: members;
       height: 30px;
+      width: 40px;
       display: flex;
       fill: gray;
       padding: 0px 5px;
@@ -124,6 +125,7 @@ export const Element = styled.div`
 
       > img {
         width: 18px;
+        margin-left: 5px;
 
         @media (max-width: 460px) {
           width: 9px;

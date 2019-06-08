@@ -102,13 +102,13 @@ const teamRoutes = app => {
   app.put("/teams/:id/join", (req, res) => {
     const id = parseInt(req.params.id);
     if (req.body.token) {
-      const { token } = req.body;
+      const { token, belong } = req.body;
       jwt.verify(token, config.jwt.secretkey, (err, authData) => {
         if (err) {
           res.sendStatus(403);
         } else {
           User.update(
-            { team_id: id },
+            { team_id: belong ? null : id },
             {
               where: { id: authData.id }
             }

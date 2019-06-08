@@ -21,9 +21,10 @@ export const deleteTeam = id =>
     token: localStorage.getItem("token")
   });
 
-export const joinTeam = id =>
+export const joinTeam = (id, belong) =>
   createApiRequest(PUT, `/teams/${id}/join`, {
-    token: localStorage.getItem("token")
+    token: localStorage.getItem("token"),
+    belong
   });
 
 export const changeTeamStatus = (id, status) =>

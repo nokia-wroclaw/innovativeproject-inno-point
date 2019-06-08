@@ -35,9 +35,12 @@ export default withSnackbar(
 
       function handleVerify() {
         changeTeamStatus(id, status === "open" ? 0 : 1).then(() => {
-          enqueueSnackbar("Team staus has been changed!", {
-            variant: "info"
-          });
+          enqueueSnackbar(
+            status === "open" ? "Team has been closed" : "Team has been opened",
+            {
+              variant: status === "open" ? "info" : "warning"
+            }
+          );
           makeUpdate();
           setOpen(false);
         });
@@ -50,7 +53,7 @@ export default withSnackbar(
               You can change status and let users join.
             </div>
             <DeleteButton
-              label={status === "open" ? "Make closed" : "Make open"}
+              label={status === "open" ? "Close team" : "Open team"}
               size="small"
               color="blue"
               gridArea="button"
@@ -74,7 +77,7 @@ export default withSnackbar(
                   <span style={{ color: "gray" }}>Back</span>
                 </Button>
                 <Button onClick={handleVerify} color="primary">
-                  {status === "open" ? "Make team closed" : "Make team open"}
+                  {status === "open" ? "Close team" : "Open team"}
                 </Button>
               </DialogActions>
             </Dialog>
