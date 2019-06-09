@@ -24,12 +24,12 @@ export default ({ project, index }) => (
             <Tag key={index}>{tag}</Tag>
           ))}
         </div>
-        {project && (
+        {/* {project && (
           <div className="Members">
             <span>0/{project.number_of_members}</span>
             <img src="/icons/member.svg" />
           </div>
-        )}
+        )} */}
         <div className="Status">
           {project.verified ? <VerifiedUser /> : <Schedule />}
         </div>

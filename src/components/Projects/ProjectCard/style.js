@@ -37,12 +37,12 @@ export const Element = styled.div`
 
   div.Info {
     display: grid;
-    grid-template: "name members" 30px "desc ." auto "tags status" 40px / 5fr 1fr;
+    grid-template: "name ." 30px "desc ." auto "tags status" 40px / 5fr 1fr;
     grid-gap: 10px;
     padding: 15px;
 
     @media (max-width: 700px) {
-      grid-template: "name name" 25px "members members" 30px "tags tags" 30px / 5fr 1fr;
+      grid-template: "name name" 25px ". ." 30px "tags tags" 30px / 5fr 1fr;
     }
 
     @media (max-width: 560px) {
@@ -50,11 +50,11 @@ export const Element = styled.div`
     }
 
     @media (max-width: 500px) {
-      grid-template: "name name" 25px "members members" 25px / 5fr 1fr;
+      grid-template: "name name" 25px ". ." 25px / 5fr 1fr;
     }
 
     @media (max-width: 460px) {
-      grid-template: "name name" 15px "members members" 10px / 5fr 1fr;
+      grid-template: "name name" 15px ". ." 10px / 5fr 1fr;
     }
 
     div.Name {

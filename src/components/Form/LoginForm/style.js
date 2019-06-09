@@ -31,13 +31,19 @@ export const Container = styled.div`
     }
 
     div.Title {
+      display: flex;
+      align-items: center;
       padding: 10px;
       border-bottom: 1px solid hsl(0, 0%, 90%);
-      font-size: 30px;
+      font-size: 35px;
       font-weight: 600;
       font-family: "Montserrat", sans-serif;
       color: white;
       letter-spacing: 3px;
+
+      > span {
+        margin-left: 10px;
+      }
     }
 
     div.Info {
@@ -47,7 +53,7 @@ export const Container = styled.div`
     }
 
     div.Icons {
-      margin-top: 210px;
+      margin-top: 180px;
       width: 180px;
       margin-left: auto;
       margin-right: auto;
