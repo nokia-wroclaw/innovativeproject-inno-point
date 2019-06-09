@@ -1,85 +1,291 @@
-import React from "react";
-import styled, { keyframes } from "styled-components";
+import React, { useState, useEffect } from "react";
+
+import { connect } from "react-redux";
+import { SmsFailed } from "@material-ui/icons";
+import { Link } from "react-router-dom";
+import { css, keyframes } from "emotion";
+import {
+  ThumbUp,
+  SentimentVeryDissatisfied,
+  SentimentVerySatisfied
+} from "@material-ui/icons";
+
+import { newsReadRequest, newsUpdateRequest } from "../../../actions";
+
+import { StyledSpinner, Label, TopBar, Picture, StyledTooltip } from "./style";
+import { fabAddStyle, iconAddStyle } from "./style";
+import { PostForm } from "../../../components";
+
+import AddIcon from "@material-ui/icons/Add";
+import Fab from "@material-ui/core/Fab";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
-import { SmsFailed } from "@material-ui/icons";
+import Slide from "@material-ui/core/Slide";
+import Dialog from "@material-ui/core/Dialog";
 
-export const Label = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: auto;
-  margin-left: 50px;
-  margin-top: 60px;
-  color: #00336e !important;
-  font-size: 24px;
-  border-radius: 8px;
-  padding: 7px;
-  padding-bottom: 10px;
-
-  > span {
-    margin-left: 10px;
-  }
-
-  transition: all 0.2s ease-in-out;
-`;
-
-export const TopBar = styled.div`
-  width: 100%;
-  height: 40px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 5px;
-
-  > div.Searchbar {
-    margin-top: 50px;
-    margin-right: 60px;
-    display: flex;
-    align-items: center;
-    width: 250px;
-    height: 25px;
-    background-color: rgba(255, 255, 255, 70%);
-    border-radius: 50px;
-    padding: 8px 15px;
-    justify-self: end;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
-    transition: all 0.1s ease-in-out;
-
-    @media (max-width: 500px) {
-      width: 150px;
-    }
-
-    > input {
-      width: 250px;
-      transition: all 0.1s ease-in-out;
-    }
-  }
-
-  > div.Label {
-    align-items: center;
-    margin-top: 50px;
-    margin-left: 60px;
-    font-size: 20px;
-    padding: 5px 15px;
-    border-radius: 8px;
-    color: gray;
-    background: white;
+const show = keyframes`
+  from {
+    transform: translateY(30px) scale(0.8);
+    opacity: 0.4;
   }
 `;
 
-const News = props => (
-  <div>
-    <TopBar>
-      <Label>
-        <SmsFailed />
-        <span>News</span>
-      </Label>
-      <div className="Searchbar">
-        <InputBase placeholder="Search…" style={{ width: "100%" }} />
-        <SearchIcon />
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
+
+const News = props => {
+  const [open, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [update, setUpdate] = useState(false);
+
+  function handleClickOpen() {
+    setOpen(true);
+  }
+
+  function handleClose() {
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    props.readNews();
+  }, [update]);
+
+  const { news, users, user } = props;
+
+  if (!news || news.length === 0) {
+    return <StyledSpinner />;
+  }
+
+  return (
+    <div>
+      <TopBar>
+        <Label>
+          <SmsFailed />
+          <span>News</span>
+        </Label>
+        <div className="Searchbar">
+          <InputBase placeholder="Search…" style={{ width: "100%" }} />
+          <SearchIcon />
+        </div>
+      </TopBar>
+      <div
+        className={css`
+          display: grid;
+          grid-gap: 50px;
+          margin-left: 25vw;
+          margin-right: 25vw;
+          margin-top: 50px;
+        `}
+      >
+        {news.map((e, i) => {
+          const post_user = users.find(user => user.id === e.user_id) || {};
+          const happy = e.users_happy || "";
+          const wow = e.users_wow || "";
+          const sad = e.users_sad || "";
+
+          const isHappy = happy.split(",").includes(user.id);
+          const isWow = wow.split(",").includes(user.id);
+          const isSad = sad.split(",").includes(user.id);
+          return (
+            <div>
+              <div
+                key={i}
+                className={css`
+                  height: 100%;
+                  min-height: 200px;
+                  padding: 25px;
+                  border-radius: 8px;
+                  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
+                  animation: ${show} 0.3s;
+                  transition: all 0.1s ease-in-out;
+                  background-color: white;
+                  display: grid;
+                  grid-template: "user title date" 50px "border border border" 1px "body body body" "info info info" / 50px 1fr 1fr;
+                  grid-gap: 10px;
+                `}
+              >
+                <div
+                  className={css`
+                    grid-area: user;
+                    width: 30px;
+                    align-self: center;
+                  `}
+                >
+                  <Picture src={`${post_user.github_picture}`} />
+                </div>
+                <div
+                  className={css`
+                    grid-area: title;
+                    font-size: 28px;
+                    align-self: center;
+                  `}
+                >
+                  {e.title}
+                </div>
+                <div
+                  className={css`
+                    grid-area: body;
+                    color: hsl(0, 0%, 50%);
+                    line-height: 1.6;
+                    padding-bottom: 20px;
+                  `}
+                >
+                  {e.body}
+                </div>
+                <div
+                  className={css`
+                    grid-area: info;
+                    align-self: end;
+                    display: flex;
+                    align-items: center;
+                    > span {
+                      margin-left: 10px;
+                    }
+                  `}
+                >
+                  <ThumbUp
+                    className={css`
+                      color: ${isHappy ? "#00336e" : "hsl(0, 0%, 50%)"};
+                      cursor: pointer;
+                      :hover {
+                        color: #00336e;
+                      }
+                    `}
+                  />
+                  <span
+                    className={css`
+                      color: ${isHappy ? "#00336e" : "hsl(0, 0%, 60%)"};
+                    `}
+                  >
+                    {e.reaction_happy > 0 && e.reaction_happy}
+                  </span>
+                </div>
+                <div
+                  className={css`
+                    grid-area: info;
+                    align-self: end;
+                    margin-left: 70px;
+                    display: flex;
+                    align-items: center;
+                    > span {
+                      margin-left: 10px;
+                    }
+                  `}
+                >
+                  <SentimentVerySatisfied
+                    className={css`
+                      color: ${isWow ? "#00336e" : "hsl(0, 0%, 50%)"};
+                      cursor: pointer;
+                      :hover {
+                        color: #00336e;
+                      }
+                    `}
+                  />
+                  <span
+                    className={css`
+                      color: ${isWow ? "#00336e" : "hsl(0, 0%, 60%)"};
+                    `}
+                  >
+                    {e.reaction_wow > 0 && e.reaction_wow}
+                  </span>
+                </div>
+                <div
+                  className={css`
+                    grid-area: info;
+                    align-self: end;
+                    margin-left: 140px;
+                    display: flex;
+                    align-items: center;
+                    > span {
+                      margin-left: 10px;
+                    }
+                  `}
+                >
+                  <SentimentVeryDissatisfied
+                    className={css`
+                      color: ${isSad ? "#00336e" : "hsl(0, 0%, 50%)"};
+                      cursor: pointer;
+                      :hover {
+                        color: #00336e;
+                      }
+                    `}
+                  />
+                  <span
+                    className={css`
+                      color: ${isSad ? "#00336e" : "hsl(0, 0%, 60%)"};
+                    `}
+                  >
+                    {e.reaction_sad > 0 && e.reaction_sad}
+                  </span>
+                </div>
+                <div
+                  className={css`
+                    grid-area: date;
+                    justify-self: end;
+                    align-self: center;
+                    color: hsl(0, 0%, 65%);
+                  `}
+                >
+                  {e.date}
+                </div>
+                <div
+                  className={css`
+                    grid-area: border;
+                    background-color: hsl(0, 0%, 90%);
+                  `}
+                />
+              </div>
+              <StyledTooltip
+                title={"Add post"}
+                aria-label="Add"
+                onClick={() => {
+                  handleClickOpen();
+                }}
+              >
+                <Link to="#">
+                  <Fab style={fabAddStyle}>
+                    <AddIcon style={iconAddStyle} />
+                  </Fab>
+                </Link>
+              </StyledTooltip>
+              <Dialog
+                open={open}
+                TransitionComponent={Transition}
+                keepMounted
+                maxWidth={false}
+                onClose={handleClose}
+              >
+                <PostForm
+                  setUpdate={setUpdate}
+                  update={update}
+                  handleClose={handleClose}
+                />
+              </Dialog>
+            </div>
+          );
+        })}
       </div>
-    </TopBar>
-  </div>
-);
+    </div>
+  );
+};
 
-export default News;
+const mapStateToProps = state => {
+  const news = state.news.items;
+  const users = state.users.items;
+  const user = state.user;
+  return {
+    news,
+    users,
+    user
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  readNews: () => dispatch(newsReadRequest())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(News);

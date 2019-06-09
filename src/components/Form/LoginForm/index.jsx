@@ -8,6 +8,8 @@ import Button from "../../Button";
 import Spinner from "../../Spinner";
 import TextField from "@material-ui/core/TextField";
 
+import { css } from "emotion";
+
 import { textFieldValidator } from "../../../utils/validators";
 
 const GlobalStyle = createGlobalStyle`
@@ -95,7 +97,15 @@ const LoginForm = withRouter(props => {
         )}
       </Form>
       <div className="Panel">
-        <div className="Title">InnoPoint</div>
+        <div className="Title">
+          <img
+            src="/icons/logo.png"
+            className={css`
+              width: 50px;
+            `}
+          />
+          <span> InnoPoint</span>
+        </div>
         <div className="Info">
           Welcome back! Log in to your account to view today's projects
         </div>

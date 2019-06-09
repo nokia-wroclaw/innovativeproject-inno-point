@@ -6,7 +6,8 @@ import {
   projectsReadRequest,
   teamsReadRequest,
   usersReadRequest,
-  userReadRequest
+  userReadRequest,
+  newsReadRequest
 } from "../../actions";
 
 import { Header } from "../../components";
@@ -28,7 +29,7 @@ const Dashboard = props => {
     token: urlParams.get("token")
   };
 
-  const { readProjects, readTeams, readUsers, readUser } = props;
+  const { readProjects, readTeams, readUsers, readUser, readNews } = props;
 
   useEffect(() => {
     if (params.token) {
@@ -40,6 +41,7 @@ const Dashboard = props => {
     readTeams();
     readUsers();
     readUser();
+    readNews();
   }, []);
 
   return (
@@ -64,7 +66,8 @@ const mapDispatchToProps = dispatch => ({
   readProjects: () => dispatch(projectsReadRequest()),
   readTeams: () => dispatch(teamsReadRequest()),
   readUsers: () => dispatch(usersReadRequest()),
-  readUser: () => dispatch(userReadRequest())
+  readUser: () => dispatch(userReadRequest()),
+  readNews: () => dispatch(newsReadRequest())
 });
 
 export default connect(

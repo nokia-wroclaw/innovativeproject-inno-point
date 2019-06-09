@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import {
   teamsReadRequest,
   usersReadRequest,
+  userReadRequest,
   projectsReadRequest
 } from "../../../actions";
 import LinkButton from "../../../components/LinkButton";
@@ -26,7 +27,7 @@ const MainContainer = styled.div`
   padding: 100px;
   display: grid;
   grid-gap: 15px;
-  grid-template: "btn btn" 20px "main main" 150px "members members" "status join" ". delete"/ 1fr 1fr;
+  grid-template: "btn btn" 20px "main main" 170px "members members" "status join" ". delete"/ 1fr 1fr;
 `;
 
 const show = keyframes`
@@ -38,7 +39,7 @@ const show = keyframes`
 
 export const Container = styled.div`
   grid-area: ${({ gridArea }) => gridArea};
-  height: 120px;
+  height: 130px;
   display: grid;
   grid-template: "table";
   border-radius: 8px;
@@ -65,6 +66,7 @@ export const Container = styled.div`
 
     > div.Member {
       align-items: center;
+      margin-top: 10px;
       display: grid;
       grid-template: "icon" 80px "name" 20px;
 
@@ -94,11 +96,12 @@ const Team = props => {
   useEffect(() => {
     props.readTeams();
     props.readUsers();
+    props.readUser();
   }, [update]);
 
   const makeUpdate = () => setUpdate(!update);
 
-  const { team, members, leader, project } = props;
+  const { team, members, leader, project, user } = props;
   if (!team || Object.keys(team).length === 0) {
     return <StyledSpinner />;
   }
@@ -193,7 +196,7 @@ const Team = props => {
           </div>
         </div>
       </div>
-      {members && members.length > 0 && (
+      {members && members.length > 0 ? (
         <Container gridArea={"members"}>
           <div className="MembersContainer">
             {members &&
@@ -220,28 +223,46 @@ const Team = props => {
               })}
           </div>
         </Container>
+      ) : (
+        <div />
       )}
-      <StatusTeamBlock
-        id={id}
-        gridArea="status"
-        status={team.open === 1 ? "open" : "closed"}
-        makeUpdate={makeUpdate}
-      />
-      <JoinTeamBlock id={id} gridArea="join" makeUpdate={makeUpdate} />
-      <div
-        className={css`
-          width: 100%;
-          grid-area: delete;
-        `}
-      >
-        <DeleteTeamBlock id={id} />
-      </div>
+      {leader.id === user.id && (
+        <StatusTeamBlock
+          id={id}
+          // gridArea="status"
+          status={team.open === 1 ? "open" : "closed"}
+          makeUpdate={makeUpdate}
+        />
+      )}
+
+      {(!user.team_id || user.team_id === id) &&
+        user.id !== leader.id &&
+        team.open === 1 && (
+          <JoinTeamBlock
+            id={id}
+            belong={user.team_id === team.id}
+            // gridArea="join"
+            makeUpdate={makeUpdate}
+            freeSpot={team.max_number_of_members > members.length}
+          />
+        )}
+      {leader.id === user.id && (
+        <div
+          className={css`
+            width: 100%;
+            /* grid-area: delete; */
+          `}
+        >
+          <DeleteTeamBlock id={id} />
+        </div>
+      )}
     </MainContainer>
   );
 };
 
 const mapStateToProps = (state, ownProps) => {
   const id = ownProps.match.params.id;
+  const user = state.user;
   const teams = state.teams.items;
   const team = teams.length !== 0 ? teams.find(e => e.id == id) : [];
   const users = state.users.items;
@@ -253,14 +274,16 @@ const mapStateToProps = (state, ownProps) => {
     team,
     members,
     leader,
-    project
+    project,
+    user
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   readProjects: () => dispatch(projectsReadRequest()),
   readTeams: () => dispatch(teamsReadRequest()),
-  readUsers: () => dispatch(usersReadRequest())
+  readUsers: () => dispatch(usersReadRequest()),
+  readUser: () => dispatch(userReadRequest())
 });
 
 export default connect(

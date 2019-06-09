@@ -20,7 +20,9 @@ export default ({ team, users, project, index }) => {
             <span>{leader.name ? `${leader.name}'s Team` : "Unknow Team"}</span>
           </div>
           <div className="Members">
-            <span>{users.length}</span>
+            <span>
+              {users.length}/{team.max_number_of_members}
+            </span>
             <img src="/icons/member.svg" />
           </div>
           <div className="Project">

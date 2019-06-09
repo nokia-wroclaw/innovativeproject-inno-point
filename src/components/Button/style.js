@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-
+import { css } from "emotion";
 const show = keyframes`
   from {
     transform: translateY(30px) scale(0.8);
@@ -22,7 +22,10 @@ export const StyledButton = styled.button`
     }
   }};
   height: 35px;
-  background: ${({ color }) => {
+  background: ${({ color, disabled }) => {
+    if (disabled) {
+      return "hsl(0,0%,80%)";
+    }
     if (color) {
       switch (color) {
         case "red":
@@ -38,7 +41,8 @@ export const StyledButton = styled.button`
       }
     }
   }};
-  background-color: ${({ bcg }) => bcg};
+  background-color: ${({ bcg, disabled }) =>
+    disabled ? "hsl(0,0%,80%)" : bcg};
   align-self: ${props => props.alignSelf};
   border-radius: 8px;
   color: white;
@@ -49,8 +53,12 @@ export const StyledButton = styled.button`
   animation: ${show} 0.2s;
 
   :hover {
-    filter: brightness(1.15);
-    transform: scale(1.02);
+    ${({ disabled }) =>
+      !disabled &&
+      css`
+        filter: brightness(1.15);
+        transform: scale(1.02);
+      `}
   }
 
   :active {

@@ -14,7 +14,7 @@ export const Container = styled.header`
   grid-area: header;
   height: 100vh;
   display: grid;
-  grid-template-rows: 40px repeat(4, 35px) auto repeat(2, 35px) 20px;
+  grid-template-rows: 50px repeat(4, 35px) auto repeat(2, 35px) 20px;
   background: var(--gradientHeader);
   box-shadow: 0px 0px 150px rgba(0, 0, 0, 0.25);
   animation: ${show} 0.5s;
@@ -24,10 +24,16 @@ export const Container = styled.header`
   }
 
   div.Top {
-    background-color: rgba(0, 0, 0, 25%);
+    background-color: rgba(0, 0, 0, 10%);
     color: white;
     display: flex;
     justify-content: center;
+
+    > img {
+      width: 40px;
+      height: 40px;
+      margin: auto;
+    }
   }
 
   div.Border {

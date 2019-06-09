@@ -16,7 +16,7 @@ export default withRouter(props => {
   return (
     <Container>
       <div className="Top">
-        <img src="/icons/dashboard.svg" />
+        <img src="/icons/logo.png" />
       </div>
       <StyledLink to="/dashboard/manager" pathname={pathname}>
         <Dvr style={iconStyle} />

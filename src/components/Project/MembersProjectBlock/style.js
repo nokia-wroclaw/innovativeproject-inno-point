@@ -10,7 +10,7 @@ const show = keyframes`
 
 export const Container = styled.div`
   grid-area: ${({ gridArea }) => gridArea};
-  height: 120px;
+  height: 130px;
   display: grid;
   grid-template: "table";
   border-radius: 8px;
@@ -36,6 +36,7 @@ export const Container = styled.div`
     justify-content: space-around;
 
     > div.Member {
+      margin: 10px;
       align-items: center;
       display: grid;
       grid-template: "icon" 80px "name" 20px;
