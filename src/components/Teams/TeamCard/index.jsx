@@ -12,7 +12,7 @@ export default ({ team, users, project, index }) => {
       <Element key={index} delay={index}>
         <div className="Main">
           <div className="Title">
-            {leader ? (
+            {leader.github_picture ? (
               <Picture src={`${leader.github_picture}`} />
             ) : (
               <AccountCircle style={iconStyle} />

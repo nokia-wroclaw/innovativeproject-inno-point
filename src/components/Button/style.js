@@ -28,6 +28,8 @@ export const StyledButton = styled.button`
     }
     if (color) {
       switch (color) {
+        case "green":
+          return "green";
         case "red":
           return "var(--gradientLeft2)";
         case "black":

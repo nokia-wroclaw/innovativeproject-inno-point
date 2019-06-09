@@ -11,5 +11,5 @@ export const MainContainer = styled.div`
   padding: 100px;
   display: grid;
   grid-gap: 15px;
-  grid-template: "back back" "main main" "members members" "goals scopes" "techno tags" "verify delete" / 1fr 1fr;
+  grid-template: "back back" "main main" "members members" "goals scopes" "techno tags" "verify delete" "apply ." / 1fr 1fr;
 `;

@@ -33,11 +33,17 @@ const verifyProject = id =>
     token: localStorage.getItem("token")
   });
 
+const applyProject = id =>
+  createApiRequest(PUT, `/projects/apply/${id}`, {
+    token: localStorage.getItem("token")
+  });
+
 export {
   readProjects,
   readProjectsById,
   createProject,
   updateProject,
   deleteProject,
-  verifyProject
+  verifyProject,
+  applyProject
 };
