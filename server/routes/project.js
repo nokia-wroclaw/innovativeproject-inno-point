@@ -203,6 +203,43 @@ const projectRoutes = app => {
     });
   });
 
+  app.put("/projects/leave/:id", (req, res) => {
+    let token = req.body.token;
+    let project_id = req.params.id;
+
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        clearanceCheck.isAdminUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            Project.findAll({ where: { id: project_id } })
+              .then(result => {
+                const team_id = result[0].dataValues.team_id;
+                Team.update(
+                  { project_id: null },
+                  { where: { id: team_id } }
+                ).then(() => {
+                  Project.update(
+                    { team_id: null },
+                    { where: { id: project_id } }
+                  ).then(() => {
+                    res.sendStatus(200);
+                  });
+                });
+              })
+              .catch(error => {
+                console.log(error);
+                res.sendStatus("500");
+              });
+          }
+        });
+      }
+    });
+  });
+
   app.put("/projects/:id", (req, res) => {
     console.log(req.body);
     let token = req.body.token;
