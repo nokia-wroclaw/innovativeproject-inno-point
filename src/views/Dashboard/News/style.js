@@ -1,9 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { Spinner } from "../../../components";
-import AddIcon from "@material-ui/icons/Add";
-import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
 
 export const StyledSpinner = styled(Spinner)`
   margin-left: auto;
@@ -12,8 +9,9 @@ export const StyledSpinner = styled(Spinner)`
 `;
 
 export const Picture = styled.img`
-  width: 40px;
-  border-radius: 50px;
+  width: ${({ name }) => (name === "InnoBot" ? "50px" : "40px")};
+  height: ${({ name }) => (name === "InnoBot" ? "50px" : "40px")};
+  border-radius: ${({ name }) => (name === "InnoBot" ? "0px" : "50px")};
 `;
 
 export const StyledTooltip = styled(Tooltip)`
