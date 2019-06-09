@@ -8,7 +8,7 @@ const NewsModel = require("../models/news");
 const sequelize = new Sequelize(config.database, config.user, config.password, {
   host: config.host,
   dialect: "mysql",
-  logging: true
+  logging: false
 });
 
 const User = UserModel(sequelize, Sequelize);
@@ -25,4 +25,8 @@ sequelize
     console.error("Unable to connect to the database:", err);
   });
 
-module.exports = { User, Team, Project, News };
+
+module.exports = { User, Team, Project, News , sequelize };
+
+
+

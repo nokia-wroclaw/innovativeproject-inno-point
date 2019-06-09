@@ -117,9 +117,26 @@ const gitHubRoutes = app => {
       title: req.body.title,
       description: req.body.description
     };
+
     github.gitPostCreateNewRepository(data).then(
       repoData => {
-        res.send("repo created" + repoData);
+        res.send(repoData);
+      },
+      reason => {
+        res.state = 500;
+        res.sendStatus(reason);
+      }
+    );
+  });
+
+  app.get("/github/getStatistics", (req, res) => {
+    const data = {
+      title: req.body.title
+    };
+
+    github.gitGetRepoAdditionsDeletions(data).then(
+      repoStats => {
+        res.send(repoStats);
       },
       reason => {
         res.state = 500;
