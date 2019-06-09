@@ -3,7 +3,9 @@ const config = require("../config");
 
 const Models = require("../services/dbConnection");
 const User = Models.User;
+const Team = Models.Team;
 const Project = Models.Project;
+const Sequelizer = Models.Sequelizer;
 
 const dbQuerry = require("../services/dbQuerry");
 const MailService = require("../services/MailService");
@@ -130,7 +132,77 @@ const projectRoutes = app => {
     });
   });
 
+  app.put("/projects/take/:id", (req, res) => {
+    console.log(req.body);
+
+    let token = req.body.token;
+    const project_id = parseInt(req.params.id);
+    console.log(1);
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        console.log(2);
+        const user_id = authData.id;
+        clearanceCheck.isLeaderUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            console.log(3);
+            Project.findAll({ where: { id: project_id } })
+              .then(result => {
+                const project_max_users =
+                  result[0].dataValues.number_of_members;
+                console.log(4);
+                if (JSON.stringify(result[0].dataValues.team_id) === "null") {
+                  User.findAll({ where: { id: id } }).then(result => {
+                    const team_id = result[0].dataValues.team_id;
+                    console.log(5);
+                    Sequelizer.query(
+                      "SELECT COUNT(max_number_of_members) as current_num_of_members, max_number_of_members FROM user JOIN team ON user.team_id = team.id WHERE team_id='" +
+                        team_id +
+                        "'"
+                    ).then(([results, metadata]) => {
+                      const num_team_members =
+                        result.dataValues.current_num_of_members;
+                      if (num_team_members == project_max_users) {
+                        Team.update(
+                          { project_id: project_id },
+                          {
+                            where: { id: team_id }
+                          }
+                        )
+                          .then(result => {
+                            Project.update(
+                              { team_id: team_id },
+                              { where: { id: project_id } }
+                            );
+                          })
+                          .then(() => {
+                            res.sendStatus(200);
+                          });
+                      } else {
+                        console.log("too many or too little members in team");
+                        res.sendStatus(500);
+                      }
+                    });
+                  });
+                } else {
+                  console.log("team is taken");
+                  res.sendStatus(500);
+                }
+              })
+              .catch(error => {
+                console.log(error);
+                res.sendStatus("500");
+              });
+          }
+        });
+      }
+    });
+  });
+
   app.put("/projects/:id", (req, res) => {
+    console.log(req.body);
     let token = req.body.token;
     const {
       academic_contact_id,

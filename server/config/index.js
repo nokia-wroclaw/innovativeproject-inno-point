@@ -3,20 +3,20 @@ const config = {
     secretkey: "jhgf1234lkjwqer987fsa"
   },
   db: {
-    host: "us-cdbr-iron-east-02.cleardb.net",
-    database: "heroku_f337e52df2176b9",
-    port: 3306,
-    user: "b9483965a9a2f5",
-    password: "f77c4e8d",
-    socketPath: "",
-    waitForConnections: true
-    // host: "localhost",
+    // host: "us-cdbr-iron-east-02.cleardb.net",
     // database: "heroku_f337e52df2176b9",
     // port: 3306,
-    // user: "root",
-    // password: "",
+    // user: "b9483965a9a2f5",
+    // password: "f77c4e8d",
     // socketPath: "",
     // waitForConnections: true
+    host: "localhost",
+    database: "inno-point",
+    port: 3306,
+    user: "root",
+    password: "",
+    socketPath: "",
+    waitForConnections: true
   },
   github: {
     github_url_authorize: "https://github.com/login/oauth/authorize",
