@@ -1,4 +1,7 @@
 const config = {
+  bot: {
+    id: 101010101
+  },
   jwt: {
     secretkey: "jhgf1234lkjwqer987fsa"
   },
@@ -29,7 +32,6 @@ const config = {
     allow_signup: "true",
     owner: "KMasluch"
   },
-
   mailer: {
     mailerAccount: "inno.project.test@gmail.com",
     mailerPassword: "17bc8311-f8ce-4bd6-bce6-d796b4ce5863",

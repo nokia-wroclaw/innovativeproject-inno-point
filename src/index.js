@@ -8,7 +8,6 @@ import createSagaMiddleware from "redux-saga";
 import { SnackbarProvider } from "notistack";
 
 import { Welcome, Dashboard, FirstForm } from "./views";
-import PrivateRoute from "./components/Private";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
 

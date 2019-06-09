@@ -133,7 +133,6 @@ const TopicForm1 = props => {
             onDelete={(chip, index) => handleDeleteChip(chip, index)}
             style={{ gridArea: "chips" }}
             label="Tags"
-            variant="outlined"
           />
           <ColorPicker
             gridArea={"colors"}

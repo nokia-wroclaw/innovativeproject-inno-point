@@ -6,6 +6,7 @@ const User = Models.User;
 const Team = Models.Team;
 const Project = Models.Project;
 const sequelize = Models.sequelize;
+const News = Models.News;
 
 const dbQuerry = require("../services/dbQuerry");
 const MailService = require("../services/MailService");
@@ -302,6 +303,7 @@ const projectRoutes = app => {
   app.put("/projects/verify/:id", (req, res) => {
     let token = req.body.token;
     const project_id = parseInt(req.params.id);
+    let name = "";
 
     jwt.verify(token, config.jwt.secretkey, (err, authData) => {
       if (err) {
@@ -319,13 +321,35 @@ const projectRoutes = app => {
                 where: { id: project_id }
               }
             )
-              .then(result => {
-                if (result == 1) res.sendStatus(200);
-                else res.sendStatus(500);
+              .then(() => {
+                return Project.findAll({ where: { id: project_id } });
               })
+              .then(result => {
+                name = result[0].name;
+                return News.findAll({
+                  attributes: ["id"],
+                  order: [["id", "DESC"]],
+                  limit: 1
+                });
+              })
+              .then(result => {
+                const news_id = result.row ? parseInt(result.row[0].id) + 1 : 0;
+                return News.bulkCreate([
+                  {
+                    id: news_id,
+                    title: `${name}`,
+                    body:
+                      "New project has been added. You can check this out in the projects section!",
+                    user_id: config.bot.id,
+                    date: new Date()
+                  }
+                ]);
+              })
+              .then(() => res.sendStatus(200))
               .catch(error => {
                 console.log(
-                  "routes/project - rejection when updating verify status"
+                  "routes/project - rejection when updating verify status",
+                  error
                 );
                 res.sendStatus("500");
               });

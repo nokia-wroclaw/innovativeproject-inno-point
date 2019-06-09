@@ -104,7 +104,13 @@ const LoginForm = withRouter(props => {
               width: 50px;
             `}
           />
-          <span> InnoPoint</span>
+          <span
+            className={css`
+              font-weight: normal;
+            `}
+          >
+            InnoPoint
+          </span>
         </div>
         <div className="Info">
           Welcome back! Log in to your account to view today's projects
