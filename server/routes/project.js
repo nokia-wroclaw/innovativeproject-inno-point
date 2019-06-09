@@ -7,7 +7,6 @@ const Team = Models.Team;
 const Project = Models.Project;
 const sequelize = Models.sequelize;
 const News = Models.News;
-const Team = Models.Team;
 
 const dbQuerry = require("../services/dbQuerry");
 const MailService = require("../services/MailService");
