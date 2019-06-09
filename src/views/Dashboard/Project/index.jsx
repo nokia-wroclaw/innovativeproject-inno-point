@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components/macro";
 
@@ -14,6 +14,7 @@ import {
   TechnologyBlock,
   TagsBlock,
   VerifyProjectBlock,
+  ApplyProjectBlock,
   Button
 } from "../../../components";
 
@@ -26,6 +27,8 @@ const Project = props => {
   useEffect(() => {
     props.readProjects();
   }, [update]);
+
+  const makeUpdate = () => setUpdate(!update);
 
   const { project, members } = props;
   if (!project || Object.keys(project).length === 0) {
@@ -43,18 +46,23 @@ const Project = props => {
   return (
     <MainContainer>
       <LinkButton to="/dashboard/projects" bcg={theme_color} />
+      <div />
       <ProjectMainBlock
         project={project}
         gridArea="main"
         update={update}
         setUpdate={setUpdate}
       />
-      {members && members.length > 0 && (
+      {members && members.length > 0 ? (
         <MembersProjectBlock
           members={members}
           theme_color={theme_color}
           gridArea="members"
         />
+      ) : (
+        <Fragment>
+          <div /> <div />
+        </Fragment>
       )}
       <GoalsBlock
         project={project}
@@ -80,8 +88,9 @@ const Project = props => {
         update={update}
         setUpdate={setUpdate}
       />
-      {!verified && <VerifyProjectBlock id={id} gridArea="verify" />}
-      <DeleteProjectBlock id={id} gridArea="delete" />
+      {!verified && <VerifyProjectBlock id={id} />}
+      {verified && <ApplyProjectBlock id={id} makeUpdate={makeUpdate} />}
+      <DeleteProjectBlock id={id} />
     </MainContainer>
   );
 };

@@ -5,6 +5,7 @@ const Models = require("../services/dbConnection");
 const User = Models.User;
 const Project = Models.Project;
 const News = Models.News;
+const Team = Models.Team;
 
 const dbQuerry = require("../services/dbQuerry");
 const MailService = require("../services/MailService");
@@ -242,6 +243,120 @@ const projectRoutes = app => {
                 );
                 res.sendStatus("500");
               });
+          }
+        });
+      }
+    });
+  });
+
+  app.put("/projects/apply/:id", (req, res) => {
+    let token = req.body.token;
+    const project_id = parseInt(req.params.id);
+
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        let team_id = null;
+        let project_number_of_members = null;
+        clearanceCheck.isDeveloperUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            Project.findAll({ where: { id: project_id } }).then(result => {
+              if (result[0].team_id) {
+                console.log("/projects/apply/:id - project has a team");
+                res.sendStatus(500);
+              } else {
+                project_number_of_members = result[0].number_of_members;
+                Team.findAll({ where: { leader_id: user_id } }).then(result => {
+                  if (result.length > 0 && !result[0].project_id) {
+                    team_id = result[0].id;
+                    console.log("team_id", team_id);
+                    User.findAll({
+                      where: { team_id: team_id }
+                    }).then(result => {
+                      console.log(project_number_of_members);
+                      console.log(result.length);
+                      if (result.length !== project_number_of_members) {
+                        console.log(
+                          "/projects/apply/:id - number of members in team is incorrect"
+                        );
+                        res.sendStatus(500);
+                      } else {
+                        Project.update(
+                          { team_id },
+                          {
+                            where: {
+                              id: project_id
+                            }
+                          }
+                        )
+                          .then(() => {
+                            return Team.update(
+                              { project_id },
+                              {
+                                where: {
+                                  id: project_id
+                                }
+                              }
+                            );
+                          })
+                          .then(() => {
+                            res.sendStatus(200);
+                          });
+                      }
+                    });
+                  } else {
+                    console.log(
+                      "/projects/apply/:id - user isn't a team leader"
+                    );
+                    res.sendStatus(500);
+                  }
+                });
+              }
+            });
+
+            // Project.update(
+            //   {
+            //     verified: 1
+            //   },
+            //   {
+            //     where: { id: project_id }
+            //   }
+            // )
+            //   .then(() => {
+            //     return Project.findAll({ where: { id: project_id } });
+            //   })
+            //   .then(result => {
+            //     name = result[0].name;
+            //     return News.findAll({
+            //       attributes: ["id"],
+            //       order: [["id", "DESC"]],
+            //       limit: 1
+            //     });
+            //   })
+            //   .then(result => {
+            //     const news_id = result.row ? parseInt(result.row[0].id) + 1 : 0;
+            //     return News.bulkCreate([
+            //       {
+            //         id: news_id,
+            //         title: `${name}`,
+            //         body:
+            //           "New project has been added. You can check this out in the projects section!",
+            //         user_id: config.bot.id,
+            //         date: new Date()
+            //       }
+            //     ]);
+            //   })
+            //   .then(() => res.sendStatus(200))
+            //   .catch(error => {
+            //     console.log(
+            //       "routes/project - rejection when updating verify status",
+            //       error
+            //     );
+            //     res.sendStatus("500");
+            //   });
           }
         });
       }

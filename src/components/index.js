@@ -8,6 +8,7 @@ import Spinner from "./Spinner";
 import DeleteProjectBlock from "./Project/DeleteProjectBlock";
 import DeleteTeamBlock from "./Team/DeleteTeamBlock";
 import VerifyProjectBlock from "./Project/VerifyProjectBlock";
+import ApplyProjectBlock from "./Project/ApplyProjectBlock";
 import GoalsBlock from "./Project/GoalsBlock";
 import ScopesBlock from "./Project/ScopesBlock";
 import TechnologyBlock from "./Project/TechnologyBlock";
@@ -34,5 +35,6 @@ export {
   TeamForm,
   VerifyProjectBlock,
   DeleteTeamBlock,
-  PostForm
+  PostForm,
+  ApplyProjectBlock
 };
