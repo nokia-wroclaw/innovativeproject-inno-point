@@ -198,8 +198,12 @@ const teamRoutes = app => {
                       }
                     });
                 } else {
-                  console.log("you already have a team");
-                  res.sendStatus(500);
+                  User.update(
+                    { team_id: null },
+                    {
+                      where: { id: user_id }
+                    }
+                  ).then(() => res.sendStatus(200));
                 }
               });
             }

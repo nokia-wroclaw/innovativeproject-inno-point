@@ -34,6 +34,15 @@ const TopicForm1 = props => {
     error: false
   });
 
+  const resetValues = () => {
+    const clearState = { value: "", error: false };
+    setName(clearState);
+    setNumber(clearState);
+    setDescription(clearState);
+    setThemeColor(clearState);
+    setTags([]);
+  };
+
   const [tags, setTags] = useState([]);
 
   const [waiting, setWaiting] = useState(false);
@@ -50,7 +59,7 @@ const TopicForm1 = props => {
 
   const handleSubmit = async event => {
     const fields = [name, number, description];
-    const mathods = [setName, setNumber, setDescription,];
+    const mathods = [setName, setNumber, setDescription];
     event.preventDefault();
     if (fields.every(e => !e.error && e.value)) {
       const project = {
@@ -68,6 +77,8 @@ const TopicForm1 = props => {
         props.enqueueSnackbar("Topic has been sent to verify!", {
           variant: "info"
         });
+        resetValues();
+        setWaiting(false);
       });
     } else {
       mathods.map((e, i) =>
