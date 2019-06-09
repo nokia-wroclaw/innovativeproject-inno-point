@@ -35,7 +35,6 @@ const newsRoutes = app => {
       if (err) {
         res.sendStatus(403);
       } else {
-        console.log(req.body);
         const { title, body } = req.body.news;
         const user_id = authData.id;
         clearanceCheck.isDeveloperUp(user_id).then(result => {

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 
 import { connect } from "react-redux";
 import { SmsFailed } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { css, keyframes } from "emotion";
+import dateFns from "date-fns";
 import {
   ThumbUp,
   SentimentVeryDissatisfied,
@@ -57,6 +58,12 @@ const News = props => {
     return <StyledSpinner />;
   }
 
+  const sortedNews = [...news].sort((e1, e2) => {
+    const date1 = new Date(e1.date);
+    const date2 = new Date(e2.date);
+    return dateFns.isAfter(date1, date2) ? -1 : 1;
+  });
+
   return (
     <div>
       <TopBar>
@@ -76,9 +83,10 @@ const News = props => {
           margin-left: 25vw;
           margin-right: 25vw;
           margin-top: 50px;
+          margin-bottom: 100px;
         `}
       >
-        {news.map((e, i) => {
+        {sortedNews.map((e, i) => {
           const post_user = users.find(user => user.id === e.user_id) || {};
           const happy = e.users_happy || "";
           const wow = e.users_wow || "";
@@ -112,7 +120,10 @@ const News = props => {
                     align-self: center;
                   `}
                 >
-                  <Picture src={`${post_user.github_picture}`} />
+                  <Picture
+                    src={post_user.github_picture}
+                    name={post_user.name}
+                  />
                 </div>
                 <div
                   className={css`
@@ -133,92 +144,97 @@ const News = props => {
                 >
                   {e.body}
                 </div>
-                <div
-                  className={css`
-                    grid-area: info;
-                    align-self: end;
-                    display: flex;
-                    align-items: center;
-                    > span {
-                      margin-left: 10px;
-                    }
-                  `}
-                >
-                  <ThumbUp
-                    className={css`
-                      color: ${isHappy ? "#00336e" : "hsl(0, 0%, 50%)"};
-                      cursor: pointer;
-                      :hover {
-                        color: #00336e;
-                      }
-                    `}
-                  />
-                  <span
-                    className={css`
-                      color: ${isHappy ? "#00336e" : "hsl(0, 0%, 60%)"};
-                    `}
-                  >
-                    {e.reaction_happy > 0 && e.reaction_happy}
-                  </span>
-                </div>
-                <div
-                  className={css`
-                    grid-area: info;
-                    align-self: end;
-                    margin-left: 70px;
-                    display: flex;
-                    align-items: center;
-                    > span {
-                      margin-left: 10px;
-                    }
-                  `}
-                >
-                  <SentimentVerySatisfied
-                    className={css`
-                      color: ${isWow ? "#00336e" : "hsl(0, 0%, 50%)"};
-                      cursor: pointer;
-                      :hover {
-                        color: #00336e;
-                      }
-                    `}
-                  />
-                  <span
-                    className={css`
-                      color: ${isWow ? "#00336e" : "hsl(0, 0%, 60%)"};
-                    `}
-                  >
-                    {e.reaction_wow > 0 && e.reaction_wow}
-                  </span>
-                </div>
-                <div
-                  className={css`
-                    grid-area: info;
-                    align-self: end;
-                    margin-left: 140px;
-                    display: flex;
-                    align-items: center;
-                    > span {
-                      margin-left: 10px;
-                    }
-                  `}
-                >
-                  <SentimentVeryDissatisfied
-                    className={css`
-                      color: ${isSad ? "#00336e" : "hsl(0, 0%, 50%)"};
-                      cursor: pointer;
-                      :hover {
-                        color: #00336e;
-                      }
-                    `}
-                  />
-                  <span
-                    className={css`
-                      color: ${isSad ? "#00336e" : "hsl(0, 0%, 60%)"};
-                    `}
-                  >
-                    {e.reaction_sad > 0 && e.reaction_sad}
-                  </span>
-                </div>
+                {console.log(post_user.name)}
+                {post_user.name !== "InnoBot" && (
+                  <Fragment>
+                    <div
+                      className={css`
+                        grid-area: info;
+                        align-self: end;
+                        display: flex;
+                        align-items: center;
+                        > span {
+                          margin-left: 10px;
+                        }
+                      `}
+                    >
+                      <ThumbUp
+                        className={css`
+                          color: ${isHappy ? "#00336e" : "hsl(0, 0%, 50%)"};
+                          cursor: pointer;
+                          :hover {
+                            color: #00336e;
+                          }
+                        `}
+                      />
+                      <span
+                        className={css`
+                          color: ${isHappy ? "#00336e" : "hsl(0, 0%, 60%)"};
+                        `}
+                      >
+                        {e.reaction_happy > 0 && e.reaction_happy}
+                      </span>
+                    </div>
+                    <div
+                      className={css`
+                        grid-area: info;
+                        align-self: end;
+                        margin-left: 70px;
+                        display: flex;
+                        align-items: center;
+                        > span {
+                          margin-left: 10px;
+                        }
+                      `}
+                    >
+                      <SentimentVerySatisfied
+                        className={css`
+                          color: ${isWow ? "#00336e" : "hsl(0, 0%, 50%)"};
+                          cursor: pointer;
+                          :hover {
+                            color: #00336e;
+                          }
+                        `}
+                      />
+                      <span
+                        className={css`
+                          color: ${isWow ? "#00336e" : "hsl(0, 0%, 60%)"};
+                        `}
+                      >
+                        {e.reaction_wow > 0 && e.reaction_wow}
+                      </span>
+                    </div>
+                    <div
+                      className={css`
+                        grid-area: info;
+                        align-self: end;
+                        margin-left: 140px;
+                        display: flex;
+                        align-items: center;
+                        > span {
+                          margin-left: 10px;
+                        }
+                      `}
+                    >
+                      <SentimentVeryDissatisfied
+                        className={css`
+                          color: ${isSad ? "#00336e" : "hsl(0, 0%, 50%)"};
+                          cursor: pointer;
+                          :hover {
+                            color: #00336e;
+                          }
+                        `}
+                      />
+                      <span
+                        className={css`
+                          color: ${isSad ? "#00336e" : "hsl(0, 0%, 60%)"};
+                        `}
+                      >
+                        {e.reaction_sad > 0 && e.reaction_sad}
+                      </span>
+                    </div>
+                  </Fragment>
+                )}
                 <div
                   className={css`
                     grid-area: date;

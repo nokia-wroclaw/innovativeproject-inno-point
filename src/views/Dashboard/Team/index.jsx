@@ -78,6 +78,7 @@ export const Container = styled.div`
 `;
 const Picture = styled.img`
   width: 60px;
+  height: 60px;
   border-radius: 50px;
   border: solid 4px ${({ theme_color }) => theme_color};
   margin: 20px;

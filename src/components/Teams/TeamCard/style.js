@@ -170,6 +170,7 @@ export const Tag = styled.span`
 
 export const Picture = styled.img`
   width: 40px;
+  height: 40px;
   border-radius: 50px;
 `;
 
