@@ -132,13 +132,9 @@ const projectRoutes = app => {
     });
   });
 
-  app.put("/take", (req, res) => {
-    console.log("we are in take");
-    console.log(req.body);
+  app.put("/projects/apply/:id", (req, res) => {
     let token = req.body.token;
-    console.log(req.params);
-    // const project_id = parseInt(req.params.id);
-    const project_id = 152;
+    let project_id = req.params.id;
 
     jwt.verify(token, config.jwt.secretkey, (err, authData) => {
       if (err) {
