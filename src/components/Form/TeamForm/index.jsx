@@ -26,6 +26,15 @@ const TopicForm1 = props => {
     error: false
   });
 
+  const resetValues = () => {
+    const clearState = {
+      value: "",
+      error: false
+    };
+    setNumber(clearState);
+    setStatus(clearState);
+  };
+
   const [waiting, setWaiting] = useState(false);
 
   function handleTypeOfProject(event, newValue) {
@@ -56,6 +65,7 @@ const TopicForm1 = props => {
           variant: "success"
         });
         setWaiting(false);
+        resetValues();
       });
     } else {
       mathods.map((e, i) =>
