@@ -133,7 +133,7 @@ const projectRoutes = app => {
     });
   });
 
-  app.put("/projects/apply/:id", (req, res) => {
+  app.put("/projects/:id/apply", (req, res) => {
     let token = req.body.token;
     let project_id = req.params.id;
 
@@ -204,7 +204,7 @@ const projectRoutes = app => {
     });
   });
 
-  app.put("/projects/leave/:id", (req, res) => {
+  app.put("/projects/:id/leave", (req, res) => {
     let token = req.body.token;
     let project_id = req.params.id;
 
@@ -242,7 +242,6 @@ const projectRoutes = app => {
   });
 
   app.put("/projects/:id", (req, res) => {
-    console.log(req.body);
     let token = req.body.token;
     const {
       academic_contact_id,
