@@ -101,15 +101,15 @@ const ProfileForm1 = props => {
                 ))}
                 {waiting ? (
                   <StyledSpinner size={30} gridArea="button" style={{
-                    justifySelf: "end",
-                    alignSelf: "end",
+                    justifySelf: "center",
+                    alignSelf: "center",
                     marginRight: "70px"
                     }}
                   />
                 ) : (
-                  <Button key="button" size="small" label="Submit" gridArea="button"
-                    color={"true"} style={{ justifySelf: "end", alignSelf: "end" }}
-                  />
+                    <Button key="button" size="small" label="Update data" gridArea="button"
+                      color={"true"} style={{ justifySelf: "end", alignSelf: "end" }}
+                    />
                 )}
             </Form>
             </div>

@@ -5,6 +5,12 @@ export const Picture = styled.img`
   width: 50px;
   opacity: 0.9;
   border-radius: 50px;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  background: var(--gradientTop1);
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 `;
 
 export const StyledSpinner = styled(Spinner)`
@@ -21,7 +27,7 @@ export const MainContainer = styled.div`
   margin-left: 10vw;
   display: grid;
   grid-gap: 15px;
-  grid-template: "main main" "picture form" ". ."/ 1fr 1fr;
+  grid-template: "main main" "picture form" / 1fr 2fr;
 
   div.Panel{
     width: 30vw;
@@ -31,8 +37,8 @@ export const MainContainer = styled.div`
 `;
 
 export const iconStyle = {
-    width: "35px",
-    height: "35px",
+    width: "65px",
+    height: "65px",
     fill: "gray"
 };
 
@@ -41,13 +47,11 @@ export const Form = styled.form`
   height: 100%;
   display: grid;
   grid-template:
-    "title title" 5px
     ". name" 35px
     ". surname" 35px
     ". email" 35px
     ". button" auto
-    ". ." 1px
-    / 1fr 3fr;
+    / 1fr 1fr;
   grid-gap: 30px;
   background-color: transparent;
 `;
