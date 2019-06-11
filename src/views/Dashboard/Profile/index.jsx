@@ -10,6 +10,11 @@ import { AccountCircle } from "@material-ui/icons";
 
 import { ProjectCard } from "../../../components";
 
+import { iconStyle, tableStyle, Container, Picture } from "./style";
+import { Person } from "@material-ui/icons";
+
+import { css } from "emotion";
+
 export const Label = styled.div`
   display: flex;
   align-items: center;
@@ -73,19 +78,89 @@ export const TopBar = styled.div`
   }
 `;
 
-const Profile = props => (
-  <div>
-    <TopBar>
-      <Label>
-        <AccountCircle />
-        <span>Profile</span>
-      </Label>
-      <div className="Searchbar">
-        <InputBase placeholder="Search…" style={{ width: "100%" }} />
-        <SearchIcon />
+const Profile = props => {
+  const { user } = props;
+  return (
+    <div>
+      <TopBar>
+        <Label>
+          <AccountCircle />
+          <span>Profile</span>
+        </Label>
+        <div className="Searchbar">
+          <InputBase placeholder="Search…" style={{ width: "100%" }} />
+          <SearchIcon />
+        </div>
+      </TopBar>
+      <div
+        className={css`
+          width: 350px;
+          height: 300px;
+          margin-left: auto;
+          margin-right: auto;
+          margin-top: 100px;
+          min-height: 200px;
+          padding: 25px;
+          border-radius: 8px;
+          box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
+          transition: all 0.1s ease-in-out;
+          background-color: white;
+          display: grid;
+          grid-template: "icon icon" "name name" "email email" "role role";
+          grid-gap: 5px;
+        `}
+      >
+        {user.github_picture ? (
+          <Picture src={user.github_picture} />
+        ) : (
+          <AccountCircle style={iconStyle} />
+        )}
+        <span
+          className={css`
+            grid-area: name;
+            justify-self: center;
+            font-size: 24px;
+          `}
+        >
+          {user.name} {user.surname}
+        </span>
+        <span
+          className={css`
+            grid-area: email;
+            justify-self: center;
+            font-size: 16px;
+            color: hsl(0, 0%, 50%);
+          `}
+        >
+          {user.email}
+        </span>
+        <span
+          className={css`
+            grid-area: role;
+            justify-self: center;
+            font-size: 24px;
+            color: #00336e;
+          `}
+        >
+          {user.role}
+        </span>
       </div>
-    </TopBar>
-  </div>
-);
+    </div>
+  );
+};
 
-export default Profile;
+const mapStateToProps = (state, ownProps) => {
+  const user = state.user;
+  return {
+    user
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  readProjects: () => dispatch(projectsReadRequest())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Profile);

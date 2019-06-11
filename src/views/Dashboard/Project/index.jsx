@@ -30,7 +30,7 @@ const Project = props => {
 
   const makeUpdate = () => setUpdate(!update);
 
-  const { project, members } = props;
+  const { project, members, user } = props;
   if (!project || Object.keys(project).length === 0) {
     return <StyledSpinner />;
   }
@@ -88,9 +88,11 @@ const Project = props => {
         update={update}
         setUpdate={setUpdate}
       />
-      {!verified && <VerifyProjectBlock id={id} />}
-      {verified && <ApplyProjectBlock id={id} makeUpdate={makeUpdate} />}
-      <DeleteProjectBlock id={id} />
+      {user.role === "ADMIN" && <DeleteProjectBlock id={id} />}
+      {user.role === "ADMIN" && !verified && <VerifyProjectBlock id={id} />}
+      {user.role === "LEADER" && verified && !project.team_id && (
+        <ApplyProjectBlock id={id} makeUpdate={makeUpdate} />
+      )}
     </MainContainer>
   );
 };
@@ -103,9 +105,11 @@ const mapStateToProps = (state, ownProps) => {
   const members = teamId
     ? users.items.filter(user => user.team_id === teamId)
     : [];
+  const user = state.user;
   return {
     project: currentProject,
-    members
+    members,
+    user
   };
 };
 

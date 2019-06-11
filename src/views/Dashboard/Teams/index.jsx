@@ -24,7 +24,8 @@ import {
 import {
   projectsReadRequest,
   teamsReadRequest,
-  usersReadRequest
+  usersReadRequest,
+  userReadRequest
 } from "../../../actions";
 
 import { TeamCard, TeamForm } from "../../../components";
@@ -66,6 +67,7 @@ const Teams = props => {
     props.readProjects();
     props.readTeams();
     props.readUsers();
+    props.readUser();
   }, [update]);
 
   const {
@@ -161,7 +163,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   readTeams: () => dispatch(teamsReadRequest()),
   readProjects: () => dispatch(projectsReadRequest()),
-  readUsers: () => dispatch(usersReadRequest())
+  readUsers: () => dispatch(usersReadRequest()),
+  readUser: () => dispatch(userReadRequest())
 });
 
 export default connect(
