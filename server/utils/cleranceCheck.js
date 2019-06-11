@@ -19,6 +19,19 @@ class CleranceCheck {
     });
   }
 
+  isDeveloperOnly(userId) {
+    return new Promise((resolve, reject) => {
+      this.getRole(userId).then(role => {
+        if (role == ROLE.DEVELOPER) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+      resolve(true);
+    });
+  }
+
   isDeveloperUp(userId) {
     return new Promise((resolve, reject) => {
       this.getRole(userId).then(role => {
