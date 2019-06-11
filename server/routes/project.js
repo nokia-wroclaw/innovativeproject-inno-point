@@ -381,12 +381,9 @@ const projectRoutes = app => {
                 Team.findAll({ where: { leader_id: user_id } }).then(result => {
                   if (result.length > 0 && !result[0].project_id) {
                     team_id = result[0].id;
-                    console.log("team_id", team_id);
                     User.findAll({
                       where: { team_id: team_id }
                     }).then(result => {
-                      console.log(project_number_of_members);
-                      console.log(result.length);
                       if (result.length !== project_number_of_members) {
                         console.log(
                           "/projects/apply/:id - number of members in team is incorrect"
@@ -406,7 +403,7 @@ const projectRoutes = app => {
                               { project_id },
                               {
                                 where: {
-                                  id: project_id
+                                  id: team_id
                                 }
                               }
                             );
@@ -425,47 +422,6 @@ const projectRoutes = app => {
                 });
               }
             });
-
-            // Project.update(
-            //   {
-            //     verified: 1
-            //   },
-            //   {
-            //     where: { id: project_id }
-            //   }
-            // )
-            //   .then(() => {
-            //     return Project.findAll({ where: { id: project_id } });
-            //   })
-            //   .then(result => {
-            //     name = result[0].name;
-            //     return News.findAll({
-            //       attributes: ["id"],
-            //       order: [["id", "DESC"]],
-            //       limit: 1
-            //     });
-            //   })
-            //   .then(result => {
-            //     const news_id = result.row ? parseInt(result.row[0].id) + 1 : 0;
-            //     return News.bulkCreate([
-            //       {
-            //         id: news_id,
-            //         title: `${name}`,
-            //         body:
-            //           "New project has been added. You can check this out in the projects section!",
-            //         user_id: config.bot.id,
-            //         date: new Date()
-            //       }
-            //     ]);
-            //   })
-            //   .then(() => res.sendStatus(200))
-            //   .catch(error => {
-            //     console.log(
-            //       "routes/project - rejection when updating verify status",
-            //       error
-            //     );
-            //     res.sendStatus("500");
-            //   });
           }
         });
       }
