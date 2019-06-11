@@ -226,10 +226,12 @@ const userRoutes = app => {
     });
   });
 
-  app.post("/user/:id/promoteToMentor", (req, res) => {
+  app.put("/user/:id/promoteToMentor", (req, res) => {
+    console.log(req.body);
+
     const role = ROLE.MENTOR;
-    const { token } = req.body.token;
-    const id = parseInt(req.params.id);
+    const token = req.body.token;
+    const id = req.params.id;
     jwt.verify(token, config.jwt.secretkey, (err, authData) => {
       if (err) {
         res.sendStatus(403);
@@ -238,13 +240,22 @@ const userRoutes = app => {
         clearanceCheck.isAdminUp(user_id).then(result => {
           if (result == false) res.sendStatus(403);
           else {
-            User.update(
-              {
-                role: role
-              },
-              { where: { id: id } }
-            ).then(result => {
-              res.send(result);
+            User.findAll({ where: { id: id } }).then(result => {
+              if (result[0].dataValues.role == ROLE.DEVELOPER) {
+                User.update(
+                  {
+                    role: role
+                  },
+                  { where: { id: id } }
+                ).then(result => {
+                  res.send(result);
+                });
+              } else {
+                console.log(
+                  "User cannot be promoted because he is not a developer"
+                );
+                res.sendStatus(500);
+              }
             });
           }
         });
@@ -253,7 +264,7 @@ const userRoutes = app => {
   });
 
   app.put("/user/:id/updateBio", (req, res) => {
-    const { token } = req.body.token;
+    const token = req.body.token;
     const bio = req.body.bio;
     const id = parseInt(req.params.id);
     jwt.verify(token, config.jwt.secretkey, (err, authData) => {
