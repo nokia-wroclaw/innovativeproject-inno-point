@@ -12,15 +12,23 @@ export const readUser = () => {
 
 export const createUsers = user =>
   createApiRequest(POST, "/users", {
-    user
+    user,
+    token: localStorage.getItem("token")
   });
 
 export const updateUsers = user =>
   createApiRequest(PUT, "/users", {
-    user
+    user,
+    token: localStorage.getItem("token")
   });
 
-export const deleteUsers = id => createApiRequest(DELETE, `/users/${id}`);
+export const deleteUsers = id =>
+  createApiRequest(DELETE, `/users/${id}`, {
+    token: localStorage.getItem("token")
+  });
 
 export const changeUserTeam = (id, team_id) =>
-  createApiRequest(PUT, `/users/${id}`, team_id);
+  createApiRequest(PUT, `/users/${id}`, {
+    team_id,
+    token: localStorage.getItem("token")
+  });

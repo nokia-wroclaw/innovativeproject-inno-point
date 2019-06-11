@@ -14,7 +14,7 @@ const config = {
     socketPath: "",
     waitForConnections: true
     // host: "localhost",
-    // database: "heroku_f337e52df2176b9",
+    // database: "inno-point",
     // port: 3306,
     // user: "root",
     // password: "",

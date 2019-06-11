@@ -41,34 +41,60 @@ const userRoutes = app => {
   });
 
   app.get("/users/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    User.findAll({
-      where: { id: id }
-    }).then(result => {
-      res.send(result);
+    const { token } = req.body.token;
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        clearanceCheck.isAdminUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            const id = parseInt(req.params.id);
+            User.findAll({
+              where: { id: id }
+            }).then(result => {
+              res.send(result);
+            });
+          }
+        });
+      }
     });
   });
 
   app.post("/users", (req, res) => {
     const { name, surname } = req.body;
-    User.findAll({
-      attributes: ["id"],
-      order: [["id", "DESC"]],
-      limit: 1
-    })
-      .then(result => {
-        const id = result.row ? parseInt(result.row[0].id) + 1 : 0;
-        return User.bulkCreate([
-          {
-            id: id,
-            name: name,
-            surname: surname
+    const { token } = req.body.token;
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        clearanceCheck.isAdminUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            User.findAll({
+              attributes: ["id"],
+              order: [["id", "DESC"]],
+              limit: 1
+            })
+              .then(result => {
+                const id = result.row ? parseInt(result.row[0].id) + 1 : 0;
+                return User.bulkCreate([
+                  {
+                    id: id,
+                    name: name,
+                    surname: surname
+                  }
+                ]);
+              })
+              .then(result => {
+                res.send(result);
+              });
           }
-        ]);
-      })
-      .then(result => {
-        res.send(result);
-      });
+        });
+      }
+    });
   });
 
   app.put("/user/updateInfo", (req, res) => {
@@ -108,58 +134,110 @@ const userRoutes = app => {
   app.put("/users/:id", (req, res) => {
     const id = parseInt(req.params.id);
     const { name, surname, team_id } = req.body;
-    User.update(
-      {
-        name: name,
-        surname: surname,
-        team_id: team_id
-      },
-      { where: { id: id } }
-    ).then(result => {
-      res.send(result);
+    const { token } = req.body.token;
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        clearanceCheck.isDeveloperUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            User.update(
+              {
+                name: name,
+                surname: surname,
+                team_id: team_id
+              },
+              { where: { id: user_id } }
+            ).then(result => {
+              res.send(result);
+            });
+          }
+        });
+      }
     });
   });
 
   app.delete("/users/:id", (req, res) => {
     const id = parseInt(req.params.id);
-    User.destroy({
-      where: { id: id }
-    }).then(result => {
-      res.send(result);
+    const { token } = req.body.token;
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        clearanceCheck.isDeveloperUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            User.destroy({
+              where: { id: id }
+            }).then(result => {
+              res.send(result);
+            });
+          }
+        });
+      }
     });
   });
 
   app.post("/users/:id", (req, res) => {
-    const role = req.body;
-    User.findAll({
-      attributes: ["id"],
-      order: [["id", "DESC"]],
-      limit: 1
-    })
-      .then(result => {
-        const id = result.row ? parseInt(result.row[0].id) + 1 : 0;
-        return User.bulkCreate([
-          {
-            id: id,
-            role: role
+    const role = req.body.role;
+    const { token } = req.body.token;
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        clearanceCheck.isAdminUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            User.findAll({
+              attributes: ["id"],
+              order: [["id", "DESC"]],
+              limit: 1
+            })
+              .then(result => {
+                const id = result.row ? parseInt(result.row[0].id) + 1 : 0;
+                return User.bulkCreate([
+                  {
+                    id: id,
+                    role: role
+                  }
+                ]);
+              })
+              .then(result => {
+                res.send(result);
+              });
           }
-        ]);
-      })
-      .then(result => {
-        res.send(result);
-      });
+        });
+      }
+    });
   });
 
   app.put("/users/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    const role = req.body;
-    User.update(
-      {
-        role: role
-      },
-      { where: { id: id } }
-    ).then(result => {
-      res.send(result);
+    const { token } = req.body.token;
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        clearanceCheck.isAdminUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            const id = parseInt(req.params.id);
+            const role = req.body;
+            User.update(
+              {
+                role: role
+              },
+              { where: { id: id } }
+            ).then(result => {
+              res.send(result);
+            });
+          }
+        });
+      }
     });
   });
 };
