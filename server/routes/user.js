@@ -5,6 +5,8 @@ const config = require("../config");
 const ClearanceCheck = require("../utils/cleranceCheck");
 const clearanceCheck = new ClearanceCheck();
 
+const ROLE = require("../utils/role");
+
 const userRoutes = app => {
   app.put("/user", (req, res) => {
     const { token } = req.body;
@@ -209,6 +211,58 @@ const userRoutes = app => {
               .then(result => {
                 res.send(result);
               });
+          }
+        });
+      }
+    });
+  });
+
+  app.post("/user/:id/promoteToMentor", (req, res) => {
+    const role = ROLE.MENTOR;
+    const { token } = req.body.token;
+    const id = parseInt(req.params.id);
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        clearanceCheck.isAdminUp(user_id).then(result => {
+          if (result == false) res.sendStatus(403);
+          else {
+            User.update(
+              {
+                role: role
+              },
+              { where: { id: id } }
+            ).then(result => {
+              res.send(result);
+            });
+          }
+        });
+      }
+    });
+  });
+
+  app.put("/user/:id/updateBio", (req, res) => {
+    const { token } = req.body.token;
+    const bio = req.body.bio;
+    const id = parseInt(req.params.id);
+    jwt.verify(token, config.jwt.secretkey, (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        const user_id = authData.id;
+        clearanceCheck.isAdminUp(user_id).then(result => {
+          if (result == false && id != user_id) res.sendStatus(403);
+          else {
+            User.update(
+              {
+                bio: bio
+              },
+              { where: { id: user_id } }
+            ).then(result => {
+              res.send(result);
+            });
           }
         });
       }

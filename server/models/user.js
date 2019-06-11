@@ -43,6 +43,10 @@ module.exports = function(sequelize, DataTypes) {
       token: {
         type: DataTypes.CHAR(255),
         allowNull: true
+      },
+      bio: {
+        type: DataTypes.TEXT,
+        allowNull: true
       }
     },
     {
