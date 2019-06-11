@@ -172,10 +172,11 @@ export const Picture = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50px;
+  border: solid 2px #0053b3;
 `;
 
 export const iconStyle = {
-  width: "35px",
-  height: "35px",
+  width: "40px",
+  height: "40px",
   fill: "gray"
 };

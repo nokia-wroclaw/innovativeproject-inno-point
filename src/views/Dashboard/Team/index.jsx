@@ -86,8 +86,11 @@ const Picture = styled.img`
 `;
 
 const iconStyle = {
-  width: "40px",
-  height: "40px",
+  width: "50px",
+  height: "50px",
+  color: "hsl(0, 0%, 70%)",
+  border: "solid 3px hsl(0, 0%, 70%)",
+  borderRadius: "50px",
   fontWeight: "100",
   justifySelf: "center"
 };

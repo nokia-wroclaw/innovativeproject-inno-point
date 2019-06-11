@@ -153,7 +153,7 @@ export const StyledTooltip = styled(Tooltip)`
 
 export const StyledTypeOfList = styled(BottomNavigation)`
   width: 170px;
-  right: 115px;
+  right: ${({ role }) => (role !== "ADMIN" ? "50px" : "115px")};
   bottom: 5%;
   position: fixed;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);

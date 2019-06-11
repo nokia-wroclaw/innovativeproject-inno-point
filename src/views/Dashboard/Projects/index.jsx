@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import styled from "styled-components/macro";
@@ -163,44 +163,54 @@ const Projects = props => {
           )}
         </Container>
       </MainContainer>
-      <StyledTypeOfList value={typeOfList} onChange={handleTypeOfList}>
+      <StyledTypeOfList
+        value={typeOfList}
+        onChange={handleTypeOfList}
+        role={props.user.role}
+      >
         <BottomNavigationAction label="Block" value="block" icon={<GridOn />} />
         <BottomNavigationAction label="List" value="list" icon={<List />} />
       </StyledTypeOfList>
-      <StyledTooltip
-        title={"Add project"}
-        aria-label="Add"
-        onClick={() => {
-          handleClickOpen();
-        }}
-      >
-        <Link to="#">
-          <Fab style={fabAddStyle}>
-            <AddIcon style={iconAddStyle} />
-          </Fab>
-        </Link>
-      </StyledTooltip>
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        maxWidth={false}
-        onClose={handleClose}
-      >
-        <TopicForm
-          setUpdate={setUpdate}
-          update={update}
-          handleClose={handleClose}
-        />
-      </Dialog>
+      {props.user.role === "ADMIN" && (
+        <Fragment>
+          <StyledTooltip
+            title={"Add project"}
+            aria-label="Add"
+            onClick={() => {
+              handleClickOpen();
+            }}
+          >
+            <Link to="#">
+              <Fab style={fabAddStyle}>
+                <AddIcon style={iconAddStyle} />
+              </Fab>
+            </Link>
+          </StyledTooltip>
+          <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            maxWidth={false}
+            onClose={handleClose}
+          >
+            <TopicForm
+              setUpdate={setUpdate}
+              update={update}
+              handleClose={handleClose}
+            />
+          </Dialog>
+        </Fragment>
+      )}
     </div>
   );
 };
 
 const mapStateToProps = state => {
   const projects = state.projects.items;
+  const user = state.user;
   return {
-    projects
+    projects,
+    user
   };
 };
 

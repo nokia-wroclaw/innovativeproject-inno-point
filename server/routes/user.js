@@ -33,7 +33,16 @@ const userRoutes = app => {
       if (err) {
         res.sendStatus(403);
       } else {
-        User.findAll().then(result => {
+        User.findAll({
+          attributes: [
+            "id",
+            "name",
+            "surname",
+            "email",
+            "team_id",
+            "github_picture"
+          ]
+        }).then(result => {
           res.send(result);
         });
       }

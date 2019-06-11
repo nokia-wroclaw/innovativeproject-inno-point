@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Element, Tag, Panel, Picture, iconStyle } from "./style";
 import { AccountCircle } from "@material-ui/icons";
 import { LockOpen, Lock } from "@material-ui/icons";
-
+import { css } from "emotion";
 import { Link } from "react-router-dom";
 
 export default ({ team, users, project, index }) => {

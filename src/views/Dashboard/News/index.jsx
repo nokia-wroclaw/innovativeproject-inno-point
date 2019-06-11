@@ -252,32 +252,36 @@ const News = props => {
                   `}
                 />
               </div>
-              <StyledTooltip
-                title={"Add post"}
-                aria-label="Add"
-                onClick={() => {
-                  handleClickOpen();
-                }}
-              >
-                <Link to="#">
-                  <Fab style={fabAddStyle}>
-                    <AddIcon style={iconAddStyle} />
-                  </Fab>
-                </Link>
-              </StyledTooltip>
-              <Dialog
-                open={open}
-                TransitionComponent={Transition}
-                keepMounted
-                maxWidth={false}
-                onClose={handleClose}
-              >
-                <PostForm
-                  setUpdate={setUpdate}
-                  update={update}
-                  handleClose={handleClose}
-                />
-              </Dialog>
+              {props.user.role === "ADMIN" && (
+                <Fragment>
+                  <StyledTooltip
+                    title={"Add post"}
+                    aria-label="Add"
+                    onClick={() => {
+                      handleClickOpen();
+                    }}
+                  >
+                    <Link to="#">
+                      <Fab style={fabAddStyle}>
+                        <AddIcon style={iconAddStyle} />
+                      </Fab>
+                    </Link>
+                  </StyledTooltip>
+                  <Dialog
+                    open={open}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    maxWidth={false}
+                    onClose={handleClose}
+                  >
+                    <PostForm
+                      setUpdate={setUpdate}
+                      update={update}
+                      handleClose={handleClose}
+                    />
+                  </Dialog>
+                </Fragment>
+              )}
             </div>
           );
         })}

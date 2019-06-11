@@ -294,7 +294,7 @@ const projectRoutes = app => {
                               { project_id },
                               {
                                 where: {
-                                  id: project_id
+                                  id: team_id
                                 }
                               }
                             );
