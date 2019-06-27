@@ -1,4 +1,4 @@
 export default {
-  api: "http://localhost:3030",
-  app: "http://localhost:3000"
+  api: "https://dominikslawkowski-innovativeproject-inno-point-1.glitch.me",
+  app: "http://thawing-tundra-14657.herokuapp.com"
 };
